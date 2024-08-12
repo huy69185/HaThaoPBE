@@ -1,0 +1,61 @@
+﻿@model ECommerceApp.Models.Product
+
+@{
+    ViewData["Title"] = "Product Details";
+}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <img src="@Model.ImageUrl" class="card-img-top img-fluid product-img" alt="@Model.Name" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card mb-3">
+                <div class="card-header text-center">
+                    <h1 class="product-title">@Model.Name</h1>
+                </div>
+                <div class="card-body">
+                    <h2 class="text-center text-primary mb-4 product-price">@Model.Price.ToString("C")</h2>
+                    <p class="lead product-description">@Model.Description</p>
+                    <h3 class="mt-4">Rating</h3>
+                    <div class="mb-4">
+                        <small class="text-muted">
+                            @for (int i = 0; i < 5; i++)
+                            {
+                                if (i < Model.Rating)
+                                {
+                                    <span class="fa fa-star checked"></span>
+                                }
+                                else
+                                {
+                                    <span class="fa fa-star"></span>
+                                }
+                            }
+                        </small>
+                    </div>
+                    <div class="text-center">
+                        <button class="btn btn-secondary btn-lg mr-2" onclick="buyNow(@Model.Id)">Mua hàng</button>
+                        <button class="btn btn-secondary btn-lg" onclick="addToCart(@Model.Id)">Thêm vào giỏ hàng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script>
+        function buyNow(productId) {
+            // Implement buy logic here
+            alert("Buying product: " + productId);
+        }
+
+        function addToCart(productId) {
+            // Implement add to cart logic here
+            alert("Adding product to cart: " + productId);
+        }
+    </script>
+}
