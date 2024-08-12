@@ -1,0 +1,47 @@
+{
+  "name": "@xhmikosr/bin-check",
+  "version": "6.0.0",
+  "description": "Check if a binary is working",
+  "license": "MIT",
+  "repository": "XhmikosR/bin-check",
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": {
+    "name": "Kevin Mårtensson",
+    "email": "kevinmartensson@gmail.com",
+    "url": "https://github.com/kevva"
+  },
+  "engines": {
+    "node": "^14.14.0 || >=16.0.0"
+  },
+  "scripts": {
+    "ava": "ava",
+    "lint": "xo",
+    "xo": "xo",
+    "fix": "xo --fix",
+    "test": "npm run ava"
+  },
+  "main": "index.js",
+  "type": "module",
+  "exports": {
+    ".": "./index.js"
+  },
+  "files": [
+    "index.js"
+  ],
+  "keywords": [
+    "binary",
+    "check",
+    "executable",
+    "test"
+  ],
+  "dependencies": {
+    "execa": "^5.1.1",
+    "isexe": "^2.0.0"
+  },
+  "devDependencies": {
+    "ava": "^5.3.0",
+    "xo": "^0.54.2"
+  }
+}
