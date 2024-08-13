@@ -7,7 +7,7 @@
       "RelativeMoniker": "D:0:0:{476164F8-D36B-4C20-8C90-1F599EB9EBA3}|ECommerceApp\\ECommerceApp.csproj|solutionrelative:ecommerceapp\\models\\loginviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{476164F8-D36B-4C20-8C90-1F599EB9EBA3}|ECommerceApp\\ECommerceApp.csproj|c:\\users\\huyh6\\onedrive\\desktop\\hathaopbe\\ecommerceapp\\views\\home\\productdetails.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{476164F8-D36B-4C20-8C90-1F599EB9EBA3}|ECommerceApp\\ECommerceApp.csproj|C:\\Users\\huyh6\\OneDrive\\Desktop\\HaThaoPBE\\ecommerceapp\\views\\home\\productdetails.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{476164F8-D36B-4C20-8C90-1F599EB9EBA3}|ECommerceApp\\ECommerceApp.csproj|solutionrelative:ecommerceapp\\views\\home\\productdetails.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
@@ -60,7 +60,7 @@
               "RelativeDocumentMoniker": "ECommerceApp\\Models\\LoginViewModel.cs",
               "ToolTip": "C:\\Users\\huyh6\\OneDrive\\Desktop\\HaThaoPBE\\ECommerceApp\\Models\\LoginViewModel.cs",
               "RelativeToolTip": "ECommerceApp\\Models\\LoginViewModel.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAAoAAAA",
+              "ViewState": "AQIAAAgAAAAAAAAAAAA8wA4AAAAoAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-13T10:24:05.398Z",
               "EditorCaption": ""
@@ -99,8 +99,7 @@
               "RelativeToolTip": "ECommerceApp\\Views\\Home\\ProductDetails.cshtml",
               "ViewState": "AQIAABUAAAAAAAAAAAAUwB0AAAAhAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-08-13T09:17:22.902Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-13T09:17:22.902Z"
             },
             {
               "$type": "Document",
