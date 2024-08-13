@@ -6,26 +6,26 @@
 
 <div class="container d-flex align-items-center justify-content-center min-vh-100">
     <div class="card shadow-sm p-4" style="width: 100%; max-width: 400px;">
-        <h2 class="text-center mb-4">Login</h2>
+        <h2 class="text-center mb-4">Đăng Nhập</h2>
         <form asp-action="Login">
             <div class="form-group">
                 <label asp-for="Email" class="form-label"></label>
-                <input asp-for="Email" class="form-control" placeholder="Enter your email" />
+                <input asp-for="Email" class="form-control" placeholder="Nhập email của bạn" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Password" class="form-label"></label>
-                <input asp-for="Password" type="password" class="form-control" placeholder="Enter your password" />
+                <label asp-for="Password" class="form-label">Mật khẩu</label>
+                <input asp-for="Password" type="password" class="form-control" placeholder="Nhập mật khẩu của bạn" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
                 <input asp-for="RememberMe" class="form-check-input" />
-                <label asp-for="RememberMe" class="form-check-label"></label>
+                <label asp-for="RememberMe" class="form-check-label">Ghi nhớ tôi ?</label>
             </div>
-            <button type="submit" class="btn btn-primary btn-block">Login</button>
+            <button type="submit" class="btn btn-primary btn-block">Đăng nhập</button>
         </form>
         <div class="text-center mt-3">
-            <p>Don't have an account? <a asp-controller="Account" asp-action="Register">Register here</a></p>
+            <p>Chưa có tài khoản ? <a asp-controller="Account" asp-action="Register">Đăng kí tại đây</a></p>
         </div>
     </div>
 </div>
