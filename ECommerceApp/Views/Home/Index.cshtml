@@ -56,7 +56,7 @@
                                 <h4 class="card-title">
                                     <a asp-controller="Home" asp-action="ProductDetails" asp-route-id="@product.Id">@product.Name</a>
                                 </h4>
-                                <h5>@product.Price.ToString("C")</h5>
+                                <h5>@product.Price.ToString("C0", new System.Globalization.CultureInfo("vi-VN"))</h5>
                                 <p class="card-text">@product.Description</p>
                             </div>
                             <div class="card-footer">

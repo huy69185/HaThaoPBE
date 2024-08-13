@@ -17,7 +17,7 @@
                     <h1 class="product-title">@Model.Name</h1>
                 </div>
                 <div class="card-body">
-                    <h2 class="text-center text-primary mb-4 product-price">@Model.Price.ToString("C")</h2>
+                    <h2 class="text-center text-primary mb-4 product-price">@Model.Price.ToString("C0", new System.Globalization.CultureInfo("vi-VN"))</h2>
                     <p class="lead product-description">@Model.Description</p>
                     <h3 class="mt-4">Rating</h3>
                     <div class="mb-4">
@@ -36,8 +36,8 @@
                         </small>
                     </div>
                     <div class="text-center">
-                        <button class="btn btn-secondary btn-lg mr-2" onclick="buyNow(@Model.Id)">Mua hàng</button>
-                        <button class="btn btn-secondary btn-lg" onclick="addToCart(@Model.Id)">Thêm vào giỏ hàng</button>
+                        <button class="btn btn-secondary btn-lg mr-2" onclick="showBuyNowModal(@Model.Id, @Model.Price)">Mua hàng</button>
+                        <button class="btn btn-secondary btn-lg" onclick="showAddToCartModal(@Model.Id, @Model.Price)">Thêm vào giỏ hàng</button>
                     </div>
                 </div>
             </div>
@@ -45,17 +45,134 @@
     </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="addToCartModal" tabindex="-1" role="dialog" aria-labelledby="addToCartModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addToCartModalLabel">Chọn số lượng sản phẩm</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="quantity">Số lượng:</label>
+                    <input type="number" id="quantity" name="quantity" class="form-control" value="1" min="1" onchange="updateTotal()">
+                </div>
+                <div class="form-group">
+                    <label for="totalPrice">Tổng cộng:</label>
+                    <input type="text" id="totalPrice" class="form-control" readonly>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" onclick="addToCart()">Thêm vào giỏ hàng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="buyNowModal" tabindex="-1" role="dialog" aria-labelledby="buyNowModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="buyNowModalLabel">Chọn số lượng sản phẩm</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="buyQuantity">Số lượng:</label>
+                    <input type="number" id="buyQuantity" name="quantity" class="form-control" value="1" min="1" onchange="updateBuyTotal()">
+                </div>
+                <div class="form-group">
+                    <label for="buyTotalPrice">Tổng cộng:</label>
+                    <input type="text" id="buyTotalPrice" class="form-control" readonly>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" onclick="proceedToCheckout()">Mua ngay</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        function buyNow(productId) {
-            // Implement buy logic here
-            alert("Buying product: " + productId);
+        var selectedProductId;
+        var selectedProductPrice;
+
+        function showAddToCartModal(productId, productPrice) {
+            selectedProductId = productId;
+            selectedProductPrice = productPrice;
+            $('#quantity').val(1);
+            updateTotal();
+            $('#addToCartModal').modal('show');
         }
 
-        function addToCart(productId) {
-            // Implement add to cart logic here
-            alert("Adding product to cart: " + productId);
+        function showBuyNowModal(productId, productPrice) {
+            selectedProductId = productId;
+            selectedProductPrice = productPrice;
+            $('#buyQuantity').val(1);
+            updateBuyTotal();
+            $('#buyNowModal').modal('show');
+        }
+
+        function updateTotal() {
+            var quantity = $('#quantity').val();
+            var total = quantity * selectedProductPrice;
+            $('#totalPrice').val(total.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }));
+        }
+
+        function updateBuyTotal() {
+            var quantity = $('#buyQuantity').val();
+            var total = quantity * selectedProductPrice;
+            $('#buyTotalPrice').val(total.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }));
+        }
+
+        function addToCart() {
+            var quantity = $('#quantity').val();
+            var form = $('<form>', {
+                'method': 'post',
+                'action': '@Url.Action("AddToCart", "Cart")'
+            }).append($('<input>', {
+                'type': 'hidden',
+                'name': 'id',
+                'value': selectedProductId
+            })).append($('<input>', {
+                'type': 'hidden',
+                'name': 'quantity',
+                'value': quantity
+            }));
+            $('body').append(form);
+            form.submit();
+            $('#addToCartModal').modal('hide');
+        }
+
+        function proceedToCheckout() {
+            var quantity = $('#buyQuantity').val();
+            var form = $('<form>', {
+                'method': 'post',
+                'action': '/Checkout/Index'
+            }).append($('<input>', {
+                'type': 'hidden',
+                'name': 'productId',
+                'value': selectedProductId
+            })).append($('<input>', {
+                'type': 'hidden',
+                'name': 'quantity',
+                'value': quantity
+            }));
+            $('body').append(form);
+            form.submit();
+            $('#buyNowModal').modal('hide');
         }
     </script>
 }

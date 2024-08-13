@@ -6,27 +6,27 @@
 
 <div class="container d-flex align-items-center justify-content-center min-vh-100">
     <div class="card shadow-sm p-4" style="width: 100%; max-width: 400px;">
-        <h2 class="text-center mb-4">Register</h2>
+        <h2 class="text-center mb-4">Đăng Kí</h2>
         <form asp-action="Register">
             <div class="form-group">
                 <label asp-for="Email" class="form-label"></label>
-                <input asp-for="Email" class="form-control" placeholder="Enter your email" />
+                <input asp-for="Email" class="form-control" placeholder="Nhập Email của bạn" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Password" class="form-label"></label>
-                <input asp-for="Password" type="password" class="form-control" placeholder="Enter your password" />
+                <label asp-for="Password" class="form-label">Mật khẩu</label>
+                <input asp-for="Password" type="password" class="form-control" placeholder="Nhập mật khẩu của bạn" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ConfirmPassword" class="form-label">Confirm Password</label>
-                <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Confirm your password" />
+                <label asp-for="ConfirmPassword" class="form-label">Xác nhận mật khẩu</label>
+                <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Nhập lại mật khẩu" />
                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
             </div>
-            <button type="submit" class="btn btn-primary btn-block">Register</button>
+            <button type="submit" class="btn btn-primary btn-block">Đăng kí</button>
         </form>
         <div class="text-center mt-3">
-            <p>Already have an account? <a asp-controller="Account" asp-action="Login">Login here</a></p>
+            <p>Đã có tài khoản ? <a asp-controller="Account" asp-action="Login">Đăng nhập tại đây</a></p>
         </div>
     </div>
 </div>

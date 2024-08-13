@@ -6,6 +6,7 @@
     <title>@ViewData["Title"] - Hạ Thảo</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/all.min.css" /> <!-- Liên kết đến Font Awesome CSS -->
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
@@ -17,23 +18,28 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Trang Chủ</a>
                     </li>
                     @if (User.Identity.IsAuthenticated)
                     {
                         <li class="nav-item">
                             <form asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="form-inline">
-                                <button type="submit" class="btn btn-link nav-link">Logout</button>
+                                <button type="submit" class="btn btn-link nav-link">Đăng Xuất</button>
                             </form>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Cart" asp-action="Index">
+                                <i class="fas fa-shopping-cart"></i> <!-- Biểu tượng giỏ hàng -->
+                            </a>
                         </li>
                     }
                     else
                     {
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Account" asp-action="Login">Login</a>
+                            <a class="nav-link" asp-controller="Account" asp-action="Login">Đăng Nhập</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Account" asp-action="Register">Register</a>
+                            <a class="nav-link" asp-controller="Account" asp-action="Register">Đăng Kí</a>
                         </li>
                     }
                 </ul>

@@ -38,6 +38,9 @@ namespace ECommerceApp.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("Quantity")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("Rating")
                         .HasColumnType("INTEGER");
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using ECommerceApp.Data;
+using Newtonsoft.Json;
 
 namespace ECommerceApp
 {
@@ -23,6 +24,15 @@ namespace ECommerceApp
             builder.Services.AddControllersWithViews();
             builder.Services.AddControllers();  // Thêm dòng này để hỗ trợ API
 
+            // Thêm dịch vụ cho Session
+            builder.Services.AddDistributedMemoryCache();
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
             var app = builder.Build();
 
             // Cấu hình pipeline HTTP
@@ -37,6 +47,9 @@ namespace ECommerceApp
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            // Sử dụng Session middleware
+            app.UseSession();
 
             app.UseAuthentication();
             app.UseAuthorization();
