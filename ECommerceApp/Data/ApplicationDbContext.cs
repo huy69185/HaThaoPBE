@@ -14,7 +14,8 @@ namespace ECommerceApp.Data
 
         public DbSet<Product> Products { get; set; }
         public DbSet<Vote> Votes { get; set; }
-
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

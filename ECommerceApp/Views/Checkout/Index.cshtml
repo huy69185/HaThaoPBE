@@ -1,0 +1,111 @@
+﻿@model CheckoutViewModel
+
+@{
+    ViewData["Title"] = "Checkout";
+}
+
+<div class="container mt-5">
+    <h2>Checkout</h2>
+    <form asp-action="Index" method="post">
+        <div class="form-group">
+            <label for="RecipientName">Recipient Name</label>
+            <input type="text" class="form-control" id="RecipientName" name="RecipientName" required>
+        </div>
+        <div class="form-group">
+            <label for="RecipientPhone">Recipient Phone</label>
+            <input type="text" class="form-control" id="RecipientPhone" name="RecipientPhone" required>
+        </div>
+        <div class="form-group">
+            <label for="Address">Address</label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="Address" name="Address" required placeholder="Nhập vị trí">
+                <div class="input-group-append">
+                    <button class="btn btn-secondary" type="button" onclick="updateMapMarker()">Update Map</button>
+                </div>
+            </div>
+        </div>
+        <div id="map" style="height: 400px; margin-bottom: 20px;"></div>
+        <div class="form-group">
+            <label for="PaymentMethod">Payment Method</label>
+            <select class="form-control" id="PaymentMethod" name="PaymentMethod" required>
+                <option value="Cash on Delivery">Cash on Delivery</option>
+                <option value="Chuyển khoản">Chuyển khoản</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/places.js@1.19.0"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+    <script>
+        (function () {
+            var placesAutocomplete = places({
+                appId: 'P5P2PTN5HD',
+                apiKey: '939ab14b79bf2fb10794ada0cee1bbab',
+                container: document.querySelector('#Address')
+            }).configure({
+                type: 'address'
+            });
+
+            var map = L.map('map').setView([10.762622, 106.660172], 13); // Default to Ho Chi Minh City
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19
+            }).addTo(map);
+
+            var marker = L.marker([10.762622, 106.660172], {
+                draggable: true
+            }).addTo(map);
+
+            function updateAddress(e) {
+                var latlng = marker.getLatLng();
+                placesAutocomplete.setVal(latlng.lat + ', ' + latlng.lng);
+                fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latlng.lat}&lon=${latlng.lng}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        placesAutocomplete.setVal(data.display_name);
+                    });
+            }
+
+            marker.on('dragend', updateAddress);
+
+            placesAutocomplete.on('change', function (e) {
+                var latlng = e.suggestion.latlng;
+                map.setView([latlng.lat, latlng.lng], 15);
+                marker.setLatLng([latlng.lat, latlng.lng]);
+            });
+
+            placesAutocomplete.on('clear', function () {
+                map.setView([10.762622, 106.660172], 13);
+                marker.setLatLng([10.762622, 106.660172]);
+            });
+
+            placesAutocomplete.on('suggestions', function (e) {
+                if (e.suggestions.length > 0) {
+                    var latlng = e.suggestions[0].latlng;
+                    map.setView([latlng.lat, latlng.lng], 15);
+                    marker.setLatLng([latlng.lat, latlng.lng]);
+                }
+            });
+
+            window.updateMapMarker = function () {
+                var address = document.querySelector('#Address').value;
+                placesAutocomplete.search({ query: address }).then(function (response) {
+                    if (response.hits && response.hits.length > 0) {
+                        var latlng = response.hits[0]._geoloc;
+                        map.setView([latlng.lat, latlng.lng], 15);
+                        marker.setLatLng([latlng.lat, latlng.lng]);
+                    } else {
+                        alert('Address not found!');
+                    }
+                }).catch(function (error) {
+                    console.error(error);
+                    alert('Failed to fetch the address!');
+                });
+            };
+        })();
+    </script>
+}

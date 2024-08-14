@@ -1,0 +1,42 @@
+﻿@model ECommerceApp.Models.Order
+
+@{
+    ViewData["Title"] = "Xác nhận đơn hàng";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Xác nhận đơn hàng</h2>
+
+    <div class="card">
+        <div class="card-header">
+            Đơn hàng #@Model.Id
+        </div>
+        <div class="card-body">
+            <p><strong>Địa chỉ giao hàng:</strong> @Model.Address</p>
+            <p><strong>Phương thức thanh toán:</strong> @Model.PaymentMethod</p>
+
+            <h4>Chi tiết đơn hàng</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Sản phẩm</th>
+                        <th>Số lượng</th>
+                        <th>Giá</th>
+                        <th>Tổng cộng</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.OrderItems)
+                    {
+                        <tr>
+                            <td>@item.Product.Name</td>
+                            <td>@item.Quantity</td>
+                            <td>@item.Price.ToString("C0", new System.Globalization.CultureInfo("vi-VN"))</td>
+                            <td>@((item.Price * item.Quantity).ToString("C0", new System.Globalization.CultureInfo("vi-VN")))</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

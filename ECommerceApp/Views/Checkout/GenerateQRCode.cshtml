@@ -1,0 +1,12 @@
+﻿@model ECommerceApp.Controllers.GenerateQRCodeViewModel
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <h2>Scan QR Code để thanh toán</h2>
+            <img src="@Model.QRCodeUrl" alt="QR Code" />
+            <p>Order ID: @Model.Order.Id</p>
+            <p>Amount: @Model.Order.OrderItems.Sum(item => item.Quantity * item.Price).ToString("C0", new System.Globalization.CultureInfo("vi-VN"))</p>
+        </div>
+    </div>
+</div>
