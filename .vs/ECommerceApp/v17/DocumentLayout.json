@@ -3,12 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\huyh6\\OneDrive\\Desktop\\Huy1\\HaThaoPBE\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{476164F8-D36B-4C20-8C90-1F599EB9EBA3}|ECommerceApp\\ECommerceApp.csproj|c:\\users\\huyh6\\onedrive\\desktop\\huy1\\hathaopbe\\ecommerceapp\\views\\checkout\\notifypayment.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{476164F8-D36B-4C20-8C90-1F599EB9EBA3}|ECommerceApp\\ECommerceApp.csproj|solutionrelative:ecommerceapp\\views\\checkout\\notifypayment.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{476164F8-D36B-4C20-8C90-1F599EB9EBA3}|ECommerceApp\\ECommerceApp.csproj|c:\\users\\huyh6\\onedrive\\desktop\\huy1\\hathaopbe\\ecommerceapp\\controllers\\checkoutcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{476164F8-D36B-4C20-8C90-1F599EB9EBA3}|ECommerceApp\\ECommerceApp.csproj|solutionrelative:ecommerceapp\\controllers\\checkoutcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{476164F8-D36B-4C20-8C90-1F599EB9EBA3}|ECommerceApp\\ECommerceApp.csproj|C:\\Users\\huyh6\\OneDrive\\Desktop\\Huy1\\HaThaoPBE\\ecommerceapp\\views\\employee\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{476164F8-D36B-4C20-8C90-1F599EB9EBA3}|ECommerceApp\\ECommerceApp.csproj|solutionrelative:ecommerceapp\\views\\employee\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{476164F8-D36B-4C20-8C90-1F599EB9EBA3}|ECommerceApp\\ECommerceApp.csproj|C:\\Users\\huyh6\\OneDrive\\Desktop\\Huy1\\HaThaoPBE\\ecommerceapp\\controllers\\employeecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{476164F8-D36B-4C20-8C90-1F599EB9EBA3}|ECommerceApp\\ECommerceApp.csproj|solutionrelative:ecommerceapp\\controllers\\employeecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{476164F8-D36B-4C20-8C90-1F599EB9EBA3}|ECommerceApp\\ECommerceApp.csproj|C:\\Users\\huyh6\\OneDrive\\Desktop\\Huy1\\HaThaoPBE\\ecommerceapp\\views\\checkout\\notifypayment.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{476164F8-D36B-4C20-8C90-1F599EB9EBA3}|ECommerceApp\\ECommerceApp.csproj|solutionrelative:ecommerceapp\\views\\checkout\\notifypayment.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,7 +26,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Bookmark",
@@ -50,29 +58,54 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "CheckoutController.cs",
               "DocumentMoniker": "C:\\Users\\huyh6\\OneDrive\\Desktop\\Huy1\\HaThaoPBE\\ECommerceApp\\Controllers\\CheckoutController.cs",
               "RelativeDocumentMoniker": "ECommerceApp\\Controllers\\CheckoutController.cs",
               "ToolTip": "C:\\Users\\huyh6\\OneDrive\\Desktop\\Huy1\\HaThaoPBE\\ECommerceApp\\Controllers\\CheckoutController.cs",
               "RelativeToolTip": "ECommerceApp\\Controllers\\CheckoutController.cs",
-              "ViewState": "AQIAAKgAAAAAAAAAAAAowLsAAAAAAAAA",
+              "ViewState": "AQIAALsAAAAAAAAAAAAAAKEAAAAcAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-15T10:02:35.893Z",
+              "WhenOpened": "2024-08-15T17:09:03.139Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
+              "Title": "Details.cshtml",
+              "DocumentMoniker": "C:\\Users\\huyh6\\OneDrive\\Desktop\\Huy1\\HaThaoPBE\\ECommerceApp\\Views\\Employee\\Details.cshtml",
+              "RelativeDocumentMoniker": "ECommerceApp\\Views\\Employee\\Details.cshtml",
+              "ToolTip": "C:\\Users\\huyh6\\OneDrive\\Desktop\\Huy1\\HaThaoPBE\\ECommerceApp\\Views\\Employee\\Details.cshtml",
+              "RelativeToolTip": "ECommerceApp\\Views\\Employee\\Details.cshtml",
+              "ViewState": "AQIAAFkAAAAAAAAAAAAowHsAAAAMAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-08-15T12:39:55.142Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "EmployeeController.cs",
+              "DocumentMoniker": "C:\\Users\\huyh6\\OneDrive\\Desktop\\Huy1\\HaThaoPBE\\ECommerceApp\\Controllers\\EmployeeController.cs",
+              "RelativeDocumentMoniker": "ECommerceApp\\Controllers\\EmployeeController.cs",
+              "ToolTip": "C:\\Users\\huyh6\\OneDrive\\Desktop\\Huy1\\HaThaoPBE\\ECommerceApp\\Controllers\\EmployeeController.cs",
+              "RelativeToolTip": "ECommerceApp\\Controllers\\EmployeeController.cs",
+              "ViewState": "AQIAABgAAAAAAAAAAAAowDoAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-15T12:37:26.125Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "NotifyPayment.cshtml",
               "DocumentMoniker": "C:\\Users\\huyh6\\OneDrive\\Desktop\\Huy1\\HaThaoPBE\\ECommerceApp\\Views\\Checkout\\NotifyPayment.cshtml",
               "RelativeDocumentMoniker": "ECommerceApp\\Views\\Checkout\\NotifyPayment.cshtml",
               "ToolTip": "C:\\Users\\huyh6\\OneDrive\\Desktop\\Huy1\\HaThaoPBE\\ECommerceApp\\Views\\Checkout\\NotifyPayment.cshtml",
               "RelativeToolTip": "ECommerceApp\\Views\\Checkout\\NotifyPayment.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABgAAAAAAAAA",
+              "ViewState": "AQIAABEAAAAAAAAAAAAuwBgAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-08-15T10:02:08.251Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-15T10:02:08.251Z"
             }
           ]
         }

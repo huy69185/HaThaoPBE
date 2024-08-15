@@ -28,6 +28,7 @@ namespace ECommerceApp.Controllers
             var order = await _context.Orders
                 .Include(o => o.OrderItems)
                 .ThenInclude(oi => oi.Product)
+                .Include(o => o.Transactions) // Ensure Transactions are loaded
                 .SingleOrDefaultAsync(o => o.Id == id);
 
             if (order == null)
@@ -39,7 +40,7 @@ namespace ECommerceApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateStatus(int id, string status)
+        public async Task<IActionResult> UpdateStatus(int id, string status, string paymentStatus)
         {
             var order = await _context.Orders.FindAsync(id);
             if (order == null)
@@ -48,6 +49,7 @@ namespace ECommerceApp.Controllers
             }
 
             order.Status = status;
+            order.PaymentStatus = paymentStatus;
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));

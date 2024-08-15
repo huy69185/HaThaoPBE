@@ -4,29 +4,155 @@
     ViewData["Title"] = "Order Details";
 }
 
-<h2>Order Details</h2>
+<!-- Bootstrap CSS -->
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Product</th>
-            <th>Quantity</th>
-            <th>Price</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.OrderItems)
-        {
-            <tr>
-                <td>@item.Product.Name</td>
-                <td>@item.Quantity</td>
-                <td>@item.Price.ToString("C0", new System.Globalization.CultureInfo("vi-VN"))</td>
-            </tr>
+<style>
+    body {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        background-color: #f8f9fa;
+    }
+
+    .order-details-container {
+        background: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin: 50px auto;
+        max-width: 800px;
+    }
+
+    .order-header {
+        margin-bottom: 5px;
+    }
+
+        .order-header h1 {
+            font-size: 36px;
+            font-weight: 700;
+            color: #333;
         }
-    </tbody>
-</table>
 
-<p><strong>Recipient:</strong> @Model.RecipientName</p>
-<p><strong>Phone:</strong> @Model.RecipientPhone</p>
-<p><strong>Address:</strong> @Model.Address</p>
-<p><strong>Status:</strong> @Model.Status</p>
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+        .table th, .table td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        .table th {
+            background-color: #f2f2f2;
+        }
+
+        .table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+    .section-title {
+        margin-top: 30px;
+        font-size: 24px;
+        font-weight: 600;
+        color: #007bff;
+        display: flex;
+        justify-content: center;
+    }
+
+    .order-summary p {
+        font-size: 16px;
+        margin-bottom: 5px;
+    }
+</style>
+
+<div class="container order-details-container">
+    <div class="order-header text-center">
+        <h1>Thông tin chi tiết</h1>
+        <h2 class="section-title">Đơn hàng</h2>
+    </div>
+
+    <table class="table table-striped table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>Tên sản phẩm</th>
+                <th>Số lượng</th>
+                <th>Giá</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.OrderItems)
+            {
+                <tr>
+                    <td>@item.Product.Name</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Price.ToString("C0", new System.Globalization.CultureInfo("vi-VN"))</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h4 class="section-title">Thông tin đơn hàng</h4>
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Người nhận</th>
+                <td>@Model.RecipientName</td>
+            </tr>
+            <tr>
+                <th>Số điện thoại người nhận</th>
+                <td>@Model.RecipientPhone</td>
+            </tr>
+            <tr>
+                <th>Địa chỉ</th>
+                <td>@Model.Address</td>
+            </tr>
+            <tr>
+                <th>Trạng thái đơn hàng</th>
+                <td>@Model.Status</td>
+            </tr>
+            <tr>
+                <th>Phương thức thanh toán</th>
+                <td>@Model.PaymentMethod</td>
+            </tr>
+            <tr>
+                <th>Trạng thái thanh toán</th>
+                <td>@Model.PaymentStatus</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h4 class="section-title">Chuyển khoản</h4>
+    @if (Model.Transactions != null && Model.Transactions.Any())
+    {
+        <table class="table table-striped table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Mã hóa đơn</th>
+                    <th>Tên ngân hàng</th>
+                    <th>Thời gian chuyển khoản</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var transaction in Model.Transactions)
+                {
+                    <tr>
+                        <td>@transaction.TransactionId</td>
+                        <td>@transaction.Bank</td>
+                        <td>@transaction.TransactionDate.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>Đơn hàng không được thanh toán bằng hình thức chuyển khoản!!!</p>
+    }
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
