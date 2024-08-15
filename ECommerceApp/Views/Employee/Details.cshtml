@@ -1,0 +1,32 @@
+﻿@model ECommerceApp.Models.Order
+
+@{
+    ViewData["Title"] = "Order Details";
+}
+
+<h2>Order Details</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.OrderItems)
+        {
+            <tr>
+                <td>@item.Product.Name</td>
+                <td>@item.Quantity</td>
+                <td>@item.Price.ToString("C0", new System.Globalization.CultureInfo("vi-VN"))</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<p><strong>Recipient:</strong> @Model.RecipientName</p>
+<p><strong>Phone:</strong> @Model.RecipientPhone</p>
+<p><strong>Address:</strong> @Model.Address</p>
+<p><strong>Status:</strong> @Model.Status</p>

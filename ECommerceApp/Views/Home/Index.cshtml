@@ -1,5 +1,7 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<ECommerceApp.Models.Product>
+
+@{
+    ViewData["Title"] = "Trang Chủ";
 }
 
 <div class="container">
@@ -7,10 +9,10 @@
     <div class="row">
 
         <div class="col-lg-3">
-            <h1 class="my-4">Đông Trùng Hạ Thảo</h1>
+            <h1 class="my-4">Sản Phẩm Xà Phòng và Bột Giặt</h1>
             <div class="list-group">
-                <a href="#" class="list-group-item">Đông Trùng Hạ Thảo Khô</a>
-                <a href="#" class="list-group-item">Đông Trùng Hạ Thảo Tươi</a>
+                <a href="#" class="list-group-item">Xà Phòng</a>
+                <a href="#" class="list-group-item">Bột Giặt</a>
                 <a href="#" class="list-group-item">Sản Phẩm Khác</a>
             </div>
         </div>
@@ -25,22 +27,22 @@
                 </ol>
                 <div class="carousel-inner" role="listbox">
                     <div class="carousel-item active">
-                        <img class="d-block img-fluid" src="~/assets/banner1.jpg" alt="First slide">
+                        <img class="d-block img-fluid" src="~/assets/soap_banner1.jpg" alt="First slide">
                     </div>
                     <div class="carousel-item">
-                        <img class="d-block img-fluid" src="~/assets/banner2.jpg" alt="Second slide">
+                        <img class="d-block img-fluid" src="~/assets/detergent_banner1.jpg" alt="Second slide">
                     </div>
                     <div class="carousel-item">
-                        <img class="d-block img-fluid" src="~/assets/banner3.jpg" alt="Third slide">
+                        <img class="d-block img-fluid" src="~/assets/soap_banner2.jpg" alt="Third slide">
                     </div>
                 </div>
                 <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
+                    <span class="sr-only">Trước</span>
                 </a>
                 <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
+                    <span class="sr-only">Tiếp</span>
                 </a>
             </div>
 

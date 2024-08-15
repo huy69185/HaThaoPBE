@@ -1,5 +1,4 @@
-﻿using ECommerceApp.Models;
-namespace ECommerceApp.Models
+﻿namespace ECommerceApp.Models
 {
     public class Order
     {
@@ -9,6 +8,7 @@ namespace ECommerceApp.Models
         public string RecipientPhone { get; set; }
         public string PaymentMethod { get; set; }
         public string Status { get; set; }
+        public string PaymentStatus { get; set; } // Thêm trường PaymentStatus
         public List<OrderItem> OrderItems { get; set; }
     }
 }
