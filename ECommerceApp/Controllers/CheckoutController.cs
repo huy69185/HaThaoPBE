@@ -160,13 +160,13 @@ namespace ECommerceApp.Controllers
                 OrderId = orderId,
                 TransactionId = transactionId,
                 Bank = bank,
-                TransactionDate = DateTime.UtcNow
+                TransactionDate = DateTime.Now
             };
 
             _context.Transactions.Add(transaction);
 
             // Cập nhật trạng thái đơn hàng và trạng thái thanh toán
-            order.Status = "Đã chuyển khoản";
+            order.Status = "Chờ xác nhận";
             order.PaymentStatus = "Đã thanh toán";
             _context.Orders.Update(order);
             await _context.SaveChangesAsync();

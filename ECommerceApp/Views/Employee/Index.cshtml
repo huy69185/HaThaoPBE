@@ -4,42 +4,138 @@
     ViewData["Title"] = "Employee Dashboard";
 }
 
-<h2>Employee Dashboard</h2>
+<h1 class="mt-4 mb-4">Trang nhân viên</h1>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Order ID</th>
-            <th>Recipient Name</th>
-            <th>Address</th>
-            <th>Status</th>
-            <th>Payment Status</th> <!-- Thêm cột Payment Status -->
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var order in Model)
-        {
-            <tr>
-                <td>@order.Id</td>
-                <td>@order.RecipientName</td>
-                <td>@order.Address</td>
-                <td>@order.Status</td>
-                <td>@order.PaymentStatus</td> <!-- Hiển thị Payment Status -->
-                <td>
-                    <a asp-controller="Employee" asp-action="Details" asp-route-id="@order.Id" class="btn btn-primary">View</a>
-                    <form asp-controller="Employee" asp-action="UpdateStatus" method="post" class="d-inline">
-                        <input type="hidden" name="id" value="@order.Id" />
-                        <select name="status" class="form-control d-inline" style="width: auto;">
-                            <option value="Chờ xác nhận">Chờ xác nhận</option>
-                            <option value="Đã xác nhận">Đã xác nhận</option>
-                            <option value="Đang giao">Đang giao</option>
-                            <option value="Đã giao">Đã giao</option>
-                        </select>
-                        <button type="submit" class="btn btn-success">Update</button>
-                    </form>
-                </td>
-            </tr>
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Danh sách đơn hàng</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
+                <thead class="thead-dark">
+                    <tr>
+                        <th style="width: 10%;">Mã đơn hàng</th>
+                        <th>Tên người nhận</th>
+                        <th style="width: 25%;">Địa chỉ</th>
+                        <th style="width: 8%;">Trạng thái đơn hàng</th>
+                        <th style="width: 8%;">Trạng thái thanh toán</th>
+                        <th style="width: 19%;">Tùy Chọn</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var order in Model)
+                    {
+                        <tr>
+                            <td>@order.Id</td>
+                            <td>@order.RecipientName</td>
+                            <td class="address-cell">@order.Address</td>
+                            <td>@order.Status</td>
+                            <td>@order.PaymentStatus</td>
+                            <td>
+                                <div class="form-group mb-0 d-flex flex-column">
+                                    <select name="status" class="form-control mb-2 status-select" data-order-id="@order.Id" style="width: 100%;">
+                                        <option value="Chờ xác nhận">Chờ xác nhận</option>
+                                        <option value="Đã xác nhận">Đã xác nhận</option>
+                                        <option value="Đang giao">Đang giao</option>
+                                        <option value="Đã giao">Đã giao</option>
+                                    </select>
+                                    <select name="paymentStatus" class="form-control mb-2 payment-status-select" data-order-id="@order.Id" style="width: 100%;">
+                                        <option value="Chưa thanh toán">Chưa thanh toán</option>
+                                        <option value="Đã thanh toán">Đã thanh toán</option>
+                                    </select>
+                                </div>
+                            </td>
+                            <td class="d-flex flex-column align-items-center">
+                                <a asp-controller="Employee" asp-action="Details" asp-route-id="@order.Id" class="btn btn-info btn-sm mb-1">Chi tiết</a>
+                                <button type="button" class="btn btn-success btn-sm update-button" data-order-id="@order.Id">Cập nhật</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" />
+
+    <script>
+        $(document).ready(function () {
+            var table = $('#dataTable').DataTable({
+                "language": {
+                    "lengthMenu": "Hiển thị _MENU_ mục mỗi trang",
+                    "zeroRecords": "Không tìm thấy kết quả",
+                    "info": "Trang _PAGE_/_PAGES_",
+                    "infoEmpty": "Không có dữ liệu",
+                    "infoFiltered": "(lọc từ _MAX_ tổng số mục)",
+                    "search": "Tìm kiếm:"
+                },
+                "columnDefs": [
+                    {
+                        "targets": [5, 6], // Disable search on "Tùy Chọn" and "Hành động" columns
+                        "searchable": false
+                    }
+                ]
+            });
+
+            $('.update-button').on('click', function () {
+                var orderId = $(this).data('order-id');
+                var status = $('select.status-select[data-order-id="' + orderId + '"]').val();
+                var paymentStatus = $('select.payment-status-select[data-order-id="' + orderId + '"]').val();
+
+                $.ajax({
+                    url: '@Url.Action("UpdateStatus", "Employee")',
+                    type: 'POST',
+                    data: {
+                        id: orderId,
+                        status: status,
+                        paymentStatus: paymentStatus
+                    },
+                    success: function (response) {
+                        alert("Trạng thái đã được cập nhật thành công!");
+                        location.reload(); // Làm mới trang sau khi cập nhật thành công
+                    },
+                    error: function (error) {
+                        alert("Có lỗi xảy ra khi cập nhật trạng thái.");
+                    }
+                });
+            });
+        });
+    </script>
+    <style>
+        table td {
+            white-space: nowrap;
         }
-    </tbody>
-</table>
+
+            table td.address-cell {
+                white-space: normal;
+                word-wrap: break-word;
+                max-width: 200px; /* Adjust as needed */
+                text-align: left; /* Align text to the left */
+            }
+
+        .table thead th {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .table tbody td {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .form-group.d-flex.flex-column select {
+            width: 100%;
+        }
+
+        .update-button {
+            width: 90%;
+        }
+    </style>
+}

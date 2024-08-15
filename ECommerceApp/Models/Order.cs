@@ -10,5 +10,6 @@
         public string Status { get; set; }
         public string PaymentStatus { get; set; } // Thêm trường PaymentStatus
         public List<OrderItem> OrderItems { get; set; }
+        public List<Transaction> Transactions { get; set; }
     }
 }
