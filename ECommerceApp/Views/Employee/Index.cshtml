@@ -1,0 +1,45 @@
+﻿@model IEnumerable<ECommerceApp.Models.Order>
+
+@{
+    ViewData["Title"] = "Employee Dashboard";
+}
+
+<h2>Employee Dashboard</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Recipient Name</th>
+            <th>Address</th>
+            <th>Status</th>
+            <th>Payment Status</th> <!-- Thêm cột Payment Status -->
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            <tr>
+                <td>@order.Id</td>
+                <td>@order.RecipientName</td>
+                <td>@order.Address</td>
+                <td>@order.Status</td>
+                <td>@order.PaymentStatus</td> <!-- Hiển thị Payment Status -->
+                <td>
+                    <a asp-controller="Employee" asp-action="Details" asp-route-id="@order.Id" class="btn btn-primary">View</a>
+                    <form asp-controller="Employee" asp-action="UpdateStatus" method="post" class="d-inline">
+                        <input type="hidden" name="id" value="@order.Id" />
+                        <select name="status" class="form-control d-inline" style="width: auto;">
+                            <option value="Chờ xác nhận">Chờ xác nhận</option>
+                            <option value="Đã xác nhận">Đã xác nhận</option>
+                            <option value="Đang giao">Đang giao</option>
+                            <option value="Đã giao">Đã giao</option>
+                        </select>
+                        <button type="submit" class="btn btn-success">Update</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

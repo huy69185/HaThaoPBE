@@ -2,12 +2,13 @@
 using Microsoft.AspNetCore.Identity;
 using ECommerceApp.Data;
 using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace ECommerceApp
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -60,10 +61,30 @@ namespace ECommerceApp
 
             app.MapControllers();  // Thêm dòng này để hỗ trợ API
 
-            // Gọi phương thức khởi tạo DB
-            DbInitializer.Initialize(app);
+            // Gọi phương thức khởi tạo DB không đồng bộ
+            await DbInitializer.InitializeAsync(app);
+
+            // Ensure roles are created
+            await CreateRoles(app);
 
             app.Run();
+        }
+
+        private static async Task CreateRoles(IApplicationBuilder app)
+        {
+            using var scope = app.ApplicationServices.CreateScope();
+            var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            string[] roleNames = { "Admin", "Employee", "Customer" };
+            IdentityResult roleResult;
+
+            foreach (var roleName in roleNames)
+            {
+                var roleExist = await roleManager.RoleExistsAsync(roleName);
+                if (!roleExist)
+                {
+                    roleResult = await roleManager.CreateAsync(new IdentityRole(roleName));
+                }
+            }
         }
     }
 }

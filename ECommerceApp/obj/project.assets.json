@@ -3844,11 +3844,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\huyh6\\OneDrive\\Desktop\\HaThaoPBE\\ECommerceApp\\ECommerceApp.csproj",
+      "projectUniqueName": "C:\\Users\\huyh6\\OneDrive\\Desktop\\Huy1\\HaThaoPBE\\ECommerceApp\\ECommerceApp.csproj",
       "projectName": "ECommerceApp",
-      "projectPath": "C:\\Users\\huyh6\\OneDrive\\Desktop\\HaThaoPBE\\ECommerceApp\\ECommerceApp.csproj",
+      "projectPath": "C:\\Users\\huyh6\\OneDrive\\Desktop\\Huy1\\HaThaoPBE\\ECommerceApp\\ECommerceApp.csproj",
       "packagesPath": "C:\\Users\\huyh6\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\huyh6\\OneDrive\\Desktop\\HaThaoPBE\\ECommerceApp\\obj\\",
+      "outputPath": "C:\\Users\\huyh6\\OneDrive\\Desktop\\Huy1\\HaThaoPBE\\ECommerceApp\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

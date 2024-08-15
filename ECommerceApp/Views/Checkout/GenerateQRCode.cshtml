@@ -5,8 +5,53 @@
         <div class="col-md-12 text-center">
             <h2>Scan QR Code để thanh toán</h2>
             <img src="@Model.QRCodeUrl" alt="QR Code" />
-            <p>Order ID: @Model.Order.Id</p>
-            <p>Amount: @Model.Order.OrderItems.Sum(item => item.Quantity * item.Price).ToString("C0", new System.Globalization.CultureInfo("vi-VN"))</p>
+            <table class="table mt-4">
+                <thead>
+                    <tr>
+                        <th>Thông tin</th>
+                        <th>Chi tiết</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Số tài khoản</td>
+                        <td>@Model.AccountNo</td>
+                    </tr>
+                    <tr>
+                        <td>Tên tài khoản</td>
+                        <td>@Model.AccountName</td>
+                    </tr>
+                    <tr>
+                        <td>Số tiền</td>
+                        <td>@Model.Amount.ToString("C0", new System.Globalization.CultureInfo("vi-VN"))</td>
+                    </tr>
+                    <tr>
+                        <td>Nội dung chuyển khoản</td>
+                        <td>@Model.AddInfo</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>
+                Sau khi hoàn tất chuyển khoản, vui lòng
+                <a asp-action="NotifyPayment" asp-route-orderId="@Model.Order.Id">xác nhận thanh toán</a>
+            </p>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            function checkPaymentStatus() {
+                $.get('/Checkout/CheckPaymentStatus?orderId=@Model.Order.Id', function (data) {
+                    if (data.Status === 'Đã thanh toán') {
+                        window.location.href = '@Url.Action("OrderConfirmation", "Checkout", new { orderId = Model.Order.Id })';
+                    }
+                });
+            }
+
+            setInterval(checkPaymentStatus, 5000); // Kiểm tra mỗi 5 giây
+        });
+    </script>
+}

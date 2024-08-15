@@ -1,0 +1,24 @@
+﻿@model int
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h2 class="text-center">Thông báo thanh toán</h2>
+            <form asp-action="NotifyPayment" method="post">
+                <div class="form-group">
+                    <label for="orderId">Order ID</label>
+                    <input type="text" class="form-control" id="orderId" name="orderId" value="@Model" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="transactionId">Mã giao dịch</label>
+                    <input type="text" class="form-control" id="transactionId" name="transactionId" required>
+                </div>
+                <div class="form-group">
+                    <label for="bank">Ngân hàng</label>
+                    <input type="text" class="form-control" id="bank" name="bank" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Xác nhận thanh toán</button>
+            </form>
+        </div>
+    </div>
+</div>
