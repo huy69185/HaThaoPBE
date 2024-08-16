@@ -19,7 +19,11 @@ namespace ECommerceApp.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var orders = await _context.Orders.Include(o => o.OrderItems).ThenInclude(oi => oi.Product).ToListAsync();
+            var orders = await _context.Orders
+                .Include(o => o.OrderItems)
+                .ThenInclude(oi => oi.Product)
+                .Include(o => o.User) // Bao gồm thông tin người dùng
+                .ToListAsync();
             return View(orders);
         }
 
@@ -28,7 +32,8 @@ namespace ECommerceApp.Controllers
             var order = await _context.Orders
                 .Include(o => o.OrderItems)
                 .ThenInclude(oi => oi.Product)
-                .Include(o => o.Transactions) // Ensure Transactions are loaded
+                .Include(o => o.Transactions)
+                .Include(o => o.User) // Bao gồm thông tin người dùng
                 .SingleOrDefaultAsync(o => o.Id == id);
 
             if (order == null)
@@ -38,6 +43,7 @@ namespace ECommerceApp.Controllers
 
             return View(order);
         }
+
 
         [HttpPost]
         public async Task<IActionResult> UpdateStatus(int id, string status, string paymentStatus)

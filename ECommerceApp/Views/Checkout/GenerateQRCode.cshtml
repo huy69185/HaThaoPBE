@@ -1,40 +1,45 @@
 ﻿@model ECommerceApp.Controllers.GenerateQRCodeViewModel
 
 <div class="container mt-5">
-    <div class="row">
-        <div class="col-md-12 text-center">
-            <h2>Scan QR Code để thanh toán</h2>
-            <img src="@Model.QRCodeUrl" alt="QR Code" />
-            <table class="table mt-4">
-                <thead>
-                    <tr>
-                        <th>Thông tin</th>
-                        <th>Chi tiết</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Số tài khoản</td>
-                        <td>@Model.AccountNo</td>
-                    </tr>
-                    <tr>
-                        <td>Tên tài khoản</td>
-                        <td>@Model.AccountName</td>
-                    </tr>
-                    <tr>
-                        <td>Số tiền</td>
-                        <td>@Model.Amount.ToString("C0", new System.Globalization.CultureInfo("vi-VN"))</td>
-                    </tr>
-                    <tr>
-                        <td>Nội dung chuyển khoản</td>
-                        <td>@Model.AddInfo</td>
-                    </tr>
-                </tbody>
-            </table>
-            <p>
-                Sau khi hoàn tất chuyển khoản, vui lòng
-                <a asp-action="NotifyPayment" asp-route-orderId="@Model.Order.Id">xác nhận thanh toán</a>
-            </p>
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="text-center p-5 bg-white rounded shadow">
+                <h2 class="mb-4 text-uppercase font-weight-bold">Scan QR Code để thanh toán</h2>
+                <div class="qr-code-wrapper mb-4">
+                    <img src="@Model.QRCodeUrl" alt="QR Code" class="img-fluid shadow-sm rounded" style="max-width: 50%; height: auto;" />
+                </div>
+
+                <table class="table table-bordered mt-4">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Thông tin</th>
+                            <th>Chi tiết</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Số tài khoản</strong></td>
+                            <td>@Model.AccountNo</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Tên tài khoản</strong></td>
+                            <td>@Model.AccountName</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Số tiền</strong></td>
+                            <td>@Model.Amount.ToString("C0", new System.Globalization.CultureInfo("vi-VN"))</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Nội dung chuyển khoản</strong></td>
+                            <td>@Model.AddInfo</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="mt-4">
+                    Sau khi hoàn tất chuyển khoản, vui lòng
+                    <a asp-action="NotifyPayment" asp-route-orderId="@Model.Order.Id" class="font-weight-bold text-primary">xác nhận thanh toán</a>
+                </p>
+            </div>
         </div>
     </div>
 </div>

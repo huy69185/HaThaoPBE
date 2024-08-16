@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ECommerceApp.Helpers;
 using System;
+using System.Security.Claims;
 
 namespace ECommerceApp.Controllers
 {
@@ -49,7 +50,8 @@ namespace ECommerceApp.Controllers
                 Address = viewModel.Address,
                 PaymentMethod = viewModel.PaymentMethod,
                 Status = "Chờ xác nhận",
-                PaymentStatus = "Chưa thanh toán", // Thêm PaymentStatus ban đầu
+                PaymentStatus = "Chưa thanh toán",
+                UserId = User.FindFirstValue(ClaimTypes.NameIdentifier), // Lưu UserId của người dùng
                 OrderItems = cart.Select(item => new OrderItem
                 {
                     ProductId = item.Product.Id,
@@ -70,7 +72,7 @@ namespace ECommerceApp.Controllers
             }
 
             return RedirectToAction("OrderConfirmation", new { orderId = order.Id });
-        }
+        }     
 
         private string GenerateVietQrUrl(Order order, out string accountNo, out string accountName, out int amount, out string addInfo)
         {
