@@ -1,4 +1,6 @@
-﻿namespace ECommerceApp.Models
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace ECommerceApp.Models
 {
     public class Order
     {
@@ -11,5 +13,7 @@
         public string PaymentStatus { get; set; } // Thêm trường PaymentStatus
         public List<OrderItem> OrderItems { get; set; }
         public List<Transaction> Transactions { get; set; }
+        public string UserId { get; set; }
+        public IdentityUser User { get; set; }
     }
 }

@@ -6,96 +6,96 @@
 
 <div class="container mt-5">
     <div class="row">
-        <div class="col-md-6">
-            <div class="card">
-                <img src="@Model.ImageUrl" class="card-img-top img-fluid product-img" alt="@Model.Name" />
+        <div class="col-lg-6 col-md-12 mb-4">
+            <div class="product-image-wrapper">
+                <img src="@Model.ImageUrl" class="img-fluid rounded shadow-lg" alt="@Model.Name" style="width: 100%; height: auto;" />
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="card mb-3">
-                <div class="card-header text-center">
-                    <h1 class="product-title">@Model.Name</h1>
-                </div>
-                <div class="card-body">
-                    <h2 class="text-center text-primary mb-4 product-price">@Model.Price.ToString("C0", new System.Globalization.CultureInfo("vi-VN"))</h2>
-                    <p class="lead product-description">@Model.Description</p>
-                    <h3 class="mt-4">Rating</h3>
-                    <div class="mb-4">
-                        <small class="text-muted">
-                            @for (int i = 0; i < 5; i++)
-                            {
-                                if (i < Model.Rating)
-                                {
-                                    <span class="fa fa-star checked"></span>
-                                }
-                                else
-                                {
-                                    <span class="fa fa-star"></span>
-                                }
-                            }
-                        </small>
-                    </div>
-                    <div class="text-center">
-                        <button class="btn btn-secondary btn-lg mr-2" onclick="showBuyNowModal(@Model.Id, @Model.Price)">Mua hàng</button>
-                        <button class="btn btn-secondary btn-lg" onclick="showAddToCartModal(@Model.Id, @Model.Price)">Thêm vào giỏ hàng</button>
 
-                        @if (User.Identity.IsAuthenticated)
+        <div class="col-lg-6 col-md-12">
+            <div class="product-details-wrapper p-4 bg-white rounded shadow-sm">
+                <h1 class="product-title text-uppercase font-weight-bold mb-3">@Model.Name</h1>
+                <h2 class="text-success mb-4 product-price">@Model.Price.ToString("C0", new System.Globalization.CultureInfo("vi-VN"))</h2>
+                <p class="product-description mb-4">@Model.Description</p>
+
+                <h3 class="mb-3">Đánh giá</h3>
+                <div class="rating mb-4">
+                    <small class="text-warning">
+                        @for (int i = 0; i < 5; i++)
                         {
-                            <div class="mt-4">
-                                <h4>Thêm bình luận và đánh giá</h4>
-                                <form asp-controller="Comment" asp-action="AddComment" method="post">
-                                    <input type="hidden" name="productId" value="@Model.Id" />
-                                    <div class="form-group">
-                                        <label for="comment">Bình luận:</label>
-                                        <textarea id="comment" name="comment" class="form-control"></textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="rating">Đánh giá:</label>
-                                        <div class="star-rating">
-                                            <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="5 stars"></label>
-
-                                            <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4 stars"></label>
-
-                                            <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3 stars"></label>
-
-                                            <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="2 stars"></label>
-
-                                            <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 star"></label>
-
-                                        </div>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary">Gửi</button>
-                                </form>
-                            </div>
-                        }
-
-                        <div class="mt-4">
-                            <h4>Bình luận</h4>
-                            @if (Model.Votes != null && Model.Votes.Any())
+                            if (i < Model.Rating)
                             {
-                                @foreach (var vote in Model.Votes)
-                                {
-                                    <div class="comment">
-                                        <div>
-                                            <strong>Đánh giá: @vote.Rating</strong>
-                                        </div>
-                                        <p>@vote.Comment</p>
-                                    </div>
-                                }
+                                <span class="fa fa-star checked"></span>
                             }
                             else
                             {
-                                <p>Không có bình luận nào.</p>
+                                <span class="fa fa-star"></span>
                             }
-                        </div>
+                        }
+                    </small>
+                </div>
+
+                <div class="text-center mb-4">
+                    <button class="btn btn-primary btn-lg btn-block" onclick="showAddToCartModal(@Model.Id, @Model.Price)">Thêm vào giỏ hàng</button>
+                </div>
+
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <div class="comment-section mt-5">
+                        <h4 class="mb-4">Bình luận</h4>
+                        <form asp-controller="Comment" asp-action="AddComment" method="post">
+                            <input type="hidden" name="productId" value="@Model.Id" />
+                            <div class="form-group">
+                                <textarea id="comment" name="comment" class="form-control" placeholder="Nhập bình luận của bạn..." rows="3"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="rating">Đánh giá:</label>
+                                <div class="star-rating">
+                                    @for (int i = 5; i >= 1; i--)
+                                    {
+                                        <input type="radio" id="star@i" name="rating" value="@i" />
+                                        <label for="star@i" title="@i stars"></label>
+                                    }
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-outline-primary">Gửi</button>
+                        </form>
                     </div>
+                }
+
+                <div class="comments-list mt-5">
+                    <h4 class="mb-4">Bình luận</h4>
+                    @if (Model.Votes != null && Model.Votes.Any())
+                    {
+                        @foreach (var vote in Model.Votes)
+                        {
+                            <div class="comment p-3 mb-3 border rounded bg-light">
+                                <div class="comment-rating text-warning">
+                                    @for (int i = 0; i < (int)Model.Rating; i++)
+                                    {
+                                        <span class="fa fa-star checked"></span>
+                                    }
+                                    @for (int i = (int)Model.Rating; i < 5; i++)
+                                    {
+                                        <span class="fa fa-star"></span>
+                                    }
+
+                                </div>
+                                <p class="mb-1">@vote.Comment</p>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p>Không có bình luận nào.</p>
+                    }
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Modal -->
+<!-- Modal for Add to Cart -->
 <div class="modal fade" id="addToCartModal" tabindex="-1" role="dialog" aria-labelledby="addToCartModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -123,33 +123,6 @@
     </div>
 </div>
 
-<div class="modal fade" id="buyNowModal" tabindex="-1" role="dialog" aria-labelledby="buyNowModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="buyNowModalLabel">Chọn số lượng sản phẩm</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="buyQuantity">Số lượng:</label>
-                    <input type="number" id="buyQuantity" name="quantity" class="form-control" value="1" min="1" onchange="updateBuyTotal()">
-                </div>
-                <div class="form-group">
-                    <label for="buyTotalPrice">Tổng cộng:</label>
-                    <input type="text" id="buyTotalPrice" class="form-control" readonly>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                <button type="button" class="btn btn-primary" onclick="proceedToCheckout()">Mua ngay</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 @section Scripts {
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -167,24 +140,10 @@
             $('#addToCartModal').modal('show');
         }
 
-        function showBuyNowModal(productId, productPrice) {
-            selectedProductId = productId;
-            selectedProductPrice = productPrice;
-            $('#buyQuantity').val(1);
-            updateBuyTotal();
-            $('#buyNowModal').modal('show');
-        }
-
         function updateTotal() {
             var quantity = $('#quantity').val();
             var total = quantity * selectedProductPrice;
             $('#totalPrice').val(total.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }));
-        }
-
-        function updateBuyTotal() {
-            var quantity = $('#buyQuantity').val();
-            var total = quantity * selectedProductPrice;
-            $('#buyTotalPrice').val(total.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }));
         }
 
         function addToCart() {
@@ -204,25 +163,6 @@
             $('body').append(form);
             form.submit();
             $('#addToCartModal').modal('hide');
-        }
-
-        function proceedToCheckout() {
-            var quantity = $('#buyQuantity').val();
-            var form = $('<form>', {
-                'method': 'post',
-                'action': '/Checkout/Index'
-            }).append($('<input>', {
-                'type': 'hidden',
-                'name': 'productId',
-                'value': selectedProductId
-            })).append($('<input>', {
-                'type': 'hidden',
-                'name': 'quantity',
-                'value': quantity
-            }));
-            $('body').append(form);
-            form.submit();
-            $('#buyNowModal').modal('hide');
         }
     </script>
 }
