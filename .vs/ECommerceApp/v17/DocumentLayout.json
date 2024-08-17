@@ -3,6 +3,22 @@
   "WorkspaceRootPath": "C:\\Users\\nguye\\Desktop\\WED1\\HaThaoPBE\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{476164F8-D36B-4C20-8C90-1F599EB9EBA3}|ECommerceApp\\ECommerceApp.csproj|c:\\users\\nguye\\desktop\\wed1\\hathaopbe\\ecommerceapp\\data\\dbinitializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{476164F8-D36B-4C20-8C90-1F599EB9EBA3}|ECommerceApp\\ECommerceApp.csproj|solutionrelative:ecommerceapp\\data\\dbinitializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{476164F8-D36B-4C20-8C90-1F599EB9EBA3}|ECommerceApp\\ECommerceApp.csproj|c:\\users\\nguye\\desktop\\wed1\\hathaopbe\\ecommerceapp\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{476164F8-D36B-4C20-8C90-1F599EB9EBA3}|ECommerceApp\\ECommerceApp.csproj|solutionrelative:ecommerceapp\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{476164F8-D36B-4C20-8C90-1F599EB9EBA3}|ECommerceApp\\ECommerceApp.csproj|c:\\users\\nguye\\desktop\\wed1\\hathaopbe\\ecommerceapp\\models\\profileviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{476164F8-D36B-4C20-8C90-1F599EB9EBA3}|ECommerceApp\\ECommerceApp.csproj|solutionrelative:ecommerceapp\\models\\profileviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{476164F8-D36B-4C20-8C90-1F599EB9EBA3}|ECommerceApp\\ECommerceApp.csproj|c:\\users\\nguye\\desktop\\wed1\\hathaopbe\\ecommerceapp\\views\\account\\profile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{476164F8-D36B-4C20-8C90-1F599EB9EBA3}|ECommerceApp\\ECommerceApp.csproj|solutionrelative:ecommerceapp\\views\\account\\profile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{476164F8-D36B-4C20-8C90-1F599EB9EBA3}|ECommerceApp\\ECommerceApp.csproj|c:\\users\\nguye\\desktop\\wed1\\hathaopbe\\ecommerceapp\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{476164F8-D36B-4C20-8C90-1F599EB9EBA3}|ECommerceApp\\ECommerceApp.csproj|solutionrelative:ecommerceapp\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
@@ -14,7 +30,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Bookmark",
@@ -41,20 +57,68 @@
               "Name": "ST:1310433027:0:{bf84ea66-d821-4dba-b1b1-2777d8574775}"
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:17133762:0:{bf84ea66-d821-4dba-b1b1-2777d8574775}"
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DbInitializer.cs",
+              "DocumentMoniker": "C:\\Users\\nguye\\Desktop\\WED1\\HaThaoPBE\\ECommerceApp\\Data\\DbInitializer.cs",
+              "RelativeDocumentMoniker": "ECommerceApp\\Data\\DbInitializer.cs",
+              "ToolTip": "C:\\Users\\nguye\\Desktop\\WED1\\HaThaoPBE\\ECommerceApp\\Data\\DbInitializer.cs",
+              "RelativeToolTip": "ECommerceApp\\Data\\DbInitializer.cs",
+              "ViewState": "AQIAADQAAAAAAAAAAAAQwFEAAAA3AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-17T14:44:54.037Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "C:\\Users\\nguye\\Desktop\\WED1\\HaThaoPBE\\ECommerceApp\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "ECommerceApp\\Controllers\\HomeController.cs",
+              "ToolTip": "C:\\Users\\nguye\\Desktop\\WED1\\HaThaoPBE\\ECommerceApp\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "ECommerceApp\\Controllers\\HomeController.cs",
+              "ViewState": "AQIAAA4AAAAAAAAAAAAgwDUAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-17T14:39:52.163Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ProfileViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\nguye\\Desktop\\WED1\\HaThaoPBE\\ECommerceApp\\Models\\ProfileViewModel.cs",
+              "RelativeDocumentMoniker": "ECommerceApp\\Models\\ProfileViewModel.cs",
+              "ToolTip": "C:\\Users\\nguye\\Desktop\\WED1\\HaThaoPBE\\ECommerceApp\\Models\\ProfileViewModel.cs",
+              "RelativeToolTip": "ECommerceApp\\Models\\ProfileViewModel.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAiwCAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-17T14:30:30.126Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "AccountController.cs",
               "DocumentMoniker": "C:\\Users\\nguye\\Desktop\\WED1\\HaThaoPBE\\ECommerceApp\\Controllers\\AccountController.cs",
               "RelativeDocumentMoniker": "ECommerceApp\\Controllers\\AccountController.cs",
               "ToolTip": "C:\\Users\\nguye\\Desktop\\WED1\\HaThaoPBE\\ECommerceApp\\Controllers\\AccountController.cs",
               "RelativeToolTip": "ECommerceApp\\Controllers\\AccountController.cs",
-              "ViewState": "AQIAAK0AAAAAAAAAAAAuwLgAAABAAAAA",
+              "ViewState": "AQIAAMEAAAAAAAAAAAAgwOgAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-17T08:10:56.089Z",
+              "WhenOpened": "2024-08-17T13:13:07.971Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Profile.cshtml",
+              "DocumentMoniker": "C:\\Users\\nguye\\Desktop\\WED1\\HaThaoPBE\\ECommerceApp\\Views\\Account\\Profile.cshtml",
+              "RelativeDocumentMoniker": "ECommerceApp\\Views\\Account\\Profile.cshtml",
+              "ToolTip": "C:\\Users\\nguye\\Desktop\\WED1\\HaThaoPBE\\ECommerceApp\\Views\\Account\\Profile.cshtml",
+              "RelativeToolTip": "ECommerceApp\\Views\\Account\\Profile.cshtml",
+              "ViewState": "AQIAACwAAAAAAAAAAAAgwFMAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-08-17T13:12:42.318Z",
               "EditorCaption": ""
             }
           ]

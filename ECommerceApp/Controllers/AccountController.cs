@@ -18,18 +18,21 @@ namespace ECommerceApp.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ApplicationDbContext _context;
         private readonly ILogger<AccountController> _logger;
+        private readonly IWebHostEnvironment _hostingEnvironment;
 
         public AccountController(UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
             RoleManager<IdentityRole> roleManager,
             ApplicationDbContext context,
-            ILogger<AccountController> logger)
+            ILogger<AccountController> logger,
+            IWebHostEnvironment hostingEnvironment)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _context = context;
             _logger = logger;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         [HttpGet]
@@ -125,9 +128,10 @@ namespace ECommerceApp.Controllers
                 return NotFound("User not found.");
             }
 
-            var claims = await _context.UserClaims.Where(c => c.UserId == user.Id).ToListAsync();
-            var userFullName = claims.FirstOrDefault(c => c.ClaimType == "UserFullName")?.ClaimValue;
-            var imgUrl = claims.FirstOrDefault(c => c.ClaimType == "ImgUrl")?.ClaimValue;
+            // Lấy thông tin từ Claims
+            var claims = await _userManager.GetClaimsAsync(user);
+            var userFullName = claims.FirstOrDefault(c => c.Type == "UserFullName")?.Value;
+            var imgUrl = claims.FirstOrDefault(c => c.Type == "ImgUrl")?.Value;
 
             var model = new ProfileViewModel
             {
@@ -149,17 +153,20 @@ namespace ECommerceApp.Controllers
                 return NotFound("User not found.");
             }
 
+            // Cập nhật Email
             if (!string.IsNullOrEmpty(model.Email) && model.Email != user.Email)
             {
                 user.Email = model.Email;
                 user.UserName = model.Email;
             }
 
+            // Cập nhật Số điện thoại
             if (!string.IsNullOrEmpty(model.PhoneNumber) && model.PhoneNumber != user.PhoneNumber)
             {
                 user.PhoneNumber = model.PhoneNumber;
             }
 
+            // Cập nhật Mật khẩu
             if (!string.IsNullOrEmpty(model.Password) && model.Password == model.ConfirmPassword)
             {
                 var token = await _userManager.GeneratePasswordResetTokenAsync(user);
@@ -174,40 +181,51 @@ namespace ECommerceApp.Controllers
                 }
             }
 
-            var claims = await _context.UserClaims.Where(c => c.UserId == user.Id).ToListAsync();
-            var userFullNameClaim = claims.FirstOrDefault(c => c.ClaimType == "UserFullName");
-            var imgUrlClaim = claims.FirstOrDefault(c => c.ClaimType == "ImgUrl");
+            // Xử lý upload ảnh đại diện
+            if (model.ProfileImageFile != null && model.ProfileImageFile.Length > 0)
+            {
+                var uploads = Path.Combine(_hostingEnvironment.WebRootPath, "uploads");
+                var fileName = Guid.NewGuid().ToString() + Path.GetExtension(model.ProfileImageFile.FileName);
+
+                if (!Directory.Exists(uploads))
+                {
+                    Directory.CreateDirectory(uploads);
+                }
+
+                var filePath = Path.Combine(uploads, fileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await model.ProfileImageFile.CopyToAsync(fileStream);
+                }
+
+                // Lưu URL của ảnh vào Claims
+                model.ImgUrl = "/uploads/" + fileName;
+            }
+
+            // Cập nhật Claims cho Tên đầy đủ và Ảnh đại diện
+            var claims = await _userManager.GetClaimsAsync(user);
+            var userFullNameClaim = claims.FirstOrDefault(c => c.Type == "UserFullName");
+            var imgUrlClaim = claims.FirstOrDefault(c => c.Type == "ImgUrl");
 
             if (!string.IsNullOrEmpty(model.UserFullName))
             {
                 if (userFullNameClaim != null)
                 {
-                    _context.UserClaims.Remove(userFullNameClaim);
+                    await _userManager.RemoveClaimAsync(user, userFullNameClaim);
                 }
-                _context.UserClaims.Add(new IdentityUserClaim<string>
-                {
-                    UserId = user.Id,
-                    ClaimType = "UserFullName",
-                    ClaimValue = model.UserFullName
-                });
+                await _userManager.AddClaimAsync(user, new Claim("UserFullName", model.UserFullName));
             }
 
             if (!string.IsNullOrEmpty(model.ImgUrl))
             {
                 if (imgUrlClaim != null)
                 {
-                    _context.UserClaims.Remove(imgUrlClaim);
+                    await _userManager.RemoveClaimAsync(user, imgUrlClaim);
                 }
-                _context.UserClaims.Add(new IdentityUserClaim<string>
-                {
-                    UserId = user.Id,
-                    ClaimType = "ImgUrl",
-                    ClaimValue = model.ImgUrl
-                });
+                await _userManager.AddClaimAsync(user, new Claim("ImgUrl", model.ImgUrl));
             }
 
-            _context.Users.Update(user); // Cập nhật trực tiếp thông tin user
-            await _context.SaveChangesAsync(); // Lưu toàn bộ thay đổi vào DB
+            await _context.SaveChangesAsync(); // Lưu vào DB
 
             ViewBag.SuccessMessage = "Profile updated successfully.";
             return View(model);
