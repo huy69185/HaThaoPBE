@@ -3838,19 +3838,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\nguye\\.nuget\\packages\\": {}
+    "C:\\Users\\tnqt3\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\nguye\\Desktop\\WED1\\HaThaoPBE\\ECommerceApp\\ECommerceApp.csproj",
+      "projectUniqueName": "C:\\Users\\tnqt3\\OneDrive\\Máy tính\\New folder (4)\\HaThaoPBE\\ECommerceApp\\ECommerceApp.csproj",
       "projectName": "ECommerceApp",
-      "projectPath": "C:\\Users\\nguye\\Desktop\\WED1\\HaThaoPBE\\ECommerceApp\\ECommerceApp.csproj",
-      "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\nguye\\Desktop\\WED1\\HaThaoPBE\\ECommerceApp\\obj\\",
+      "projectPath": "C:\\Users\\tnqt3\\OneDrive\\Máy tính\\New folder (4)\\HaThaoPBE\\ECommerceApp\\ECommerceApp.csproj",
+      "packagesPath": "C:\\Users\\tnqt3\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\tnqt3\\OneDrive\\Máy tính\\New folder (4)\\HaThaoPBE\\ECommerceApp\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\nguye\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\tnqt3\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -3858,6 +3858,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -3923,7 +3924,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
