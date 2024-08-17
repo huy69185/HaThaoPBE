@@ -21,16 +21,9 @@
                 <h3 class="mb-3">Đánh giá</h3>
                 <div class="rating mb-4">
                     <small class="text-warning">
-                        @for (int i = 0; i < 5; i++)
+                        @for (double i = 0; i < Model.Rating; i++)
                         {
-                            if (i < Model.Rating)
-                            {
-                                <span class="fa fa-star checked"></span>
-                            }
-                            else
-                            {
-                                <span class="fa fa-star"></span>
-                            }
+                            <span class="fa fa-star"></span>
                         }
                     </small>
                 </div>
@@ -77,11 +70,7 @@
                             <div class="comment p-3 mb-3 border rounded bg-light">
                                 <p class="mb-1"><strong>Người dùng:</strong> @vote.CustomerID</p>
                                 <div class="comment-rating text-warning">
-                                    @for (int i = 0; i < vote.Rating; i++)
-                                    {
-                                        <span class="fa fa-star checked"></span>
-                                    }
-                                    @for (double i = vote.Rating; i < 5; i++)
+                                    @for (double i = 0; i < vote.Rating; i++)
                                     {
                                         <span class="fa fa-star"></span>
                                     }
