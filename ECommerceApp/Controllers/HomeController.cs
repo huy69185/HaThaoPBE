@@ -15,11 +15,11 @@ namespace ECommerceApp.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
-        {
-            var products = _context.Products.ToList();
-            return View(products);
-        }
+        //public IActionResult Index()
+        //{
+        //    var products = _context.Products.ToList();
+        //    return View(products);
+        //}
 
         public IActionResult Privacy()
         {
@@ -48,6 +48,18 @@ namespace ECommerceApp.Controllers
 
             return View(product);
         }
+        public async Task<IActionResult> Index(String searchTerm)
+        {
+            var products = from p in _context.Products select p;
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                // Tính năng duyệt theo tên sản phẩm chỗ nào có tên thì hiện ra
+                var searchTermLower = searchTerm.ToLower();
+                products = products.Where(p => p.Name.ToLower().Contains(searchTermLower));
+            }
+            return View(products);
+        }
 
+   
     }
 }
