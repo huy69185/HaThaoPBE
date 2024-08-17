@@ -39,49 +39,54 @@
                     <button class="btn btn-primary btn-lg btn-block" onclick="showAddToCartModal(@Model.Id, @Model.Price)">Thêm vào giỏ hàng</button>
                 </div>
 
-                @if (User.Identity.IsAuthenticated)
+                @if (User.Identity.IsAuthenticated && ViewData["CanComment"] != null && (bool)ViewData["CanComment"])
                 {
-                    <div class="comment-section mt-5">
-                        <h4 class="mb-4">Bình luận</h4>
+                    <div class="mt-4">
+                        <h4>Bình luận</h4>
                         <form asp-controller="Comment" asp-action="AddComment" method="post">
                             <input type="hidden" name="productId" value="@Model.Id" />
                             <div class="form-group">
-                                <textarea id="comment" name="comment" class="form-control" placeholder="Nhập bình luận của bạn..." rows="3"></textarea>
+                                <label for="comment">Bình luận:</label>
+                                <textarea id="comment" name="comment" class="form-control"></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="rating">Đánh giá:</label>
                                 <div class="star-rating">
-                                    @for (int i = 5; i >= 1; i--)
-                                    {
-                                        <input type="radio" id="star@i" name="rating" value="@i" />
-                                        <label for="star@i" title="@i stars"></label>
-                                    }
+                                    <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="5 stars"></label>
+                                    <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4 stars"></label>
+                                    <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3 stars"></label>
+                                    <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="2 stars"></label>
+                                    <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 star"></label>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-outline-primary">Gửi</button>
+                            <button type="submit" class="btn btn-primary">Gửi</button>
                         </form>
                     </div>
+                }
+                else
+                {
+                    <p>Bạn cần mua và nhận sản phẩm này để có thể đánh giá.</p>
                 }
 
                 <div class="comments-list mt-5">
                     <h4 class="mb-4">Bình luận</h4>
-                    @if (Model.Votes != null && Model.Votes.Any())
+                    @if (ViewData["Votes"] != null && ((IEnumerable<ECommerceApp.Models.Vote>)ViewData["Votes"]).Any())
                     {
-                        @foreach (var vote in Model.Votes)
+                        foreach (var vote in (IEnumerable<ECommerceApp.Models.Vote>)ViewData["Votes"])
                         {
                             <div class="comment p-3 mb-3 border rounded bg-light">
+                                <p class="mb-1"><strong>Người dùng:</strong> @vote.CustomerID</p>
                                 <div class="comment-rating text-warning">
-                                    @for (int i = 0; i < (int)Model.Rating; i++)
+                                    @for (int i = 0; i < vote.Rating; i++)
                                     {
                                         <span class="fa fa-star checked"></span>
                                     }
-                                    @for (int i = (int)Model.Rating; i < 5; i++)
+                                    @for (double i = vote.Rating; i < 5; i++)
                                     {
                                         <span class="fa fa-star"></span>
                                     }
-
                                 </div>
-                                <p class="mb-1">@vote.Comment</p>
+                                <p class="mb-1"><strong>Bình luận:</strong> @vote.Comment</p>
                             </div>
                         }
                     }

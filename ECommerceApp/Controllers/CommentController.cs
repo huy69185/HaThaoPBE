@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace ECommerceApp.Controllers
 {
@@ -17,29 +18,30 @@ namespace ECommerceApp.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Details(int id)
-        {
-            var product = await _context.Products
-                .Include(p => p.Votes) // Include Votes
-                .FirstOrDefaultAsync(p => p.Id == id);
-
-            if (product == null)
-            {
-                return NotFound();
-            }
-
-            return View(product);
-        }
-
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> AddComment(int productId, string comment, double rating)
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            // Kiểm tra xem người dùng đã mua sản phẩm và trạng thái đơn là "Delivered" chưa
+            var hasPurchased = await _context.Orders
+                .Include(o => o.OrderItems)
+                .AnyAsync(o => o.UserId == userId &&
+                               o.OrderItems.Any(oi => oi.ProductId == productId) &&
+                               o.Status == "Đã giao");
+
+            if (!hasPurchased)
+            {
+                return Forbid(); // Cấm người dùng không đủ điều kiện gửi bình luận
+            }
+
             var vote = new Vote
             {
                 ProductID = productId,
                 Comment = comment,
-                Rating = rating
+                Rating = rating,
+                CustomerID = userId // Lưu CustomerId vào bảng Vote
             };
 
             _context.Votes.Add(vote);
@@ -53,7 +55,8 @@ namespace ECommerceApp.Controllers
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToAction("Details", new { id = productId });
+            return Redirect(Request.Headers["Referer"].ToString());
         }
+
     }
 }

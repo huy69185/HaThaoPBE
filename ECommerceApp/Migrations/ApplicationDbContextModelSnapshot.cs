@@ -154,6 +154,10 @@ namespace ECommerceApp.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("CustomerID")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("ProductID")
                         .HasColumnType("INTEGER");
 

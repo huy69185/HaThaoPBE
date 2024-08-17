@@ -1,6 +1,8 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using ECommerceApp.Data;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace ECommerceApp.Controllers
 {
@@ -25,11 +27,25 @@ namespace ECommerceApp.Controllers
         }
         public IActionResult ProductDetails(int id)
         {
-            var product = _context.Products.FirstOrDefault(p => p.Id == id);
+            var product = _context.Products
+                .Include(p => p.Votes)
+                .FirstOrDefault(p => p.Id == id);
+
             if (product == null)
             {
                 return NotFound();
             }
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var canComment = _context.Orders
+                .Include(o => o.OrderItems)
+                .Any(o => o.UserId == userId &&
+                          o.OrderItems.Any(oi => oi.ProductId == id) &&
+                          o.Status == "Đã giao");
+
+            ViewData["CanComment"] = canComment;
+            ViewData["Votes"] = product.Votes; // Truyền danh sách đánh giá vào View
+
             return View(product);
         }
 
