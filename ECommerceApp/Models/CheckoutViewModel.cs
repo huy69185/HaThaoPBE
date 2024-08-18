@@ -8,5 +8,7 @@ namespace ECommerceApp.Models
         public string RecipientName { get; set; }
         public string RecipientPhone { get; set; }
         public string PaymentMethod { get; set; }
+        public List<CartItem> CartItem { get; set; }
+        public List<int> SelectedProductIds { get; set; }
     }
 }

@@ -22,13 +22,42 @@ namespace ECommerceApp.Controllers
             _configuration = configuration;
         }
 
-        [HttpGet]
-        public IActionResult Index()
+        // Tạo tên cookie dựa trên UserID
+        private string GetCartCookieName()
         {
-            var cart = HttpContext.Request.GetObjectFromJsonCookie<List<CartItem>>("cart") ?? new List<CartItem>();
+            if (!User.Identity.IsAuthenticated)
+            {
+                return null;
+            }
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            return $"cart_{userId}";
+        }
+
+        // Lấy các mục trong giỏ hàng
+        private List<CartItem> GetCartItems()
+        {
+            var cartCookieName = GetCartCookieName();
+            if (cartCookieName == null) return new List<CartItem>();
+
+            var cart = HttpContext.Request.GetObjectFromJsonCookie<List<CartItem>>(cartCookieName) ?? new List<CartItem>();
+            return cart;
+        }
+
+        [HttpGet]
+        public IActionResult Index(List<int> SelectedProductIds)
+        {
+            var cart = GetCartItems();
+            var selectedItems = cart.Where(c => SelectedProductIds.Contains(c.Product.Id)).ToList();
+
+            if (!selectedItems.Any())
+            {
+                return RedirectToAction("Index", "Cart");
+            }
+
             var viewModel = new CheckoutViewModel
             {
-                CartItems = cart
+                CartItems = selectedItems
             };
             return View(viewModel);
         }
@@ -36,9 +65,10 @@ namespace ECommerceApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(CheckoutViewModel viewModel)
         {
-            var cart = HttpContext.Request.GetObjectFromJsonCookie<List<CartItem>>("cart") ?? new List<CartItem>();
+            var cart = GetCartItems();
+            var selectedItems = cart.Where(c => viewModel.SelectedProductIds.Contains(c.Product.Id)).ToList();
 
-            if (!cart.Any())
+            if (!selectedItems.Any())
             {
                 return RedirectToAction("Index", "Cart");
             }
@@ -50,9 +80,9 @@ namespace ECommerceApp.Controllers
                 Address = viewModel.Address,
                 PaymentMethod = viewModel.PaymentMethod,
                 Status = "Chờ xác nhận",
-                PaymentStatus = "Chưa thanh toán",
-                UserId = User.FindFirstValue(ClaimTypes.NameIdentifier), // Lưu UserId của người dùng
-                OrderItems = cart.Select(item => new OrderItem
+                PaymentStatus = "Đã thanh toán",
+                UserId = User.FindFirstValue(ClaimTypes.NameIdentifier),
+                OrderItems = selectedItems.Select(item => new OrderItem
                 {
                     ProductId = item.Product.Id,
                     Quantity = item.Quantity,
@@ -63,7 +93,9 @@ namespace ECommerceApp.Controllers
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
 
-            HttpContext.Response.SetObjectAsJsonCookie("cart", new List<CartItem>());
+            // Remove the selected items from the cart
+            var updatedCart = cart.Except(selectedItems).ToList();
+            SaveCartItems(updatedCart);
 
             if (viewModel.PaymentMethod == "Chuyển khoản")
             {
@@ -72,7 +104,17 @@ namespace ECommerceApp.Controllers
             }
 
             return RedirectToAction("OrderConfirmation", new { orderId = order.Id });
-        }     
+        }
+        // Add this method to your CheckoutController
+        private void SaveCartItems(List<CartItem> cart)
+        {
+            var cartCookieName = GetCartCookieName();
+            if (cartCookieName != null)
+            {
+                HttpContext.Response.SetObjectAsJsonCookie(cartCookieName, cart);
+            }
+        }
+
 
         private string GenerateVietQrUrl(Order order, out string accountNo, out string accountName, out int amount, out string addInfo)
         {

@@ -4,6 +4,7 @@ using ECommerceApp.Models;
 using System.Collections.Generic;
 using System.Linq;
 using ECommerceApp.Data;
+using System.Security.Claims;
 
 namespace ECommerceApp.Controllers
 {
@@ -16,9 +17,41 @@ namespace ECommerceApp.Controllers
             _context = context;
         }
 
+        // Tạo tên cookie dựa trên UserID
+        private string GetCartCookieName()
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return null;
+            }
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            return $"cart_{userId}";
+        }
+
+        // Lấy các mục trong giỏ hàng
+        private List<CartItem> GetCartItems()
+        {
+            var cartCookieName = GetCartCookieName();
+            if (cartCookieName == null) return new List<CartItem>();
+
+            var cart = HttpContext.Request.GetObjectFromJsonCookie<List<CartItem>>(cartCookieName) ?? new List<CartItem>();
+            return cart;
+        }
+
+        // Lưu các mục trong giỏ hàng
+        private void SaveCartItems(List<CartItem> cart)
+        {
+            var cartCookieName = GetCartCookieName();
+            if (cartCookieName != null)
+            {
+                HttpContext.Response.SetObjectAsJsonCookie(cartCookieName, cart);
+            }
+        }
+
         public IActionResult Index()
         {
-            var cart = HttpContext.Request.GetObjectFromJsonCookie<List<CartItem>>("cart") ?? new List<CartItem>();
+            var cart = GetCartItems();
             return View(cart);
         }
 
@@ -43,7 +76,7 @@ namespace ECommerceApp.Controllers
                 return RedirectToAction("Index");
             }
 
-            var cart = HttpContext.Request.GetObjectFromJsonCookie<List<CartItem>>("cart") ?? new List<CartItem>();
+            var cart = GetCartItems();
 
             var cartItem = cart.SingleOrDefault(c => c.Product.Id == id);
             if (cartItem == null)
@@ -55,7 +88,7 @@ namespace ECommerceApp.Controllers
                 cartItem.Quantity += quantity;
             }
 
-            HttpContext.Response.SetObjectAsJsonCookie("cart", cart);
+            SaveCartItems(cart);
             TempData["Success"] = "Sản phẩm đã được thêm vào giỏ hàng.";
             return RedirectToAction("Index");
         }
@@ -74,7 +107,7 @@ namespace ECommerceApp.Controllers
                 return RedirectToAction("Index");
             }
 
-            var cart = HttpContext.Request.GetObjectFromJsonCookie<List<CartItem>>("cart") ?? new List<CartItem>();
+            var cart = GetCartItems();
 
             var cartItem = cart.SingleOrDefault(c => c.Product.Id == id);
             if (cartItem != null)
@@ -86,7 +119,7 @@ namespace ECommerceApp.Controllers
                 TempData["Error"] = "Sản phẩm không tồn tại trong giỏ hàng.";
             }
 
-            HttpContext.Response.SetObjectAsJsonCookie("cart", cart);
+            SaveCartItems(cart);
             TempData["Success"] = "Cập nhật giỏ hàng thành công.";
             return RedirectToAction("Index");
         }
@@ -99,7 +132,7 @@ namespace ECommerceApp.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            var cart = HttpContext.Request.GetObjectFromJsonCookie<List<CartItem>>("cart") ?? new List<CartItem>();
+            var cart = GetCartItems();
 
             var cartItem = cart.SingleOrDefault(c => c.Product.Id == id);
             if (cartItem != null)
@@ -112,7 +145,7 @@ namespace ECommerceApp.Controllers
                 TempData["Error"] = "Sản phẩm không tồn tại trong giỏ hàng.";
             }
 
-            HttpContext.Response.SetObjectAsJsonCookie("cart", cart);
+            SaveCartItems(cart);
             return RedirectToAction("Index");
         }
     }
