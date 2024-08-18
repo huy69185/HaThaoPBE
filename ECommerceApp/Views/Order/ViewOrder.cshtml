@@ -1,0 +1,33 @@
+﻿@model List<ECommerceApp.Models.Order>
+
+<h1>Danh sách Đơn hàng</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Địa chỉ</th>
+            <th>Người nhận</th>
+            <th>Số điện thoại</th>
+            <th>Phương thức thanh toán</th>
+            <th>Trạng thái</th>
+            <th>Trạng thái thanh toán</th>
+            <th>Tổng giá</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            <tr>
+                <td>@order.Id</td>
+                <td>@order.Address</td>
+                <td>@order.RecipientName</td>
+                <td>@order.RecipientPhone</td>
+                <td>@order.PaymentMethod</td>
+                <td>@order.Status</td>
+                <td>@order.PaymentStatus</td>
+                <td>@order.OrderItems.Sum(oi => (double)oi.Price * oi.Quantity)</td> <!-- Sử dụng LINQ để tính tổng giá -->
+            </tr>
+        }
+    </tbody>
+</table>
