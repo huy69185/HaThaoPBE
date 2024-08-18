@@ -1,33 +1,144 @@
 ﻿@model List<ECommerceApp.Models.Order>
 
-<h1>Danh sách Đơn hàng</h1>
+@{
+    ViewData["Title"] = "Danh sách đơn hàng";
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Địa chỉ</th>
-            <th>Người nhận</th>
-            <th>Số điện thoại</th>
-            <th>Phương thức thanh toán</th>
-            <th>Trạng thái</th>
-            <th>Trạng thái thanh toán</th>
-            <th>Tổng giá</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var order in Model)
+    var deliveredOrders = Model.Where(order => order.Status == "Đã giao").ToList();
+    var currentOrders = Model.Where(order => order.Status != "Đã giao").ToList();
+}
+
+<div class="container mt-5">
+    <div class="row mb-4">
+        <div class="col">
+            <button class="btn btn-secondary" onclick="history.back()">
+                <i class="fas fa-arrow-left"></i> Quay lại
+            </button>
+        </div>
+    </div>
+
+    <h2 class="text-center text-uppercase font-weight-bold mb-4">Danh sách đơn hàng</h2>
+
+    <div class="text-center mb-4">
+        <button id="currentOrdersBtn" class="btn btn-primary">Đơn hàng hiện tại</button>
+        <button id="deliveredOrdersBtn" class="btn btn-secondary">Đơn hàng đã mua</button>
+    </div>
+
+    <!-- Phần hiển thị Đơn hàng hiện tại -->
+    <div id="currentOrdersSection">
+        <h3 class="text-uppercase font-weight-bold mb-3">Đơn hàng hiện tại</h3>
+        @if (currentOrders.Count == 0)
         {
-            <tr>
-                <td>@order.Id</td>
-                <td>@order.Address</td>
-                <td>@order.RecipientName</td>
-                <td>@order.RecipientPhone</td>
-                <td>@order.PaymentMethod</td>
-                <td>@order.Status</td>
-                <td>@order.PaymentStatus</td>
-                <td>@order.OrderItems.Sum(oi => (double)oi.Price * oi.Quantity)</td> <!-- Sử dụng LINQ để tính tổng giá -->
-            </tr>
+            <div class="alert alert-warning text-center">
+                Không có đơn hàng nào trong Đơn hàng hiện tại.
+            </div>
         }
-    </tbody>
-</table>
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">STT</th>
+                            <th scope="col">Địa chỉ</th>
+                            <th scope="col">Người nhận</th>
+                            <th scope="col">Số điện thoại</th>
+                            <th scope="col">Phương thức thanh toán</th>
+                            <th scope="col">Trạng thái</th>
+                            <th scope="col">Trạng thái thanh toán</th>
+                            <th scope="col">Tổng giá</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int currentOrderIndex = 1;
+                        }
+                        @foreach (var order in currentOrders)
+                        {
+                            <tr>
+                                <td>@currentOrderIndex</td>
+                                <td>@order.Address</td>
+                                <td>@order.RecipientName</td>
+                                <td>@order.RecipientPhone</td>
+                                <td>@order.PaymentMethod</td>
+                                <td>@order.Status</td>
+                                <td>@order.PaymentStatus</td>
+                                <td>@order.OrderItems.Sum(oi => (double)oi.Price * oi.Quantity).ToString("C", new System.Globalization.CultureInfo("vi-VN"))</td>
+                            </tr>
+                            currentOrderIndex++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+
+    <!-- Phần hiển thị Đơn hàng đã mua -->
+    <div id="deliveredOrdersSection" style="display: none;">
+        <h3 class="text-uppercase font-weight-bold mb-3">Đơn hàng đã mua</h3>
+        @if (deliveredOrders.Count == 0)
+        {
+            <div class="alert alert-warning text-center">
+                Không có đơn hàng nào trong Đơn hàng đã mua.
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">STT</th>
+                            <th scope="col">Địa chỉ</th>
+                            <th scope="col">Người nhận</th>
+                            <th scope="col">Số điện thoại</th>
+                            <th scope="col">Phương thức thanh toán</th>
+                            <th scope="col">Trạng thái</th>
+                            <th scope="col">Trạng thái thanh toán</th>
+                            <th scope="col">Tổng giá</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int deliveredOrderIndex = 1;
+                        }
+                        @foreach (var order in deliveredOrders)
+                        {
+                            <tr>
+                                <td>@deliveredOrderIndex</td>
+                                <td>@order.Address</td>
+                                <td>@order.RecipientName</td>
+                                <td>@order.RecipientPhone</td>
+                                <td>@order.PaymentMethod</td>
+                                <td>@order.Status</td>
+                                <td>@order.PaymentStatus</td>
+                                <td>@order.OrderItems.Sum(oi => (double)oi.Price * oi.Quantity).ToString("C", new System.Globalization.CultureInfo("vi-VN"))</td>
+                            </tr>
+                            deliveredOrderIndex++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#currentOrdersBtn').click(function () {
+                $('#currentOrdersSection').show();
+                $('#deliveredOrdersSection').hide();
+                $(this).removeClass('btn-secondary').addClass('btn-primary');
+                $('#deliveredOrdersBtn').removeClass('btn-primary').addClass('btn-secondary');
+            });
+
+            $('#deliveredOrdersBtn').click(function () {
+                $('#deliveredOrdersSection').show();
+                $('#currentOrdersSection').hide();
+                $(this).removeClass('btn-secondary').addClass('btn-primary');
+                $('#currentOrdersBtn').removeClass('btn-primary').addClass('btn-secondary');
+            });
+        });
+    </script>
+}

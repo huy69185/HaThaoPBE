@@ -31,9 +31,17 @@ namespace ECommerceApp.Controllers
             }
 
             var product = _context.Products.SingleOrDefault(p => p.Id == id);
-
             if (product == null)
-                return NotFound();
+            {
+                TempData["Error"] = "Sản phẩm không tồn tại.";
+                return RedirectToAction("Index");
+            }
+
+            if (quantity <= 0)
+            {
+                TempData["Error"] = "Số lượng không hợp lệ.";
+                return RedirectToAction("Index");
+            }
 
             var cart = HttpContext.Request.GetObjectFromJsonCookie<List<CartItem>>("cart") ?? new List<CartItem>();
 
@@ -48,7 +56,7 @@ namespace ECommerceApp.Controllers
             }
 
             HttpContext.Response.SetObjectAsJsonCookie("cart", cart);
-
+            TempData["Success"] = "Sản phẩm đã được thêm vào giỏ hàng.";
             return RedirectToAction("Index");
         }
 
@@ -60,23 +68,26 @@ namespace ECommerceApp.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
+            if (quantity <= 0)
+            {
+                TempData["Error"] = "Số lượng không hợp lệ.";
+                return RedirectToAction("Index");
+            }
+
             var cart = HttpContext.Request.GetObjectFromJsonCookie<List<CartItem>>("cart") ?? new List<CartItem>();
 
             var cartItem = cart.SingleOrDefault(c => c.Product.Id == id);
             if (cartItem != null)
             {
-                if (quantity > 0)
-                {
-                    cartItem.Quantity = quantity;
-                }
-                else
-                {
-                    cart.Remove(cartItem);
-                }
+                cartItem.Quantity = quantity;
+            }
+            else
+            {
+                TempData["Error"] = "Sản phẩm không tồn tại trong giỏ hàng.";
             }
 
             HttpContext.Response.SetObjectAsJsonCookie("cart", cart);
-
+            TempData["Success"] = "Cập nhật giỏ hàng thành công.";
             return RedirectToAction("Index");
         }
 
@@ -94,10 +105,14 @@ namespace ECommerceApp.Controllers
             if (cartItem != null)
             {
                 cart.Remove(cartItem);
+                TempData["Success"] = "Sản phẩm đã được xóa khỏi giỏ hàng.";
+            }
+            else
+            {
+                TempData["Error"] = "Sản phẩm không tồn tại trong giỏ hàng.";
             }
 
             HttpContext.Response.SetObjectAsJsonCookie("cart", cart);
-
             return RedirectToAction("Index");
         }
     }
