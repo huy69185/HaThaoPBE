@@ -153,20 +153,20 @@ namespace ECommerceApp.Controllers
                 return NotFound("User not found.");
             }
 
-            // Cập nhật Email
+            // Cập nhật Email nếu nó khác với Email hiện tại
             if (!string.IsNullOrEmpty(model.Email) && model.Email != user.Email)
             {
                 user.Email = model.Email;
                 user.UserName = model.Email;
             }
 
-            // Cập nhật Số điện thoại
+            // Cập nhật Số điện thoại nếu nó khác với số hiện tại
             if (!string.IsNullOrEmpty(model.PhoneNumber) && model.PhoneNumber != user.PhoneNumber)
             {
                 user.PhoneNumber = model.PhoneNumber;
             }
 
-            // Cập nhật Mật khẩu
+            // Cập nhật mật khẩu nếu người dùng nhập mật khẩu mới và xác nhận mật khẩu trùng khớp
             if (!string.IsNullOrEmpty(model.Password) && model.Password == model.ConfirmPassword)
             {
                 var token = await _userManager.GeneratePasswordResetTokenAsync(user);
@@ -181,7 +181,7 @@ namespace ECommerceApp.Controllers
                 }
             }
 
-            // Xử lý upload ảnh đại diện
+            // Xử lý upload ảnh đại diện nếu người dùng đã tải ảnh mới lên
             if (model.ProfileImageFile != null && model.ProfileImageFile.Length > 0)
             {
                 var uploads = Path.Combine(_hostingEnvironment.WebRootPath, "uploads");
@@ -198,14 +198,20 @@ namespace ECommerceApp.Controllers
                     await model.ProfileImageFile.CopyToAsync(fileStream);
                 }
 
-                // Lưu URL của ảnh vào Claims
+                // Cập nhật URL của ảnh mới vào model
                 model.ImgUrl = "/uploads/" + fileName;
+            }
+            else
+            {
+                // Nếu không có ảnh mới, giữ nguyên giá trị ImgUrl cũ
+                var claims = await _userManager.GetClaimsAsync(user);
+                model.ImgUrl = claims.FirstOrDefault(c => c.Type == "ImgUrl")?.Value;
             }
 
             // Cập nhật Claims cho Tên đầy đủ và Ảnh đại diện
-            var claims = await _userManager.GetClaimsAsync(user);
-            var userFullNameClaim = claims.FirstOrDefault(c => c.Type == "UserFullName");
-            var imgUrlClaim = claims.FirstOrDefault(c => c.Type == "ImgUrl");
+            var claimsList = await _userManager.GetClaimsAsync(user);
+            var userFullNameClaim = claimsList.FirstOrDefault(c => c.Type == "UserFullName");
+            var imgUrlClaim = claimsList.FirstOrDefault(c => c.Type == "ImgUrl");
 
             if (!string.IsNullOrEmpty(model.UserFullName))
             {

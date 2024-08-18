@@ -32,7 +32,7 @@
                                 @{
                                     var avatarUrl = User.Claims.FirstOrDefault(c => c.Type == "ImgUrl")?.Value ?? "/img/default-avatar.png";
                                 }
-                                <img src="@avatarUrl" alt="Avatar" class="rounded-circle" width="30" height="30"> @User.Identity.Name
+                                <img src="@avatarUrl" alt=" " class="rounded-circle" width="30" height="30">
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="@Url.Action("Profile", "Account")">Hồ sơ</a>

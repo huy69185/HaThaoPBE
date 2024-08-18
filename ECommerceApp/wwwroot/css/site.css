@@ -1,20 +1,20 @@
-html {
-  font-size: 14px;
+﻿html {
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
@@ -26,34 +26,8 @@ body {
 .card {
     border-radius: 10px;
     border: none;
-}
-
-    .card h2 {
-        font-weight: bold;
-    }
-
-.form-control {
-    border-radius: 5px;
-}
-
-.btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
-    border-radius: 5px;
-}
-
-    .btn-primary:hover {
-        background-color: #0056b3;
-        border-color: #0056b3;
-    }
-
-/* site.css */
-
-.card {
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    margin-bottom: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
 }
 
 .card-header {
@@ -68,13 +42,20 @@ body {
     padding: 30px;
 }
 
-.fa-star {
-    color: #ff9800;
+.form-control {
+    border-radius: 5px;
 }
 
-.checked {
-    color: orange;
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    border-radius: 10px;
 }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
 
 .product-img {
     width: 80%;
@@ -113,86 +94,56 @@ body {
     border: none;
     color: white;
 }
-/* vote.css */
 
-.star-rating {
-    direction: rtl;
-    display: inline-block;
-    font-size: 2em;
-    padding: 0;
-    position: relative;
-    unicode-bidi: bidi-override;
-}
-
-    .star-rating input {
-        display: none;
+/* Responsive adjustments for small screens */
+@media (max-width: 768px) {
+    .list-group-item {
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
-    .star-rating label {
-        color: #ddd;
-        cursor: pointer;
-        display: inline-block;
-        font-family: FontAwesome;
-        font-size: inherit;
-        position: relative;
-        width: 1.1em;
+        .list-group-item p {
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+    .btn-group .btn {
+        padding: 5px 10px; /* Giảm padding của nút */
+        font-size: 0.8rem; /* Giảm kích thước font */
+        border-radius: 12px; /* Giảm bán kính bo tròn của nút */
     }
 
-        .star-rating label:before {
-            content: '\f005';
+    .btn-group {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .form-control {
+        width: 100%;
+        max-width: 100%;
+        padding: 4px; /* Giảm padding của input */
+        font-size: 0.9rem; /* Giảm kích thước font của input */
+    }
+
+    .text-right {
+        text-align: left !important;
+    }
+
+    .col-md-4, .col-md-8 {
+        width: 100%;
+    }
+
+        .col-md-8 h3 {
+            font-size: 1.2rem;
         }
 
-        .star-rating label:hover,
-        .star-rating label:hover ~ label,
-        .star-rating input:checked ~ label {
-            color: #f5b301;
-        }
-
-/* ViewProfile.css */
-.card {
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.card-header {
-    background-color: #007bff;
-    color: white;
-}
-
-.btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
-}
-
-.btn-secondary {
-    background-color: #6c757d;
-    border-color: #6c757d;
-}
-
-.text-muted {
-    color: #6c757d !important;
-}
-
-.img-fluid {
-    max-width: 100%;
-    height: auto;
-}
-
-.profile-img {
-    width: 150px;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 50%;
-}
-
-.form-control-file {
-    margin-top: 10px;
-}
-
-.form-control-sm {
-    font-size: 0.875rem;
-}
-
-.col-md-7 {
-    max-width: 60%;
+    .btn-success {
+        font-size: 1rem;
+        padding: 10px 20px;
+        border-radius: 25px;
+    }
 }
