@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-body text-center">
                     <!-- Ảnh đại diện -->
-                    <img src="@Model.ImgUrl" class="img-fluid rounded-circle mb-3" alt="Ảnh đại diện" width="150" height="150">
+                    <img src="@Model.ImgUrl" class="img-fluid rounded-circle profile-img mb-3" alt="Ảnh đại diện">
                     <h4>@Model.UserFullName</h4>
                     <p class="text-muted">Tên đăng nhập: @User.Identity.Name</p>
                 </div>
@@ -23,7 +23,7 @@
         </div>
 
         <!-- Nội dung chính của hồ sơ -->
-        <div class="col-md-9">
+        <div class="col-md-7 offset-md-1">
             <div class="card">
                 <div class="card-header">
                     <h5>Cập nhật hồ sơ</h5>
@@ -32,15 +32,15 @@
                     <form asp-action="Profile" method="post" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="UserFullName">Tên đầy đủ</label>
-                            <input type="text" class="form-control" id="UserFullName" name="UserFullName" value="@Model.UserFullName" />
+                            <input type="text" class="form-control form-control-sm" id="UserFullName" name="UserFullName" value="@Model.UserFullName" />
                         </div>
                         <div class="form-group">
                             <label for="Email">Email</label>
-                            <input type="email" class="form-control" id="Email" name="Email" value="@Model.Email" />
+                            <input type="email" class="form-control form-control-sm" id="Email" name="Email" value="@Model.Email" />
                         </div>
                         <div class="form-group">
                             <label for="PhoneNumber">Số điện thoại</label>
-                            <input type="text" class="form-control" id="PhoneNumber" name="PhoneNumber" value="@Model.PhoneNumber" />
+                            <input type="text" class="form-control form-control-sm" id="PhoneNumber" name="PhoneNumber" value="@Model.PhoneNumber" />
                         </div>
                         <div class="form-group">
                             <label for="ProfileImageFile">Ảnh đại diện mới</label>
@@ -55,11 +55,11 @@
                         <div id="passwordFields" style="display: none;">
                             <div class="form-group">
                                 <label for="Password">Mật khẩu mới</label>
-                                <input type="password" class="form-control" id="Password" name="Password" />
+                                <input type="password" class="form-control form-control-sm" id="Password" name="Password" />
                             </div>
                             <div class="form-group">
                                 <label for="ConfirmPassword">Xác nhận mật khẩu mới</label>
-                                <input type="password" class="form-control" id="ConfirmPassword" name="ConfirmPassword" />
+                                <input type="password" class="form-control form-control-sm" id="ConfirmPassword" name="ConfirmPassword" />
                             </div>
                         </div>
 

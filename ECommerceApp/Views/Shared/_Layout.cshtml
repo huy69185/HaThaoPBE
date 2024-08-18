@@ -23,19 +23,25 @@
                     @if (User.Identity.IsAuthenticated)
                     {
                         <li class="nav-item">
-                            <form asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="form-inline">
-                                <button type="submit" class="btn btn-link nav-link">Đăng Xuất</button>
-                            </form>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" asp-controller="Cart" asp-action="Index">
                                 <i class="fas fa-shopping-cart"></i> <!-- Biểu tượng giỏ hàng -->
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Account" asp-action="Profile">
-                                <i class="fas fa-user"></i> <!-- Biểu tượng người dùng -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                @{
+                                    var avatarUrl = User.Claims.FirstOrDefault(c => c.Type == "ImgUrl")?.Value ?? "/img/default-avatar.png";
+                                }
+                                <img src="@avatarUrl" alt="Avatar" class="rounded-circle" width="30" height="30"> @User.Identity.Name
                             </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="@Url.Action("Profile", "Account")">Hồ sơ</a>
+                                <a class="dropdown-item" href="@Url.Action("ViewOrder", "Order")">Xem đơn hàng</a>
+                                <div class="dropdown-divider"></div>
+                                <form asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" style="display:inline">
+                                    <button type="submit" class="dropdown-item">Đăng xuất</button>
+                                </form>
+                            </div>
                         </li>
                     }
                     else
