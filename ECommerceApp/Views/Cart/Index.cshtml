@@ -1,86 +1,117 @@
 ﻿@model List<ECommerceApp.Models.CartItem>
 
-@{
-    ViewData["Title"] = "Giỏ hàng của bạn";
-}
-
 <div class="container mt-5">
-    <div class="row mb-4">
-        <div class="col">
-            <button class="btn btn-secondary" onclick="history.back()">
-                <i class="fas fa-arrow-left"></i> Quay lại
-            </button>
-        </div>
-    </div>
-
-    <h2 class="text-center text-uppercase font-weight-bold mb-4">GIỎ HÀNG CỦA BẠN</h2>
+    <h2 class="text-center text-uppercase font-weight-bold mb-4">Giỏ hàng của bạn</h2>
 
     @if (Model.Count == 0)
     {
         <div class="alert alert-warning text-center">
-            Giỏ hàng của bạn hiện đang trống. Hãy thêm sản phẩm vào giỏ hàng.
+            Giỏ hàng của bạn đang trống.
         </div>
     }
     else
     {
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">Tên sản phẩm</th>
-                        <th scope="col" style="width: 100px;">Số lượng</th>
-                        <th scope="col">Giá</th>
-                        <th scope="col">Tổng cộng</th>
-                        <th scope="col" style="width: 190px;">Hành động</th> <!-- Điều chỉnh chiều rộng -->
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
+        <form asp-controller="Checkout" asp-action="Index" method="get">
+            <div style="overflow-x: auto;">
+                <table class="table table-bordered table-hover" style="width: 100%; text-align: center;">
+                    <thead class="thead-dark">
                         <tr>
-                            <td>@item.Product.Name</td>
-                            <td>
-                                <input type="number" name="quantity" value="@item.Quantity" min="1" class="form-control" style="width: 60px;" />
-                            </td>
-                            <td>@item.Product.Price.ToString("C", new System.Globalization.CultureInfo("vi-VN"))</td>
-                            <td>@((item.Product.Price * item.Quantity).ToString("C", new System.Globalization.CultureInfo("vi-VN")))</td>
-                            <td>
-                                <div class="d-flex justify-content-between">
-                                    <form asp-action="UpdateCart" method="post" class="d-inline-block">
-                                        <input type="hidden" name="id" value="@item.Product.Id" />
-                                        <input type="hidden" name="quantity" value="@item.Quantity" class="quantity-input" />
-                                        <button type="submit" class="btn btn-primary btn-sm">Cập nhật</button>
-                                    </form>
-                                    <form asp-action="RemoveFromCart" method="post" class="d-inline-block">
-                                        <input type="hidden" name="id" value="@item.Product.Id" />
-                                        <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
-                                    </form>
-                                </div>
-                            </td>
+                            <th style="width: 5%;">Chọn</th> <!-- Cột nhỏ hơn để chọn sản phẩm -->
+                            <th style="width: 30%;">Tên sản phẩm</th>
+                            <th style="width: 15%;">Số lượng</th>
+                            <th style="width: 15%;">Giá</th>
+                            <th style="width: 15%;">Tổng cộng</th>
+                            <th style="width: 20%;">Hành động</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td data-label="Chọn">
+                                    <input type="checkbox" name="SelectedProductIds" value="@item.Product.Id" />
+                                </td>
+                                <td data-label="Tên sản phẩm">@item.Product.Name</td>
+                                <td data-label="Số lượng">
+                                    <input type="number" name="quantity" value="@item.Quantity" min="1" class="form-control" style="width: 80px;" />
+                                </td>
+                                <td data-label="Giá">@item.Product.Price.ToString("C", new System.Globalization.CultureInfo("vi-VN"))</td>
+                                <td data-label="Tổng cộng">@((item.Product.Price * item.Quantity).ToString("C", new System.Globalization.CultureInfo("vi-VN")))</td>
+                                <td data-label="Hành động">
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <form asp-action="UpdateCart" method="post" style="display: inline-block;">
+                                            <input type="hidden" name="id" value="@item.Product.Id" />
+                                            <input type="hidden" name="quantity" value="@item.Quantity" class="quantity-input" />
+                                            <button type="submit" class="btn btn-primary btn-sm">Cập nhật</button>
+                                        </form>
+                                        <form asp-action="RemoveFromCart" method="post" style="display: inline-block;">
+                                            <input type="hidden" name="id" value="@item.Product.Id" />
+                                            <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
 
-        <div class="row">
-            <div class="col-md-8">
-                <h3 class="text-right">Tổng cộng: @Model.Sum(item => item.Product.Price * item.Quantity).ToString("C", new System.Globalization.CultureInfo("vi-VN"))</h3>
+            <div class="row">
+                <div class="col-md-8">
+                    <h3 class="text-right">Tổng cộng: @Model.Sum(item => item.Product.Price * item.Quantity).ToString("C", new System.Globalization.CultureInfo("vi-VN"))</h3>
+                </div>
+                <div class="col-md-4 text-right">
+                    <button type="submit" class="btn btn-success btn-lg">Tiến hành thanh toán</button>
+                </div>
             </div>
-            <div class="col-md-4 text-right">
-                <a class="btn btn-success btn-lg" asp-controller="Checkout" asp-action="Index">Thanh toán</a>
-            </div>
-        </div>
+        </form>
     }
 </div>
 
-@section Scripts {
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('input[name="quantity"]').on('change', function () {
-                $(this).closest('tr').find('input.quantity-input').val($(this).val());
-            });
-        });
-    </script>
-}
+<style>
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    .table th, .table td {
+        vertical-align: middle;
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    @@media (max-width: 768px) {
+        .table thead {
+            display: none;
+        }
+
+        .table, .table tbody, .table tr, .table td {
+            display: block;
+            width: 100%;
+        }
+
+        .table tr {
+            margin-bottom: 15px;
+        }
+
+        .table td {
+            text-align: right;
+            padding-left: 50%;
+            position: relative;
+        }
+
+        .table td:before {
+            content: attr(data-label);
+            position: absolute;
+            left: 0;
+            width: 50%;
+            padding-left: 15px;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        .btn-sm {
+            font-size: 14px;
+            padding: 5px 10px;
+        }
+    }
+</style>
