@@ -1,7 +1,7 @@
 ﻿@model ECommerceApp.Models.LoginViewModel
 
 @{
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = "Đăng nhập";
 }
 
 <div class="container d-flex align-items-center justify-content-center min-vh-100">
@@ -20,12 +20,12 @@
             </div>
             <div class="form-group form-check">
                 <input asp-for="RememberMe" class="form-check-input" />
-                <label asp-for="RememberMe" class="form-check-label">Ghi nhớ tôi ?</label>
+                <label asp-for="RememberMe" class="form-check-label">Ghi nhớ tôi</label>
             </div>
             <button type="submit" class="btn btn-primary btn-block">Đăng nhập</button>
         </form>
         <div class="text-center mt-3">
-            <p>Chưa có tài khoản ? <a asp-controller="Account" asp-action="Register">Đăng kí tại đây</a></p>
+            <p>Chưa có tài khoản <a asp-controller="Account" asp-action="Register">Đăng kí tại đây</a></p>
         </div>
     </div>
 </div>

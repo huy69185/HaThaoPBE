@@ -1,18 +1,14 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\nguye\\Desktop\\WED1\\HaThaoPBE\\",
+  "WorkspaceRootPath": "C:\\Users\\huyh6\\OneDrive\\Desktop\\HaThaoPBE\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{476164F8-D36B-4C20-8C90-1F599EB9EBA3}|ECommerceApp\\ECommerceApp.csproj|c:\\users\\nguye\\desktop\\wed1\\hathaopbe\\ecommerceapp\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{476164F8-D36B-4C20-8C90-1F599EB9EBA3}|ECommerceApp\\ECommerceApp.csproj|solutionrelative:ecommerceapp\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{476164F8-D36B-4C20-8C90-1F599EB9EBA3}|ECommerceApp\\ECommerceApp.csproj|c:\\users\\huyh6\\onedrive\\desktop\\hathaopbe\\ecommerceapp\\views\\cart\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{476164F8-D36B-4C20-8C90-1F599EB9EBA3}|ECommerceApp\\ECommerceApp.csproj|solutionrelative:ecommerceapp\\views\\cart\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{476164F8-D36B-4C20-8C90-1F599EB9EBA3}|ECommerceApp\\ECommerceApp.csproj|C:\\Users\\nguye\\Desktop\\WED1\\HaThaoPBE\\ecommerceapp\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{476164F8-D36B-4C20-8C90-1F599EB9EBA3}|ECommerceApp\\ECommerceApp.csproj|solutionrelative:ecommerceapp\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{476164F8-D36B-4C20-8C90-1F599EB9EBA3}|ECommerceApp\\ECommerceApp.csproj|C:\\Users\\nguye\\Desktop\\WED1\\HaThaoPBE\\ecommerceapp\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{476164F8-D36B-4C20-8C90-1F599EB9EBA3}|ECommerceApp\\ECommerceApp.csproj|solutionrelative:ecommerceapp\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+      "AbsoluteMoniker": "D:0:0:{476164F8-D36B-4C20-8C90-1F599EB9EBA3}|ECommerceApp\\ECommerceApp.csproj|c:\\users\\huyh6\\onedrive\\desktop\\hathaopbe\\ecommerceapp\\controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{476164F8-D36B-4C20-8C90-1F599EB9EBA3}|ECommerceApp\\ECommerceApp.csproj|solutionrelative:ecommerceapp\\controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,19 +18,31 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 9,
           "Children": [
             {
               "$type": "Bookmark",
-              "Name": "ST:130:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+              "Name": "ST:1152525177:0:{bf84ea66-d821-4dba-b1b1-2777d8574775}"
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+              "Name": "ST:409874556:0:{bf84ea66-d821-4dba-b1b1-2777d8574775}"
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:376157153:0:{bf84ea66-d821-4dba-b1b1-2777d8574775}"
+              "Name": "ST:1310433027:0:{bf84ea66-d821-4dba-b1b1-2777d8574775}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:466834590:0:{bf84ea66-d821-4dba-b1b1-2777d8574775}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:17133762:0:{bf84ea66-d821-4dba-b1b1-2777d8574775}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1373187659:0:{bf84ea66-d821-4dba-b1b1-2777d8574775}"
             },
             {
               "$type": "Bookmark",
@@ -42,47 +50,36 @@
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:2:0:{fabf9319-47eb-497e-b8f6-d9f73fba5f55}"
+              "Name": "ST:1532252944:0:{bf84ea66-d821-4dba-b1b1-2777d8574775}"
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:1310433027:0:{bf84ea66-d821-4dba-b1b1-2777d8574775}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "site.css",
-              "DocumentMoniker": "C:\\Users\\nguye\\Desktop\\WED1\\HaThaoPBE\\ECommerceApp\\wwwroot\\css\\site.css",
-              "RelativeDocumentMoniker": "ECommerceApp\\wwwroot\\css\\site.css",
-              "ToolTip": "C:\\Users\\nguye\\Desktop\\WED1\\HaThaoPBE\\ECommerceApp\\wwwroot\\css\\site.css",
-              "RelativeToolTip": "ECommerceApp\\wwwroot\\css\\site.css",
-              "ViewState": "AQIAAOMAAAAAAAAAAADwvwsBAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2024-08-19T04:34:36.991Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "HomeController.cs",
-              "DocumentMoniker": "C:\\Users\\nguye\\Desktop\\WED1\\HaThaoPBE\\ECommerceApp\\Controllers\\HomeController.cs",
-              "RelativeDocumentMoniker": "ECommerceApp\\Controllers\\HomeController.cs",
-              "ToolTip": "C:\\Users\\nguye\\Desktop\\WED1\\HaThaoPBE\\ECommerceApp\\Controllers\\HomeController.cs",
-              "RelativeToolTip": "ECommerceApp\\Controllers\\HomeController.cs",
-              "ViewState": "AQIAAE0AAAAAAAAAAAAgwHQAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-19T04:28:46.348Z"
+              "Name": "ST:1673986702:0:{bf84ea66-d821-4dba-b1b1-2777d8574775}"
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\nguye\\Desktop\\WED1\\HaThaoPBE\\ECommerceApp\\Views\\Home\\Index.cshtml",
-              "RelativeDocumentMoniker": "ECommerceApp\\Views\\Home\\Index.cshtml",
-              "ToolTip": "C:\\Users\\nguye\\Desktop\\WED1\\HaThaoPBE\\ECommerceApp\\Views\\Home\\Index.cshtml",
-              "RelativeToolTip": "ECommerceApp\\Views\\Home\\Index.cshtml",
-              "ViewState": "AQIAAB0AAAAAAAAAAAAAACcAAAAUAAAA",
+              "DocumentMoniker": "C:\\Users\\huyh6\\OneDrive\\Desktop\\HaThaoPBE\\ECommerceApp\\Views\\Cart\\Index.cshtml",
+              "RelativeDocumentMoniker": "ECommerceApp\\Views\\Cart\\Index.cshtml",
+              "ToolTip": "C:\\Users\\huyh6\\OneDrive\\Desktop\\HaThaoPBE\\ECommerceApp\\Views\\Cart\\Index.cshtml",
+              "RelativeToolTip": "ECommerceApp\\Views\\Cart\\Index.cshtml",
+              "ViewState": "AQIAABAAAAAAAAAAAAAAwCYAAABVAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-08-19T04:22:39.267Z",
+              "WhenOpened": "2024-08-19T11:17:31.83Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CartController.cs",
+              "DocumentMoniker": "C:\\Users\\huyh6\\OneDrive\\Desktop\\HaThaoPBE\\ECommerceApp\\Controllers\\CartController.cs",
+              "RelativeDocumentMoniker": "ECommerceApp\\Controllers\\CartController.cs",
+              "ToolTip": "C:\\Users\\huyh6\\OneDrive\\Desktop\\HaThaoPBE\\ECommerceApp\\Controllers\\CartController.cs",
+              "RelativeToolTip": "ECommerceApp\\Controllers\\CartController.cs",
+              "ViewState": "AQIAAD4AAAAAAAAAAADwv5gAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-19T11:17:25.971Z",
               "EditorCaption": ""
             }
           ]
