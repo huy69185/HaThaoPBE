@@ -25,12 +25,14 @@ namespace ECommerceApp.Data
                     // Thêm dữ liệu mẫu cho sản phẩm xà phòng và bột giặt
                     var products = new Product[]
                     {
-                        new Product { Name = "Xà Phòng Lifebuoy", Description = "Xà phòng diệt khuẩn Lifebuoy", Price = 15000.00M, ImageUrl = "/assets/soap1.jpg", Rating = 5, Quantity = 100 },
-                        new Product { Name = "Bột Giặt Omo", Description = "Bột giặt Omo tẩy sạch vết bẩn", Price = 20000.00M, ImageUrl = "/assets/detergent1.jpg", Rating = 4, Quantity = 150 },
-                        new Product { Name = "Nước Giặt Ariel", Description = "Nước giặt Ariel thơm mát", Price = 25000.00M, ImageUrl = "/assets/detergent2.jpg", Rating = 4, Quantity = 200 },
-                        new Product { Name = "Xà Phòng Coast", Description = "Xà phòng Coast hương biển", Price = 12000.00M, ImageUrl = "/assets/soap2.jpg", Rating = 5, Quantity = 120 },
-                        new Product { Name = "Bột Giặt Tide", Description = "Bột giặt Tide trắng sáng", Price = 22000.00M, ImageUrl = "/assets/detergent3.jpg", Rating = 4, Quantity = 80 }
-                    };
+                        
+                        new Product { Name = "Xà Phòng Lifebuoy", Description = "Xà phòng diệt khuẩn Lifebuoy", Price = 15000.00M, ImageUrl = "/assets/soap1.jpg", Rating = 5, Quantity = 100, Category = "Soap" },
+                        new Product { Name = "Bột Giặt Omo", Description = "Bột giặt Omo tẩy sạch vết bẩn", Price = 20000.00M, ImageUrl = "/assets/detergent1.jpg", Rating = 4, Quantity = 150, Category = "Detergent" },
+                        new Product { Name = "Nước Giặt Ariel", Description = "Nước giặt Ariel thơm mát", Price = 25000.00M, ImageUrl = "/assets/detergent2.jpg", Rating = 4, Quantity = 200, Category = "Detergent" },
+                        new Product { Name = "Xà Phòng Coast", Description = "Xà phòng Coast hương biển", Price = 12000.00M, ImageUrl = "/assets/soap2.jpg", Rating = 5, Quantity = 120, Category = "Soap" },
+                        new Product { Name = "Bột Giặt Tide", Description = "Bột giặt Tide trắng sáng", Price = 22000.00M, ImageUrl = "/assets/detergent3.jpg", Rating = 4, Quantity = 80, Category = "Detergent" }
+                    
+                };
 
                     foreach (var p in products)
                     {
