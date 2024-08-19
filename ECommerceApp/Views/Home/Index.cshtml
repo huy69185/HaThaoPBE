@@ -38,7 +38,7 @@
                         <input type="number" class="form-control" name="maxPrice" id="maxPrice" placeholder="Giá cao nhất" value="@ViewData["CurrentMaxPrice"] ?? 10000000" min="0" max="10000000">
                     </div>
                     
-                    <p id="priceRangeValue" class="text-center text-danger">@String.Format("{0:N0}", ViewData["CurrentMinPrice"] ?? 0) đ - @String.Format("{0:N0}", ViewData["CurrentMaxPrice"] ?? 10000000) đ</p>
+                    <p id="priceRangeValue" class="text-center text-danger">Khoảng giá trị: @String.Format("{0:N0}", ViewData["CurrentMinPrice"] ?? 0) đ - @String.Format("{0:N0}", ViewData["CurrentMaxPrice"] ?? 10000000) đ</p>
                 </div>
 
                 <!-- Nút tìm kiếm -->
