@@ -5,20 +5,51 @@
 }
 
 <div class="container">
-
     <div class="row">
-
         <div class="col-lg-3">
-            <h1 class="my-4">Sản Phẩm Xà Phòng và Bột Giặt</h1>
-            <div class="list-group">
-                <a asp-action="Index" asp-route-searchTerm="Xà Phòng" class="list-group-item">Xà Phòng</a>
-                <a asp-action="Index" asp-route-searchTerm="Bột Giặt" class="list-group-item">Bột Giặt</a>
-                <a asp-action="Index" class="list-group-item">Toàn bộ sản phẩm</a>
-            </div>
+            <h1 class="my-4">Bộ Lọc Sản Phẩm</h1>
+
+            <!-- Tạo form bao quanh các bộ lọc -->
+            <form method="get" action="@Url.Action("Index", "Home")">
+                <!-- Ô tìm kiếm -->
+                <div class="filter-section">
+                    <input type="text" name="searchTerm" placeholder="Tìm kiếm sản phẩm..." class="form-control mb-2" value="@ViewData["CurrentSearch"]">
+                </div>
+
+                <!-- Danh Mục -->
+                <div class="list-group">
+                    <h4 class="filter-title">Danh Mục</h4>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="category1" name="filterCategory" value="Soap" @(ViewData["CurrentCategory"] as string[] != null && (ViewData["CurrentCategory"] as string[]).Contains("Soap") ? "checked" : "")>
+                        <label class="form-check-label" for="category1">Xà Phòng</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="category2" name="filterCategory" value="Detergent" @(ViewData["CurrentCategory"] as string[] != null && (ViewData["CurrentCategory"] as string[]).Contains("Detergent") ? "checked" : "")>
+                        <label class="form-check-label" for="category2">Bột Giặt</label>
+                    </div>
+                    <!-- Thêm các danh mục khác nếu cần -->
+                </div>
+
+                <!-- Khoảng Giá -->
+                <div class="filter-section">
+                    <h4 class="filter-title">Khoảng Giá</h4>
+                    <div class="d-flex justify-content-between mb-2">
+                        <input type="number" class="form-control mr-2" name="minPrice" id="minPrice" placeholder="Giá thấp nhất" value="@ViewData["CurrentMinPrice"] ?? 0" min="0" max="10000000">
+                        <input type="number" class="form-control" name="maxPrice" id="maxPrice" placeholder="Giá cao nhất" value="@ViewData["CurrentMaxPrice"] ?? 10000000" min="0" max="10000000">
+                    </div>
+                    
+                    <p id="priceRangeValue" class="text-center text-danger">@String.Format("{0:N0}", ViewData["CurrentMinPrice"] ?? 0) đ - @String.Format("{0:N0}", ViewData["CurrentMaxPrice"] ?? 10000000) đ</p>
+                </div>
+
+                <!-- Nút tìm kiếm -->
+                <div class="filter-section text-center">
+                    <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                </div>
+            </form>
         </div>
 
+        <!-- Phần hiển thị sản phẩm -->
         <div class="col-lg-9">
-
             <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
                 <ol class="carousel-indicators">
                     <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -81,12 +112,45 @@
                 }
             </div>
             <!-- /.row -->
-
         </div>
         <!-- /.col-lg-9 -->
-
     </div>
     <!-- /.row -->
-
 </div>
 <!-- /.container -->
+<!-- JavaScript để cập nhật khoảng giá -->
+<script>
+    document.getElementById('minPrice').addEventListener('input', function () {
+        updatePriceRange();
+    });
+
+    document.getElementById('maxPrice').addEventListener('input', function () {
+        updatePriceRange();
+    });
+
+    document.getElementById('priceRange').addEventListener('input', function (e) {
+        updateRange(e.target.value);
+    });
+
+    function updateRange(value) {
+        const minPrice = parseInt(document.getElementById('minPrice').value) || 0;
+        const maxPrice = parseInt(value);
+        const maxRange = 10000000;
+        const percentage = (maxPrice / maxRange) * 100;
+        document.getElementById('priceRange').style.background = `linear-gradient(to right, #007bff 0%, #007bff ${percentage}%, #ccc ${percentage}%, #ccc 100%)`;
+
+        document.getElementById('maxPrice').value = maxPrice;
+        updatePriceRange();
+    }
+
+    function updatePriceRange() {
+        let minValue = parseInt(document.getElementById('minPrice').value) || 0;
+        let maxValue = parseInt(document.getElementById('maxPrice').value) || 10000000;
+
+        document.getElementById('priceRange').value = maxValue;
+        const percentage = (maxValue / 10000000) * 100;
+        document.getElementById('priceRange').style.background = `linear-gradient(to right, #007bff 0%, #007bff ${percentage}%, #ccc ${percentage}%, #ccc 100%)`;
+
+        document.getElementById('priceRangeValue').textContent = `${minValue.toLocaleString('vi-VN')} đ - ${maxValue.toLocaleString('vi-VN')} đ`;
+    }
+</script>

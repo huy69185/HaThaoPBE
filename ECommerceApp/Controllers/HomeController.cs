@@ -48,18 +48,72 @@ namespace ECommerceApp.Controllers
 
             return View(product);
         }
-        public async Task<IActionResult> Index(String searchTerm)
+        //public async Task<IActionResult> Index(String searchTerm)
+        //{
+        //    var products = from p in _context.Products select p;
+        //    if (!string.IsNullOrEmpty(searchTerm))
+        //    {
+        //        // Tính năng duyệt theo tên sản phẩm chỗ nào có tên thì hiện ra
+        //        var searchTermLower = searchTerm.ToLower();
+        //        products = products.Where(p => p.Name.ToLower().Contains(searchTermLower));
+        //    }
+        //    return View(products);
+        //}
+
+        public async Task<IActionResult> Index(string searchTerm, string sortOrder, string[] filterCategory, int minPrice = 0, int maxPrice = 10000000)
         {
             var products = from p in _context.Products select p;
+
+            // Tìm kiếm theo tên sản phẩm
             if (!string.IsNullOrEmpty(searchTerm))
             {
-                // Tính năng duyệt theo tên sản phẩm chỗ nào có tên thì hiện ra
-                var searchTermLower = searchTerm.ToLower();
-                products = products.Where(p => p.Name.ToLower().Contains(searchTermLower));
+                products = products.Where(p => p.Name.ToLower().Contains(searchTerm.ToLower()));
             }
-            return View(products);
+
+            // Lọc theo Category
+            if (filterCategory != null && filterCategory.Length > 0)
+            {
+                products = products.Where(p => filterCategory.Contains(p.Category));
+            }
+
+            // Lọc theo khoảng giá
+            products = products.Where(p => p.Price >= minPrice && p.Price <= maxPrice);
+
+            // Sắp xếp
+            switch (sortOrder)
+            {
+                case "name_asc":
+                    products = products.OrderBy(p => p.Name);
+                    break;
+                case "name_desc":
+                    products = products.OrderByDescending(p => p.Name);
+                    break;
+                case "price_asc":
+                    products = products.OrderBy(p => p.Price);
+                    break;
+                case "price_desc":
+                    products = products.OrderByDescending(p => p.Price);
+                    break;
+                case "rating_asc":
+                    products = products.OrderBy(p => p.Rating);
+                    break;
+                case "rating_desc":
+                    products = products.OrderByDescending(p => p.Rating);
+                    break;
+                default:
+                    products = products.OrderBy(p => p.Name);
+                    break;
+            }
+
+            // Lưu lại các giá trị filter hiện tại để hiển thị lại trên View
+            ViewData["CurrentSearch"] = searchTerm;
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["CurrentCategory"] = filterCategory;
+            ViewData["CurrentMinPrice"] = minPrice;
+            ViewData["CurrentMaxPrice"] = maxPrice;
+
+            return View(await products.ToListAsync());
         }
 
-   
     }
 }
