@@ -19,11 +19,10 @@
                     <thead class="thead-dark">
                         <tr>
                             <th style="width: 5%;">Chọn</th> <!-- Cột nhỏ hơn để chọn sản phẩm -->
-                            <th style="width: 30%;">Tên sản phẩm</th>
-                            <th style="width: 15%;">Số lượng</th>
+                            <th style="width: 50%;">Tên sản phẩm</th>
                             <th style="width: 15%;">Giá</th>
+                            <th style="width: 15%;">Số lượng</th>
                             <th style="width: 15%;">Tổng cộng</th>
-                            <th style="width: 20%;">Hành động</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -33,25 +32,24 @@
                                 <td data-label="Chọn">
                                     <input type="checkbox" name="SelectedProductIds" value="@item.Product.Id" />
                                 </td>
-                                <td data-label="Tên sản phẩm">@item.Product.Name</td>
-                                <td data-label="Số lượng">
-                                    <input type="number" name="quantity" value="@item.Quantity" min="1" class="form-control" style="width: 80px;" />
-                                </td>
-                                <td data-label="Giá">@item.Product.Price.ToString("C", new System.Globalization.CultureInfo("vi-VN"))</td>
-                                <td data-label="Tổng cộng">@((item.Product.Price * item.Quantity).ToString("C", new System.Globalization.CultureInfo("vi-VN")))</td>
-                                <td data-label="Hành động">
-                                    <div style="display: flex; justify-content: space-between;">
-                                        <form asp-action="UpdateCart" method="post" style="display: inline-block;">
-                                            <input type="hidden" name="id" value="@item.Product.Id" />
-                                            <input type="hidden" name="quantity" value="@item.Quantity" class="quantity-input" />
-                                            <button type="submit" class="btn btn-primary btn-sm">Cập nhật</button>
-                                        </form>
-                                        <form asp-action="RemoveFromCart" method="post" style="display: inline-block;">
-                                            <input type="hidden" name="id" value="@item.Product.Id" />
-                                            <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
-                                        </form>
+                                <td data-label="Tên sản phẩm">
+                                    <div style="display: flex; align-items: center;">
+                                        <img src="@item.Product.ImageUrl" alt="@item.Product.Name" style="width: 50px; height: 50px; margin-right: 15px;" />
+                                        <div>
+                                            <strong>@item.Product.Name</strong><br />
+                                        </div>
                                     </div>
                                 </td>
+                                <td data-label="Giá">@item.Product.Price.ToString("C", new System.Globalization.CultureInfo("vi-VN"))</td>
+                                <td data-label="Số lượng" style="display: flex; align-items: center; justify-content: center;">
+                                    <input type="number" name="quantity" value="@item.Quantity" min="1" class="form-control quantity-input" data-id="@item.Product.Id" style="width: 80px; margin-right: 10px;" />
+                                    <button type="submit" class="btn btn-secondary btn-sm" title="Cập nhật"><i class="fas fa-sync-alt"></i></button>
+                                    <form asp-action="RemoveFromCart" method="post" style="display: inline-block; margin-left: 5px;">
+                                        <input type="hidden" name="id" value="@item.Product.Id" />
+                                        <button type="submit" class="btn btn-danger btn-sm" title="Xóa"><i class="fas fa-trash-alt"></i></button>
+                                    </form>
+                                </td>
+                                <td data-label="Tổng cộng" class="total-price">@((item.Product.Price * item.Quantity).ToString("C", new System.Globalization.CultureInfo("vi-VN")))</td>
                             </tr>
                         }
                     </tbody>
@@ -60,7 +58,7 @@
 
             <div class="row">
                 <div class="col-md-8">
-                    <h3 class="text-right">Tổng cộng: @Model.Sum(item => item.Product.Price * item.Quantity).ToString("C", new System.Globalization.CultureInfo("vi-VN"))</h3>
+                    <h3 class="text-right">Tổng cộng: <span id="grand-total">@Model.Sum(item => item.Product.Price * item.Quantity).ToString("C", new System.Globalization.CultureInfo("vi-VN"))</span></h3>
                 </div>
                 <div class="col-md-4 text-right">
                     <button type="submit" class="btn btn-success btn-lg">Tiến hành thanh toán</button>
@@ -69,6 +67,44 @@
         </form>
     }
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.quantity-input').on('input', function () {
+            var id = $(this).data('id');
+            var quantity = $(this).val();
+
+            if (quantity <= 0) {
+                alert('Số lượng không hợp lệ.');
+                return;
+            }
+
+            $.ajax({
+                url: '@Url.Action("UpdateCart", "Cart")',
+                type: 'POST',
+                data: { id: id, quantity: quantity },
+                success: function (response) {
+                    // Cập nhật lại tổng giá của sản phẩm
+                    var price = parseFloat($(this).closest('tr').find('td[data-label="Giá"]').text().replace(/\./g, '').replace(' đ', ''));
+                    var totalPrice = price * quantity;
+                    $(this).closest('tr').find('.total-price').text(totalPrice.toLocaleString('vi-VN') + ' đ');
+
+                    // Cập nhật lại tổng cộng của toàn bộ giỏ hàng
+                    var grandTotal = 0;
+                    $('.total-price').each(function () {
+                        grandTotal += parseFloat($(this).text().replace(/\./g, '').replace(' đ', ''));
+                    });
+                    $('#grand-total').text(grandTotal.toLocaleString('vi-VN') + ' đ');
+                }.bind(this),
+                error: function () {
+                    alert('Cập nhật giỏ hàng thất bại.');
+                }
+            });
+        });
+    });
+
+</script>
 
 <style>
     .table-responsive {
@@ -91,25 +127,25 @@
             width: 100%;
         }
 
-        .table tr {
-            margin-bottom: 15px;
-        }
+            .table tr {
+                margin-bottom: 15px;
+            }
 
-        .table td {
-            text-align: right;
-            padding-left: 50%;
-            position: relative;
-        }
+            .table td {
+                text-align: right;
+                padding-left: 50%;
+                position: relative;
+            }
 
-        .table td:before {
-            content: attr(data-label);
-            position: absolute;
-            left: 0;
-            width: 50%;
-            padding-left: 15px;
-            font-weight: bold;
-            text-align: left;
-        }
+                .table td:before {
+                    content: attr(data-label);
+                    position: absolute;
+                    left: 0;
+                    width: 50%;
+                    padding-left: 15px;
+                    font-weight: bold;
+                    text-align: left;
+                }
 
         .btn-sm {
             font-size: 14px;
