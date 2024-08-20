@@ -8,6 +8,10 @@ using ECommerceApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Linq;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.WebUtilities;
+using System.Text.Encodings.Web;
+using System.Text;
 
 namespace ECommerceApp.Controllers
 {
@@ -19,13 +23,15 @@ namespace ECommerceApp.Controllers
         private readonly ApplicationDbContext _context;
         private readonly ILogger<AccountController> _logger;
         private readonly IWebHostEnvironment _hostingEnvironment;
+        private readonly IEmailSender _emailSender;
 
         public AccountController(UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
             RoleManager<IdentityRole> roleManager,
             ApplicationDbContext context,
             ILogger<AccountController> logger,
-            IWebHostEnvironment hostingEnvironment)
+            IWebHostEnvironment hostingEnvironment,
+            IEmailSender emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -33,6 +39,7 @@ namespace ECommerceApp.Controllers
             _context = context;
             _logger = logger;
             _hostingEnvironment = hostingEnvironment;
+            _emailSender = emailSender;
         }
 
         [HttpGet]
@@ -46,30 +53,57 @@ namespace ECommerceApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = model.Email, Email = model.Email };
-                var result = await _userManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                try
                 {
-                    var roleResult = await _userManager.AddToRoleAsync(user, "Customer");
-                    if (!roleResult.Succeeded)
+                    // Tạo người dùng mới nhưng không xác nhận email
+                    var user = new IdentityUser { UserName = model.Email, Email = model.Email };
+                    var result = await _userManager.CreateAsync(user, model.Password);
+
+                    if (result.Succeeded)
                     {
-                        foreach (var error in roleResult.Errors)
+                        // Tạo mã xác nhận 6 ký tự
+                        var verificationCode = GenerateVerificationCode(6);
+                        var timeCreated = DateTime.UtcNow;
+
+                        // Lưu mã xác nhận và thời gian tạo mã vào Claims của người dùng
+                        await _userManager.AddClaimAsync(user, new Claim("VerificationCode", verificationCode));
+                        await _userManager.AddClaimAsync(user, new Claim("TimeCreated", timeCreated.ToString("o")));
+
+                        // Gửi mã xác nhận qua email
+                        await _emailSender.SendEmailAsync(
+                            model.Email,
+                            "Email Verification Code",
+                            $"Your verification code is {verificationCode}. This code is valid for 60 seconds.");
+
+                        return RedirectToAction("VerifyEmail", "Mail", new { email = user.Email });
+                    }
+                    else
+                    {
+                        foreach (var error in result.Errors)
                         {
                             ModelState.AddModelError("", error.Description);
                         }
-                        return View(model);
                     }
-
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("Index", "Home");
                 }
-                foreach (var error in result.Errors)
+                catch (Exception ex)
                 {
-                    ModelState.AddModelError("", error.Description);
+                    ModelState.AddModelError("", "An unexpected error occurred. Please try again later.");
                 }
             }
+
             return View(model);
         }
+
+
+        private string GenerateVerificationCode(int length)
+        {
+            var random = new Random();
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
+
 
         [HttpGet]
         public IActionResult Login()

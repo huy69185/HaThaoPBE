@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using ECommerceApp.Data;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace ECommerceApp
 {
@@ -33,6 +34,9 @@ namespace ECommerceApp
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
+
+            // Thêm dịch vụ cho IEmailSender
+            builder.Services.AddTransient<IEmailSender, EmailSender>();
 
             var app = builder.Build();
 
