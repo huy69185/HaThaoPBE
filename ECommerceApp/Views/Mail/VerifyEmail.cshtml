@@ -1,0 +1,66 @@
+﻿@model ECommerceApp.Models.VerifyEmailViewModel
+
+@{
+    ViewData["Title"] = "Xác thực Email";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4">@ViewData["Title"]</h2>
+
+                    @if (ViewData.ModelState["Code"] != null)
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            @Html.ValidationMessage("Code", "", new { @class = "text-danger" })
+                        </div>
+                    }
+
+                    <form asp-action="VerifyEmail" method="post">
+                        <div class="form-group">
+                            <label asp-for="Code" class="control-label">Mã xác thực</label>
+                            <input asp-for="Code" class="form-control" placeholder="Nhập mã xác thực vào" />
+                            <span asp-validation-for="Code" class="text-danger"></span>
+                        </div>
+                        <input type="hidden" asp-for="Email" />
+                        <button type="submit" class="btn btn-primary btn-block">Xác thực</button>
+                    </form>
+
+                    <div class="text-center mt-4">
+                        <p id="expiryMessage" style="display: none;">Mã xác thực đã hết hiệu lực. Vui lòng ấn vào để lấy mã mới</p>
+                        <form asp-action="ResendVerificationCode" method="post">
+                            <input type="hidden" asp-for="Email" />
+                            <button type="submit" id="resendBtn" class="btn btn-secondary" disabled>Gửi lại mã xác thực (60s)</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var resendBtn = document.getElementById("resendBtn");
+            var expiryMessage = document.getElementById("expiryMessage");
+            var countdown = 60;
+
+            // Hiển thị ngay bộ đếm khi trang được tải
+            resendBtn.textContent = "Gửi lại mã xác thực (" + countdown + "s)";
+
+            var countdownInterval = setInterval(function () {
+                countdown--;
+                resendBtn.textContent = "Gửi lại mã xác thực (" + countdown + "s)";
+                if (countdown <= 0) {
+                    clearInterval(countdownInterval);
+                    resendBtn.textContent = "Gửi lại mã xác thực";
+                    resendBtn.disabled = false;
+                    expiryMessage.style.display = "block"; // Hiển thị thông báo hết hiệu lực
+                }
+            }, 1000);
+        });
+    </script>
+}
