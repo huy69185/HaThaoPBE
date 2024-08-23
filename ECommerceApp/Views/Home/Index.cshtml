@@ -2,55 +2,46 @@
 
 @{
     ViewData["Title"] = "Trang Chủ";
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Sử dụng Layout chính với thanh điều hướng
 }
 
-<div class="container">
+<div class="container mt-5">
     <div class="row">
-        <div class="col-lg-3">
-            <h1 class="my-4">Bộ Lọc Sản Phẩm</h1>
-
-            <!-- Tạo form bao quanh các bộ lọc -->
-            <form method="get" action="@Url.Action("Index", "Home")">
-                <!-- Ô tìm kiếm -->
-                <div class="filter-section">
-                    <input type="text" name="searchTerm" placeholder="Tìm kiếm sản phẩm..." class="form-control mb-2" value="@ViewData["CurrentSearch"]">
+        <div class="col-lg-3" style="margin-top: 20px;">
+            <h1 class="text-uppercase font-weight-bold text-primary text-center" style="font-size: 1.2rem; margin-bottom: 0;">Bộ Lọc Sản Phẩm</h1>
+            <form method="get" action="@Url.Action("Index", "Home")" class="p-4 bg-light rounded shadow" style="margin-top: 10px;">
+                <div class="filter-section mb-4">
+                    <input type="text" name="searchTerm" placeholder="Tìm kiếm sản phẩm..." class="form-control mb-2 border border-primary" value="@ViewData["CurrentSearch"]">
                 </div>
-
-                <!-- Danh Mục -->
-                <div class="list-group">
-                    <h4 class="filter-title">Danh Mục</h4>
+                <div class="list-group mb-4">
+                    <h4 class="filter-title text-uppercase font-weight-bold text-primary">Danh Mục</h4>
                     <div class="form-check">
                         <input type="checkbox" class="form-check-input" id="category1" name="filterCategory" value="Soap" @(ViewData["CurrentCategory"] as string[] != null && (ViewData["CurrentCategory"] as string[]).Contains("Soap") ? "checked" : "")>
-                        <label class="form-check-label" for="category1">Xà Phòng</label>
+                        <label class="form-check-label text-dark" for="category1">Xà Phòng</label>
                     </div>
                     <div class="form-check">
                         <input type="checkbox" class="form-check-input" id="category2" name="filterCategory" value="Detergent" @(ViewData["CurrentCategory"] as string[] != null && (ViewData["CurrentCategory"] as string[]).Contains("Detergent") ? "checked" : "")>
-                        <label class="form-check-label" for="category2">Bột Giặt</label>
+                        <label class="form-check-label text-dark" for="category2">Bột Giặt</label>
                     </div>
-                    <!-- Thêm các danh mục khác nếu cần -->
                 </div>
-
-                <!-- Khoảng Giá -->
-                <div class="filter-section">
-                    <h4 class="filter-title">Khoảng Giá</h4>
+                <div class="filter-section mb-4">
+                    <h4 class="filter-title text-uppercase font-weight-bold text-primary">Khoảng Giá</h4>
                     <div class="d-flex justify-content-between mb-2">
-                        <input type="number" class="form-control mr-2" name="minPrice" id="minPrice" placeholder="Giá thấp nhất" value="@ViewData["CurrentMinPrice"] ?? 0" min="0" max="10000000">
-                        <input type="number" class="form-control" name="maxPrice" id="maxPrice" placeholder="Giá cao nhất" value="@ViewData["CurrentMaxPrice"] ?? 10000000" min="0" max="10000000">
+                        <input type="number" class="form-control mr-2 border border-primary" name="minPrice" id="minPrice" placeholder="Giá thấp nhất" value="@ViewData["CurrentMinPrice"] ?? 0" min="0" max="10000000">
+                        <input type="number" class="form-control border border-primary" name="maxPrice" id="maxPrice" placeholder="Giá cao nhất" value="@ViewData["CurrentMaxPrice"] ?? 10000000" min="0" max="10000000">
                     </div>
-                    
-                    <p id="priceRangeValue" class="text-center text-danger">Khoảng giá trị: @String.Format("{0:N0}", ViewData["CurrentMinPrice"] ?? 0) đ - @String.Format("{0:N0}", ViewData["CurrentMaxPrice"] ?? 10000000) đ</p>
+                    <p id="priceRangeValue" class="text-center text-danger font-weight-bold">Khoảng giá trị: @String.Format("{0:N0}", ViewData["CurrentMinPrice"] ?? 0) đ - @String.Format("{0:N0}", ViewData["CurrentMaxPrice"] ?? 10000000) đ</p>
                 </div>
-
-                <!-- Nút tìm kiếm -->
                 <div class="filter-section text-center">
-                    <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                    <button type="submit" class="btn btn-primary btn-block text-uppercase font-weight-bold">Tìm kiếm</button>
                 </div>
             </form>
         </div>
 
-        <!-- Phần hiển thị sản phẩm -->
+
+
         <div class="col-lg-9">
-            <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
+            <div id="carouselExampleIndicators" class="carousel slide my-4 shadow rounded" data-ride="carousel">
                 <ol class="carousel-indicators">
                     <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
                     <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
@@ -58,13 +49,13 @@
                 </ol>
                 <div class="carousel-inner" role="listbox">
                     <div class="carousel-item active">
-                        <img class="d-block img-fluid" src="~/assets/soap_banner1.jpg" alt="First slide">
+                        <img class="d-block img-fluid rounded" src="~/assets/soap_banner1.jpg" alt="First slide">
                     </div>
                     <div class="carousel-item">
-                        <img class="d-block img-fluid" src="~/assets/detergent_banner1.jpg" alt="Second slide">
+                        <img class="d-block img-fluid rounded" src="~/assets/detergent_banner1.jpg" alt="Second slide">
                     </div>
                     <div class="carousel-item">
-                        <img class="d-block img-fluid" src="~/assets/soap_banner2.jpg" alt="Third slide">
+                        <img class="d-block img-fluid rounded" src="~/assets/soap_banner2.jpg" alt="Third slide">
                     </div>
                 </div>
                 <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -77,23 +68,23 @@
                 </a>
             </div>
 
-            <div class="row">
+            <div class="row" >
                 @foreach (var product in Model)
                 {
-                    <div class="col-lg-4 col-md-6 mb-4">
-                        <div class="card h-100">
-                            <a asp-controller="Home" asp-action="ProductDetails" asp-route-id="@product.Id">
-                                <img class="card-img-top" src="@product.ImageUrl" alt="@product.Name">
+                    <div class="col-lg-4 col-md-6 mb-4" style="border-radius: 10px; overflow: hidden;">
+                        <div class="card h-100 shadow-sm border-0 rounded-lg">
+                            <a asp-controller="Home" asp-action="ProductDetails" asp-route-id="@product.Id" style="display: flex; justify-content: center; align-items: center; height: 150px;">
+                                <img class="card-img-top img-fluid rounded-top" src="@product.ImageUrl" alt="@product.Name" style="max-width: 70%; max-height: 95%; margin: 0 auto;">
                             </a>
-                            <div class="card-body">
-                                <h4 class="card-title">
-                                    <a asp-controller="Home" asp-action="ProductDetails" asp-route-id="@product.Id">@product.Name</a>
+                            <div class="card-body text-center" style="height: 160px; white-space: normal;">
+                                <h4 class="card-title text-uppercase font-weight-bold text-dark" style="white-space: normal;">
+                                    <a asp-controller="Home" asp-action="ProductDetails" asp-route-id="@product.Id" class="text-dark">@product.Name</a>
                                 </h4>
-                                <h5>@product.Price.ToString("C0", new System.Globalization.CultureInfo("vi-VN"))</h5>
-                                <p class="card-text">@product.Description</p>
+                                <h5 class="text-danger font-weight-bold">@product.Price.ToString("C0", new System.Globalization.CultureInfo("vi-VN"))</h5>
+                                <p class="card-text text-muted" style="white-space: normal;">@product.Description</p>
                             </div>
-                            <div class="card-footer">
-                                <small class="text-muted">
+                            <div class="card-footer text-center bg-transparent">
+                                <small class="text-warning">
                                     @for (int i = 0; i < 5; i++)
                                     {
                                         if (i < product.Rating)
@@ -109,16 +100,14 @@
                             </div>
                         </div>
                     </div>
+
+
                 }
             </div>
-            <!-- /.row -->
         </div>
-        <!-- /.col-lg-9 -->
     </div>
-    <!-- /.row -->
 </div>
-<!-- /.container -->
-<!-- JavaScript để cập nhật khoảng giá -->
+
 <script>
     document.getElementById('minPrice').addEventListener('input', function () {
         updatePriceRange();
@@ -128,28 +117,9 @@
         updatePriceRange();
     });
 
-    document.getElementById('priceRange').addEventListener('input', function (e) {
-        updateRange(e.target.value);
-    });
-
-    function updateRange(value) {
-        const minPrice = parseInt(document.getElementById('minPrice').value) || 0;
-        const maxPrice = parseInt(value);
-        const maxRange = 10000000;
-        const percentage = (maxPrice / maxRange) * 100;
-        document.getElementById('priceRange').style.background = `linear-gradient(to right, #007bff 0%, #007bff ${percentage}%, #ccc ${percentage}%, #ccc 100%)`;
-
-        document.getElementById('maxPrice').value = maxPrice;
-        updatePriceRange();
-    }
-
     function updatePriceRange() {
         let minValue = parseInt(document.getElementById('minPrice').value) || 0;
         let maxValue = parseInt(document.getElementById('maxPrice').value) || 10000000;
-
-        document.getElementById('priceRange').value = maxValue;
-        const percentage = (maxValue / 10000000) * 100;
-        document.getElementById('priceRange').style.background = `linear-gradient(to right, #007bff 0%, #007bff ${percentage}%, #ccc ${percentage}%, #ccc 100%)`;
 
         document.getElementById('priceRangeValue').textContent = `${minValue.toLocaleString('vi-VN')} đ - ${maxValue.toLocaleString('vi-VN')} đ`;
     }

@@ -80,8 +80,9 @@ namespace ECommerceApp.Controllers
                 Address = viewModel.Address,
                 PaymentMethod = viewModel.PaymentMethod,
                 Status = "Chờ xác nhận",
-                PaymentStatus = "Đã thanh toán",
+                PaymentStatus = "Chưa thanh toán",
                 UserId = User.FindFirstValue(ClaimTypes.NameIdentifier),
+                OrderDate = DateTime.Now,
                 OrderItems = selectedItems.Select(item => new OrderItem
                 {
                     ProductId = item.Product.Id,

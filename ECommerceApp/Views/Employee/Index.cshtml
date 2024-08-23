@@ -4,25 +4,41 @@
     ViewData["Title"] = "Trang nhân viên";
 }
 
-<h1 class="mt-4 mb-4">Trang nhân viên</h1>
+<h1 class="mt-4 mb-4 text-center">Trang nhân viên</h1>
 
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">Danh sách đơn hàng</h6>
     </div>
     <div class="card-body">
+
+        <!-- Lọc trạng thái đơn hàng -->
+        <div class="mb-4">
+            <h5>Lọc theo trạng thái đơn hàng:</h5>
+            <label><input type="checkbox" class="filter-status" value="Chờ xác nhận"> Chờ xác nhận</label>
+            <label><input type="checkbox" class="filter-status" value="Đã xác nhận"> Đã xác nhận</label>
+            <label><input type="checkbox" class="filter-status" value="Đang giao"> Đang giao</label>
+            <label><input type="checkbox" class="filter-status" value="Đã giao"> Đã giao</label>
+            <label><input type="checkbox" class="filter-status" value="Bùng hàng"> Bùng hàng</label>
+        </div>
+        <!-- Lọc trạng thái thanh toán -->
+        <div class="mb-4">
+            <h5>Lọc theo trạng thái thanh toán:</h5>
+            <label><input type="checkbox" class="filter-payment-status" value="Chưa thanh toán"> Chưa thanh toán</label>
+            <label><input type="checkbox" class="filter-payment-status" value="Đã thanh toán"> Đã thanh toán</label>
+        </div>
+
         <div class="table-responsive">
             <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
                 <thead class="thead-dark">
                     <tr>
                         <th style="width: 5%;">Mã đơn hàng</th>
-                        <th>Người dùng</th> <!-- Thêm cột này -->
-                        <th>Tên người nhận</th>
-                        <th style="width: 25%;">Địa chỉ</th>
-                        <th style="width: 8%;">Trạng thái đơn hàng</th>
-                        <th style="width: 8%;">Trạng thái thanh toán</th>
-                        <th style="width: 19%;">Tùy Chọn</th>
-                        <th>Hành động</th>
+                        <th style="width: 5%;">Người dùng</th>
+                        <th style="width: 10%;">Tên người nhận</th>
+                        <th style="width: 30%;">Địa chỉ</th>
+                        <th style="width: 20%;">Trạng thái đơn hàng</th>
+                        <th style="width: 25%;">Trạng thái thanh toán</th>
+                        <th style="width: 10%;">Hành động</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -30,28 +46,77 @@
                     {
                         <tr>
                             <td>@order.Id</td>
-                            <td>@order.User.Email</td> <!-- Hiển thị email người dùng -->
+                            <td>@order.User.Email</td>
                             <td>@order.RecipientName</td>
                             <td class="address-cell">@order.Address</td>
-                            <td>@order.Status</td>
-                            <td>@order.PaymentStatus</td>
                             <td>
-                                <div class="form-group mb-0 d-flex flex-column">
-                                    <select name="status" class="form-control mb-2 status-select" data-order-id="@order.Id" style="width: 100%;">
+                                <select name="status" class="form-control mb-2 status-select status-field" data-order-id="@order.Id" style="width: 100%;">
+                                    @if (order.Status == "Chờ xác nhận")
+                                    {
+                                        <option value="Chờ xác nhận" selected>Chờ xác nhận</option>
+                                    }
+                                    else
+                                    {
                                         <option value="Chờ xác nhận">Chờ xác nhận</option>
+                                    }
+                                    @if (order.Status == "Đã xác nhận")
+                                    {
+                                        <option value="Đã xác nhận" selected>Đã xác nhận</option>
+                                    }
+                                    else
+                                    {
                                         <option value="Đã xác nhận">Đã xác nhận</option>
+                                    }
+                                    @if (order.Status == "Đang giao")
+                                    {
+                                        <option value="Đang giao" selected>Đang giao</option>
+                                    }
+                                    else
+                                    {
                                         <option value="Đang giao">Đang giao</option>
+                                    }
+                                    @if (order.Status == "Đã giao")
+                                    {
+                                        <option value="Đã giao" selected>Đã giao</option>
+                                    }
+                                    else
+                                    {
                                         <option value="Đã giao">Đã giao</option>
-                                    </select>
-                                    <select name="paymentStatus" class="form-control mb-2 payment-status-select" data-order-id="@order.Id" style="width: 100%;">
-                                        <option value="Chưa thanh toán">Chưa thanh toán</option>
-                                        <option value="Đã thanh toán">Đã thanh toán</option>
-                                    </select>
-                                </div>
+                                    }
+                                    @if (order.Status == "Bùng hàng")
+                                    {
+                                        <option value="Bùng hàng" selected>Bùng hàng</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="Bùng hàng">Bùng hàng</option>
+                                    }
+                                </select>
                             </td>
-                            <td class="d-flex flex-column align-items-center">
-                                <a asp-controller="Employee" asp-action="Details" asp-route-id="@order.Id" class="btn btn-info btn-sm mb-1">Chi tiết</a>
-                                <button type="button" class="btn btn-success btn-sm update-button" data-order-id="@order.Id">Cập nhật</button>
+                            <td>
+                                <select name="paymentStatus" class="form-control mb-2 payment-status-select payment-field" data-order-id="@order.Id" style="width: 100%;">
+                                    @if (order.PaymentStatus == "Chưa thanh toán")
+                                    {
+                                        <option value="Chưa thanh toán" selected>Chưa thanh toán</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="Chưa thanh toán">Chưa thanh toán</option>
+                                    }
+                                    @if (order.PaymentStatus == "Đã thanh toán")
+                                    {
+                                        <option value="Đã thanh toán" selected>Đã thanh toán</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="Đã thanh toán">Đã thanh toán</option>
+                                    }
+                                </select>
+                            </td>
+                            <td>
+                                <a asp-controller="Employee" asp-action="Details" asp-route-id="@order.Id" class="btn btn-info btn-sm mb-1">
+                                    <i class="fas fa-info-circle"></i> <!-- Icon chi tiết -->
+                                </a>
                             </td>
                         </tr>
                     }
@@ -80,48 +145,88 @@
                 },
                 "columnDefs": [
                     {
-                        "targets": [6,7 ], // Disable search on "Tùy Chọn" and "Hành động" columns
+                        "targets": [6], // Disable search on "Hành động" column
                         "searchable": false
                     }
                 ]
             });
 
-            $('.update-button').on('click', function () {
+            // Tự động cập nhật trạng thái đơn hàng khi được chọn
+            $('.status-select').on('change', function () {
                 var orderId = $(this).data('order-id');
-                var status = $('select.status-select[data-order-id="' + orderId + '"]').val();
-                var paymentStatus = $('select.payment-status-select[data-order-id="' + orderId + '"]').val();
+                var status = $(this).val();
 
                 $.ajax({
-                    url: '@Url.Action("UpdateStatus", "Employee")',
+                    url: '@Url.Action("UpdateOrderStatus", "Employee")',
                     type: 'POST',
-                    data: {
-                        id: orderId,
-                        status: status,
-                        paymentStatus: paymentStatus
-                    },
+                    data: { id: orderId, status: status },
                     success: function (response) {
-                        alert("Trạng thái đã được cập nhật thành công!");
-                        location.reload(); // Làm mới trang sau khi cập nhật thành công
+                        alert("Cập nhật trạng thái đơn hàng thành công!");
                     },
                     error: function (error) {
-                        alert("Có lỗi xảy ra khi cập nhật trạng thái.");
+                        alert("Có lỗi xảy ra khi cập nhật trạng thái đơn hàng.");
                     }
                 });
+            });
+
+            // Tự động cập nhật trạng thái thanh toán khi được chọn
+            $('.payment-status-select').on('change', function () {
+                var orderId = $(this).data('order-id');
+                var paymentStatus = $(this).val();
+
+                $.ajax({
+                    url: '@Url.Action("UpdatePaymentStatus", "Employee")',
+                    type: 'POST',
+                    data: { id: orderId, paymentStatus: paymentStatus },
+                    success: function (response) {
+                        alert("Cập nhật trạng thái thanh toán thành công!");
+                        // Update the row background color based on payment status
+                        if (paymentStatus === "Đã thanh toán") {
+                            $(this).closest('tr').css('background-color', '#d4edda');
+                        } else {
+                            $(this).closest('tr').css('background-color', '');
+                        }
+                    },
+                    error: function (error) {
+                        alert("Có lỗi xảy ra khi cập nhật trạng thái thanh toán.");
+                    }
+                });
+            });
+
+            // Lọc các hàng theo trạng thái đơn hàng và trạng thái thanh toán
+            $('.filter-status, .filter-payment-status').on('change', function () {
+                var selectedStatuses = $('.filter-status:checked').map(function () {
+                    return this.value;
+                }).get();
+
+                var selectedPaymentStatuses = $('.filter-payment-status:checked').map(function () {
+                    return this.value;
+                }).get();
+
+                table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                    var rowData = this.node();
+                    var orderStatus = $(rowData).find('.status-select').val();
+                    var paymentStatus = $(rowData).find('.payment-status-select').val();
+
+                    if ((selectedStatuses.length === 0 || selectedStatuses.indexOf(orderStatus) !== -1) &&
+                        (selectedPaymentStatuses.length === 0 || selectedPaymentStatuses.indexOf(paymentStatus) !== -1)) {
+                        $(rowData).show();
+                    } else {
+                        $(rowData).hide();
+                    }
+                });
+            });
+
+            // Apply light green background to rows with "Đã thanh toán" status initially
+            $('#dataTable tbody tr').each(function () {
+                var paymentStatus = $(this).find('.payment-status-select').val();
+                if (paymentStatus === "Đã thanh toán") {
+                    $(this).css('background-color', '#d4edda');
+                }
             });
         });
     </script>
     <style>
-        table td {
-            white-space: nowrap;
-        }
-
-            table td.address-cell {
-                white-space: normal;
-                word-wrap: break-word;
-                max-width: 200px; /* Adjust as needed */
-                text-align: left; /* Align text to the left */
-            }
-
         .table thead th {
             text-align: center;
             vertical-align: middle;
@@ -132,12 +237,38 @@
             vertical-align: middle;
         }
 
-        .form-group.d-flex.flex-column select {
-            width: 100%;
+        .address-cell {
+            white-space: normal;
+            word-wrap: break-word;
+            max-width: 200px; /* Adjust as needed */
+            text-align: left; /* Align text to the left */
         }
 
-        .update-button {
-            width: 90%;
+        /* Style for status select */
+        .status-field {
+            background-color: white; /* Blue color */
+            color: black;
+        }
+
+        /* Style for payment select */
+        .payment-field {
+            background-color: white; /* Green color */
+            color: black;
+        }
+
+        /* Style for detail view button with Font Awesome icon */
+        .btn-info {
+            background-color: cadetblue;
+            border-color: #17a2b8;
+        }
+
+            .btn-info:hover {
+                background-color: #138496;
+                border-color: #117a8b;
+            }
+
+        .fas.fa-info-circle {
+            margin-right: 5px; /* Space between icon and text */
         }
     </style>
 }

@@ -27,6 +27,9 @@ namespace ECommerceApp.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("PaymentMethod")
                         .IsRequired()
                         .HasColumnType("TEXT");

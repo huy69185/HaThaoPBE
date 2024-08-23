@@ -88,6 +88,27 @@
         </div>
     </div>
 </div>
+<div class="suggested-products mt-5">
+    <h3>Sản phẩm gợi ý</h3>
+    <div class="row">
+        @foreach (var item in (IEnumerable<ECommerceApp.Models.Product>)ViewData["RandomProducts"])
+        {
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                <div class="card h-100">
+                    <a href="@Url.Action("ProductDetails", "Home", new { id = item.Id })">
+                        <img class="card-img-top" src="@item.ImageUrl" alt="@item.Name" />
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a href="@Url.Action("ProductDetails", "Home", new { id = item.Id })">@item.Name</a>
+                        </h5>
+                        <p class="card-text text-success">@item.Price.ToString("C0", new System.Globalization.CultureInfo("vi-VN"))</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
 
 <!-- Modal for Add to Cart -->
 <div class="modal fade" id="addToCartModal" tabindex="-1" role="dialog" aria-labelledby="addToCartModalLabel" aria-hidden="true">
