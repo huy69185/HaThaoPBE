@@ -8,6 +8,7 @@
 }
 
 <div class="container mt-5">
+    <h1 style="margin-top:75px"></h1>
     <div class="row mb-4">
         <div class="col">
             <button class="btn btn-secondary" onclick="history.back()">
@@ -45,6 +46,7 @@
                             <th scope="col">Phương thức thanh toán</th>
                             <th scope="col">Trạng thái</th>
                             <th scope="col">Trạng thái thanh toán</th>
+                            <th scope="col">Ngày tạo đơn</th>
                             <th scope="col">Tổng giá</th>
                         </tr>
                     </thead>
@@ -62,6 +64,7 @@
                                 <td>@order.PaymentMethod</td>
                                 <td>@order.Status</td>
                                 <td>@order.PaymentStatus</td>
+                                <td>@order.OrderDate.ToString("dd/MM/yyyy")</td>
                                 <td>@order.OrderItems.Sum(oi => (double)oi.Price * oi.Quantity).ToString("C", new System.Globalization.CultureInfo("vi-VN"))</td>
                             </tr>
                             currentOrderIndex++;
@@ -94,6 +97,7 @@
                             <th scope="col">Phương thức thanh toán</th>
                             <th scope="col">Trạng thái</th>
                             <th scope="col">Trạng thái thanh toán</th>
+                            <th scope="col">Ngày tạo đơn</th>
                             <th scope="col">Tổng giá</th>
                         </tr>
                     </thead>
@@ -111,6 +115,7 @@
                                 <td>@order.PaymentMethod</td>
                                 <td>@order.Status</td>
                                 <td>@order.PaymentStatus</td>
+                                <td>@order.OrderDate.ToString("dd/MM/yyyy")</td>
                                 <td>@order.OrderItems.Sum(oi => (double)oi.Price * oi.Quantity).ToString("C", new System.Globalization.CultureInfo("vi-VN"))</td>
                             </tr>
                             deliveredOrderIndex++;

@@ -44,22 +44,19 @@ namespace ECommerceApp.Controllers
                           o.Status == "Đã giao");
 
             ViewData["CanComment"] = canComment;
-            ViewData["Votes"] = product.Votes; // Truyền danh sách đánh giá vào View
+            ViewData["Votes"] = product.Votes;
+
+            // Lấy tất cả sản phẩm và sắp xếp ngẫu nhiên trên phía client
+            var randomProducts = _context.Products
+                .AsEnumerable() // Chuyển đổi thành IEnumerable để thực hiện sắp xếp trên client
+                .OrderBy(p => Guid.NewGuid())
+                .Take(4)
+                .ToList();
+
+            ViewData["RandomProducts"] = randomProducts;
 
             return View(product);
         }
-        //public async Task<IActionResult> Index(String searchTerm)
-        //{
-        //    var products = from p in _context.Products select p;
-        //    if (!string.IsNullOrEmpty(searchTerm))
-        //    {
-        //        // Tính năng duyệt theo tên sản phẩm chỗ nào có tên thì hiện ra
-        //        var searchTermLower = searchTerm.ToLower();
-        //        products = products.Where(p => p.Name.ToLower().Contains(searchTermLower));
-        //    }
-        //    return View(products);
-        //}
-
         public async Task<IActionResult> Index(string searchTerm, string sortOrder, string[] filterCategory, int minPrice = 0, int maxPrice = 10000000)
         {
             var products = from p in _context.Products select p;

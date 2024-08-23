@@ -11,6 +11,7 @@ namespace ECommerceApp.Models
         public string PaymentMethod { get; set; }
         public string Status { get; set; }
         public string PaymentStatus { get; set; } // Thêm trường PaymentStatus
+        public DateTime OrderDate { get; set; }
         public List<OrderItem> OrderItems { get; set; }
         public List<Transaction> Transactions { get; set; }
         public string UserId { get; set; }

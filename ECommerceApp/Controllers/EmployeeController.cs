@@ -44,9 +44,8 @@ namespace ECommerceApp.Controllers
             return View(order);
         }
 
-
         [HttpPost]
-        public async Task<IActionResult> UpdateStatus(int id, string status, string paymentStatus)
+        public async Task<IActionResult> UpdateOrderStatus(int id, string status)
         {
             var order = await _context.Orders.FindAsync(id);
             if (order == null)
@@ -54,11 +53,85 @@ namespace ECommerceApp.Controllers
                 return NotFound();
             }
 
-            order.Status = status;
-            order.PaymentStatus = paymentStatus;
-            await _context.SaveChangesAsync();
+            // Validate status transition only if status is provided and different
+            if (!string.IsNullOrEmpty(status) && order.Status != status)
+            {
+                if (IsValidStatusTransition(order.Status, status))
+                {
+                    order.Status = status;
+                    await _context.SaveChangesAsync();
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest("Trạng thái đơn hàng không hợp lệ.");
+                }
+            }
 
-            return RedirectToAction(nameof(Index));
+            return BadRequest("Không có thay đổi nào để cập nhật.");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdatePaymentStatus(int id, string paymentStatus)
+        {
+            var order = await _context.Orders.FindAsync(id);
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            // Validate payment status transition only if paymentStatus is provided and different
+            if (!string.IsNullOrEmpty(paymentStatus) && order.PaymentStatus != paymentStatus)
+            {
+                if (IsValidPaymentStatusTransition(order.PaymentStatus, paymentStatus))
+                {
+                    order.PaymentStatus = paymentStatus;
+                    await _context.SaveChangesAsync();
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest("Trạng thái thanh toán không hợp lệ.");
+                }
+            }
+
+            return BadRequest("Không có thay đổi nào để cập nhật.");
+        }
+
+        // Helper method to validate if the order status transition is allowed
+        private bool IsValidStatusTransition(string currentStatus, string newStatus)
+        {
+            var validTransitions = new Dictionary<string, string[]>
+            {
+                { "Chờ xác nhận", new[] { "Đã xác nhận" } },
+                { "Đã xác nhận", new[] { "Đang giao" } },
+                { "Đang giao", new[] { "Đã giao" } }
+            };
+            if (newStatus == "Bùng hàng")
+            {
+                return true;
+            }
+            return validTransitions.ContainsKey(currentStatus) &&
+                   validTransitions[currentStatus].Contains(newStatus);
+        }
+
+        // Helper method to validate if the payment status transition is allowed
+        private bool IsValidPaymentStatusTransition(string currentPaymentStatus, string newPaymentStatus)
+        {
+            // Only allow transitioning from "Chưa thanh toán" to "Đã thanh toán"
+            if (currentPaymentStatus == "Chưa thanh toán" && newPaymentStatus == "Đã thanh toán")
+            {
+                return true;
+            }
+
+            // Do not allow reverting back to "Chưa thanh toán"
+            if (currentPaymentStatus == "Đã thanh toán" && newPaymentStatus == "Chưa thanh toán")
+            {
+                return false;
+            }
+
+            // If the status is already "Đã thanh toán", do nothing (ignore)
+            return currentPaymentStatus == newPaymentStatus;
         }
     }
 }
