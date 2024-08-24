@@ -42,7 +42,9 @@ namespace ECommerceApp.Controllers
             ViewData["CanComment"] = canComment;
             ViewData["Votes"] = product.Votes;
 
+            // Exclude the current product from the suggestions
             var randomProducts = _context.Products
+                .Where(p => p.Id != id)  // Exclude the current product
                 .AsEnumerable()
                 .OrderBy(p => System.Guid.NewGuid())
                 .Take(4)
@@ -52,6 +54,7 @@ namespace ECommerceApp.Controllers
 
             return View(product);
         }
+
 
         public async Task<IActionResult> Index(string searchTerm, string sortOrder, string[] filterCategory, int minPrice = 0, int maxPrice = 10000000)
         {

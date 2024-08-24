@@ -23,6 +23,7 @@ namespace ECommerceApp.Controllers
         public async Task<IActionResult> AddComment(int productId, string comment, double rating)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userName = User.Identity.Name;  // Get the user's name
 
             // Kiểm tra xem người dùng đã mua sản phẩm và trạng thái đơn là "Đã giao" chưa
             var hasPurchased = await _context.Orders
@@ -41,7 +42,8 @@ namespace ECommerceApp.Controllers
                 ProductID = productId,
                 Comment = comment,
                 Rating = rating,
-                CustomerID = userId // Lưu CustomerId vào bảng Vote
+                CustomerID = userId,      // Lưu CustomerId vào bảng Vote
+                CustomerName = userName  // Save the user's name
             };
 
             _context.Votes.Add(vote);
@@ -57,6 +59,5 @@ namespace ECommerceApp.Controllers
 
             return Redirect(Request.Headers["Referer"].ToString());
         }
-
     }
 }
