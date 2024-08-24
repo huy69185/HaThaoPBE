@@ -3,6 +3,7 @@ using ECommerceApp.Data;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace ECommerceApp.Controllers
 {
@@ -15,16 +16,11 @@ namespace ECommerceApp.Controllers
             _context = context;
         }
 
-        //public IActionResult Index()
-        //{
-        //    var products = _context.Products.ToList();
-        //    return View(products);
-        //}
-
         public IActionResult Privacy()
         {
             return View();
         }
+
         public IActionResult ProductDetails(int id)
         {
             var product = _context.Products
@@ -46,10 +42,9 @@ namespace ECommerceApp.Controllers
             ViewData["CanComment"] = canComment;
             ViewData["Votes"] = product.Votes;
 
-            // Lấy tất cả sản phẩm và sắp xếp ngẫu nhiên trên phía client
             var randomProducts = _context.Products
-                .AsEnumerable() // Chuyển đổi thành IEnumerable để thực hiện sắp xếp trên client
-                .OrderBy(p => Guid.NewGuid())
+                .AsEnumerable()
+                .OrderBy(p => System.Guid.NewGuid())
                 .Take(4)
                 .ToList();
 
@@ -57,26 +52,23 @@ namespace ECommerceApp.Controllers
 
             return View(product);
         }
+
         public async Task<IActionResult> Index(string searchTerm, string sortOrder, string[] filterCategory, int minPrice = 0, int maxPrice = 10000000)
         {
             var products = from p in _context.Products select p;
 
-            // Tìm kiếm theo tên sản phẩm
             if (!string.IsNullOrEmpty(searchTerm))
             {
                 products = products.Where(p => p.Name.ToLower().Contains(searchTerm.ToLower()));
             }
 
-            // Lọc theo Category
             if (filterCategory != null && filterCategory.Length > 0)
             {
                 products = products.Where(p => filterCategory.Contains(p.Category));
             }
 
-            // Lọc theo khoảng giá
             products = products.Where(p => p.Price >= minPrice && p.Price <= maxPrice);
 
-            // Sắp xếp
             switch (sortOrder)
             {
                 case "name_asc":
@@ -92,17 +84,16 @@ namespace ECommerceApp.Controllers
                     products = products.OrderByDescending(p => p.Price);
                     break;
                 case "rating_asc":
-                    products = products.OrderBy(p => p.Rating);
+                    products = products.OrderBy(p => p.AverageRating);
                     break;
                 case "rating_desc":
-                    products = products.OrderByDescending(p => p.Rating);
+                    products = products.OrderByDescending(p => p.AverageRating);
                     break;
                 default:
                     products = products.OrderBy(p => p.Name);
                     break;
             }
 
-            // Lưu lại các giá trị filter hiện tại để hiển thị lại trên View
             ViewData["CurrentSearch"] = searchTerm;
             ViewData["CurrentSort"] = sortOrder;
             ViewData["CurrentCategory"] = filterCategory;
@@ -111,6 +102,5 @@ namespace ECommerceApp.Controllers
 
             return View(await products.ToListAsync());
         }
-
     }
 }

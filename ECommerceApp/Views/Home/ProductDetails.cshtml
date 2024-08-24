@@ -3,7 +3,34 @@
 @{
     ViewData["Title"] = "Chi tiết sản phẩm";
 }
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<style>
+    .star-rating {
+        display: inline-flex;
+        flex-direction: row-reverse;
+        justify-content: flex-start;
+    }
 
+        .star-rating input[type="radio"] {
+            display: none; /* Ẩn các nút radio thực tế */
+        }
+
+        .star-rating label {
+            font-size: 1.5rem; /* Điều chỉnh kích thước font để thay đổi kích thước ngôi sao */
+            color: #ccc;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+            .star-rating label:hover,
+            .star-rating label:hover ~ label {
+                color: #f5c518; /* Màu vàng cho ngôi sao khi hover */
+            }
+
+        .star-rating input[type="radio"]:checked ~ label {
+            color: #f5c518; /* Màu vàng cho các sao được chọn */
+        }
+</style>
 <div class="container mt-5">
     <div class="row">
         <div class="col-lg-6 col-md-12 mb-4">
@@ -21,11 +48,12 @@
                 <h3 class="mb-3">Đánh giá</h3>
                 <div class="rating mb-4">
                     <small class="text-warning">
-                        @for (double i = 0; i < Model.Rating; i++)
+                        @for (double i = 0; i < Model.AverageRating; i++)
                         {
                             <span class="fa fa-star"></span>
                         }
                     </small>
+                    <span class="text-muted">(@Model.Votes.Count() đánh giá)</span>
                 </div>
 
                 <div class="text-center mb-4">
@@ -35,24 +63,24 @@
                 @if (User.Identity.IsAuthenticated && ViewData["CanComment"] != null && (bool)ViewData["CanComment"])
                 {
                     <div class="mt-4">
-                        <h4>Bình luận</h4>
+                        <h4>Đánh giá sản phẩm</h4>
                         <form asp-controller="Comment" asp-action="AddComment" method="post">
                             <input type="hidden" name="productId" value="@Model.Id" />
                             <div class="form-group">
                                 <label for="comment">Bình luận:</label>
-                                <textarea id="comment" name="comment" class="form-control"></textarea>
+                                <textarea id="comment" name="comment" class="form-control" required></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="rating">Đánh giá:</label>
                                 <div class="star-rating">
-                                    <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="5 stars"></label>
-                                    <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4 stars"></label>
-                                    <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3 stars"></label>
-                                    <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="2 stars"></label>
-                                    <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 star"></label>
+                                    <input type="radio" id="star5" name="rating" value="5" required /><label for="star5" title="5 stars"><i class="fas fa-star"></i></label>
+                                    <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4 stars"><i class="fas fa-star"></i></label>
+                                    <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3 stars"><i class="fas fa-star"></i></label>
+                                    <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="2 stars"><i class="fas fa-star"></i></label>
+                                    <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 star"><i class="fas fa-star"></i></label>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary">Gửi</button>
+                            <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
                         </form>
                     </div>
                 }
@@ -88,6 +116,7 @@
         </div>
     </div>
 </div>
+
 <div class="suggested-products mt-5">
     <h3>Sản phẩm gợi ý</h3>
     <div class="row">
@@ -143,6 +172,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script>
         var selectedProductId;
         var selectedProductPrice;
