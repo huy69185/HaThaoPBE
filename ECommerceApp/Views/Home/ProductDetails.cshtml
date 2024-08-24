@@ -11,25 +11,25 @@
         justify-content: flex-start;
     }
 
-        .star-rating input[type="radio"] {
-            display: none; /* Ẩn các nút radio thực tế */
-        }
+    .star-rating input[type="radio"] {
+        display: none; /* Ẩn các nút radio thực tế */
+    }
 
-        .star-rating label {
-            font-size: 1.5rem; /* Điều chỉnh kích thước font để thay đổi kích thước ngôi sao */
-            color: #ccc;
-            cursor: pointer;
-            transition: color 0.2s;
-        }
+    .star-rating label {
+        font-size: 1.5rem; /* Điều chỉnh kích thước font để thay đổi kích thước ngôi sao */
+        color: #ccc;
+        cursor: pointer;
+        transition: color 0.2s;
+    }
 
-            .star-rating label:hover,
-            .star-rating label:hover ~ label {
-                color: #f5c518; /* Màu vàng cho ngôi sao khi hover */
-            }
+    .star-rating label:hover,
+    .star-rating label:hover ~ label {
+        color: #f5c518; /* Màu vàng cho ngôi sao khi hover */
+    }
 
-        .star-rating input[type="radio"]:checked ~ label {
-            color: #f5c518; /* Màu vàng cho các sao được chọn */
-        }
+    .star-rating input[type="radio"]:checked ~ label {
+        color: #f5c518; /* Màu vàng cho các sao được chọn */
+    }
 
     /* Styling for the details table */
     .product-details-table {
@@ -38,30 +38,84 @@
         margin-bottom: 20px;
     }
 
-        .product-details-table th,
-        .product-details-table td {
-            padding: 10px;
-            border: 1px solid #ddd;
-            vertical-align: top;
+    .product-details-table th,
+    .product-details-table td {
+        padding: 10px;
+        border: 1px solid #ddd;
+        vertical-align: top;
+    }
+
+    .product-details-table th {
+        background-color: #f7f7f7;
+        font-weight: bold;
+        text-align: left;
+        width: 30%;
+    }
+
+    .product-details-table td {
+        background-color: #fff;
+    }
+
+    /* Media queries for iPhone 15 Pro Max and similar devices */
+    @@media (max-width: 430px) {
+        .product-title {
+            font-size: 1.4rem;
         }
 
-        .product-details-table th {
-            background-color: #f7f7f7;
-            font-weight: bold;
-            text-align: left;
-            width: 30%;
+        .product-price {
+            font-size: 1.2rem;
         }
 
-        .product-details-table td {
-            background-color: #fff;
+        .product-description {
+            font-size: 0.9rem;
         }
+
+        .star-rating label {
+            font-size: 1.1rem;
+        }
+
+        .suggested-products .row {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .suggested-products .col-12 {
+            flex: 0 0 48%;
+            max-width: 48%;
+            margin-bottom: 10px;
+        }
+
+        .suggested-products .card {
+            margin: 5px;
+        }
+
+        .product-image-wrapper img {
+            width: 100%;
+            height: auto;
+        }
+    }
+
+    /* Default Styles for larger screens (PCs and laptops) */
+    @@media (min-width: 768px) {
+        .suggested-products .col-lg-3 {
+            flex: 0 0 25%;
+            max-width: 25%;
+        }
+    }
+
+    @@media (min-width: 576px) and (max-width: 767px) {
+        .suggested-products .col-md-4 {
+            flex: 0 0 33.3333%;
+            max-width: 33.3333%;
+        }
+    }
 </style>
 
 <div class="container mt-5">
     <div class="row">
         <div class="col-lg-6 col-md-12 mb-4">
             <div class="product-image-wrapper">
-                <img src="@Model.ImageUrl" class="img-fluid rounded shadow-lg" alt="@Model.Name" style="width: 100%; height: auto;" />
+                <img src="@Model.ImageUrl" class="img-fluid rounded shadow-lg" alt="@Model.Name" style="width: 100%; height: auto;" onclick="openModal()" />
             </div>
         </div>
 
@@ -180,7 +234,7 @@
     <div class="row">
         @foreach (var item in (IEnumerable<ECommerceApp.Models.Product>)ViewData["RandomProducts"])
         {
-            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-4">
                 <div class="card h-100">
                     <a href="@Url.Action("ProductDetails", "Home", new { id = item.Id })">
                         <img class="card-img-top" src="@item.ImageUrl" alt="@item.Name" />
@@ -220,6 +274,23 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
                 <button type="button" class="btn btn-primary" onclick="addToCart()">Thêm vào giỏ hàng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Enlarged Image -->
+<div id="imageModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="imageModalLabel">Phóng to hình ảnh</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img src="@Model.ImageUrl" class="img-fluid" alt="@Model.Name" />
             </div>
         </div>
     </div>
@@ -266,6 +337,11 @@
             $('body').append(form);
             form.submit();
             $('#addToCartModal').modal('hide');
+        }
+
+        // Function to open image modal
+        function openModal() {
+            $('#imageModal').modal('show');
         }
     </script>
 }
