@@ -24,7 +24,7 @@ namespace ECommerceApp.Controllers
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            // Kiểm tra xem người dùng đã mua sản phẩm và trạng thái đơn là "Delivered" chưa
+            // Kiểm tra xem người dùng đã mua sản phẩm và trạng thái đơn là "Đã giao" chưa
             var hasPurchased = await _context.Orders
                 .Include(o => o.OrderItems)
                 .AnyAsync(o => o.UserId == userId &&
