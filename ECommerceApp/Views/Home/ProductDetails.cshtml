@@ -30,7 +30,33 @@
         .star-rating input[type="radio"]:checked ~ label {
             color: #f5c518; /* Màu vàng cho các sao được chọn */
         }
+
+    /* Styling for the details table */
+    .product-details-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+        .product-details-table th,
+        .product-details-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            vertical-align: top;
+        }
+
+        .product-details-table th {
+            background-color: #f7f7f7;
+            font-weight: bold;
+            text-align: left;
+            width: 30%;
+        }
+
+        .product-details-table td {
+            background-color: #fff;
+        }
 </style>
+
 <div class="container mt-5">
     <div class="row">
         <div class="col-lg-6 col-md-12 mb-4">
@@ -44,6 +70,38 @@
                 <h1 class="product-title text-uppercase font-weight-bold mb-3">@Model.Name</h1>
                 <h2 class="text-success mb-4 product-price">@Model.Price.ToString("C0", new System.Globalization.CultureInfo("vi-VN"))</h2>
                 <p class="product-description mb-4">@Model.Description</p>
+
+                <!-- Product details in a table format -->
+                <table class="product-details-table">
+                    <tr>
+                        <th>Thương hiệu:</th>
+                        <td>@Model.Brand</td>
+                    </tr>
+                    <tr>
+                        <th>Sản xuất tại:</th>
+                        <td>@Model.ManufacturedIn</td>
+                    </tr>
+                    <tr>
+                        <th>Mùi hương:</th>
+                        <td>@Model.Fragrance</td>
+                    </tr>
+                    <tr>
+                        <th>Sử dụng cho:</th>
+                        <td>@Model.Usage</td>
+                    </tr>
+                    <tr>
+                        <th>Khối lượng:</th>
+                        <td>@Model.Weight</td>
+                    </tr>
+                    <tr>
+                        <th>Thành phần chính:</th>
+                        <td>@Model.Ingredients</td>
+                    </tr>
+                    <tr>
+                        <th>Bảo quản:</th>
+                        <td>@Model.Storage</td>
+                    </tr>
+                </table>
 
                 <h3 class="mb-3">Đánh giá</h3>
                 <div class="rating mb-4">
@@ -96,7 +154,7 @@
                         foreach (var vote in (IEnumerable<ECommerceApp.Models.Vote>)ViewData["Votes"])
                         {
                             <div class="comment p-3 mb-3 border rounded bg-light">
-                                <p class="mb-1"><strong>Người dùng:</strong> @vote.CustomerID</p>
+                                <p class="mb-1"><strong>Người dùng:</strong> @vote.CustomerName</p> <!-- Display the user's name -->
                                 <div class="comment-rating text-warning">
                                     @for (double i = 0; i < vote.Rating; i++)
                                     {
