@@ -3,7 +3,7 @@
   "WorkspaceRootPath": "C:\\Users\\huyh6\\OneDrive\\Desktop\\HaThaoPBE\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{476164F8-D36B-4C20-8C90-1F599EB9EBA3}|ECommerceApp\\ECommerceApp.csproj|C:\\Users\\huyh6\\OneDrive\\Desktop\\HaThaoPBE\\ecommerceapp\\views\\home\\productdetails.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{476164F8-D36B-4C20-8C90-1F599EB9EBA3}|ECommerceApp\\ECommerceApp.csproj|c:\\users\\huyh6\\onedrive\\desktop\\hathaopbe\\ecommerceapp\\views\\home\\productdetails.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{476164F8-D36B-4C20-8C90-1F599EB9EBA3}|ECommerceApp\\ECommerceApp.csproj|solutionrelative:ecommerceapp\\views\\home\\productdetails.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
@@ -11,7 +11,7 @@
       "RelativeMoniker": "D:0:0:{476164F8-D36B-4C20-8C90-1F599EB9EBA3}|ECommerceApp\\ECommerceApp.csproj|solutionrelative:ecommerceapp\\controllers\\commentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{476164F8-D36B-4C20-8C90-1F599EB9EBA3}|ECommerceApp\\ECommerceApp.csproj|c:\\users\\huyh6\\onedrive\\desktop\\hathaopbe\\ecommerceapp\\models\\vote.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{476164F8-D36B-4C20-8C90-1F599EB9EBA3}|ECommerceApp\\ECommerceApp.csproj|C:\\Users\\huyh6\\OneDrive\\Desktop\\HaThaoPBE\\ecommerceapp\\models\\vote.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{476164F8-D36B-4C20-8C90-1F599EB9EBA3}|ECommerceApp\\ECommerceApp.csproj|solutionrelative:ecommerceapp\\models\\vote.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -23,7 +23,7 @@
       "RelativeMoniker": "D:0:0:{476164F8-D36B-4C20-8C90-1F599EB9EBA3}|ECommerceApp\\ECommerceApp.csproj|solutionrelative:ecommerceapp\\data\\dbinitializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{476164F8-D36B-4C20-8C90-1F599EB9EBA3}|ECommerceApp\\ECommerceApp.csproj|c:\\users\\huyh6\\onedrive\\desktop\\hathaopbe\\ecommerceapp\\models\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{476164F8-D36B-4C20-8C90-1F599EB9EBA3}|ECommerceApp\\ECommerceApp.csproj|C:\\Users\\huyh6\\OneDrive\\Desktop\\HaThaoPBE\\ecommerceapp\\models\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{476164F8-D36B-4C20-8C90-1F599EB9EBA3}|ECommerceApp\\ECommerceApp.csproj|solutionrelative:ecommerceapp\\models\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -158,8 +158,7 @@
               "RelativeToolTip": "ECommerceApp\\Models\\Vote.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-24T11:36:06.324Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-24T11:36:06.324Z"
             },
             {
               "$type": "Document",
@@ -171,8 +170,7 @@
               "RelativeToolTip": "ECommerceApp\\Data\\DbInitializer.cs",
               "ViewState": "AQIAAIMAAAAAAAAAAAAQwK0AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-24T08:57:06.216Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-24T08:57:06.216Z"
             },
             {
               "$type": "Document",
@@ -184,8 +182,7 @@
               "RelativeToolTip": "ECommerceApp\\Controllers\\HomeController.cs",
               "ViewState": "AQIAAEMAAAAAAAAAAAAQwFgAAAAiAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-21T12:36:06.168Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-21T12:36:06.168Z"
             },
             {
               "$type": "Document",
@@ -197,8 +194,7 @@
               "RelativeToolTip": "ECommerceApp\\Controllers\\CommentController.cs",
               "ViewState": "AQIAABcAAAAAAAAAAAAYwD8AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-24T08:57:19.575Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-24T08:57:19.575Z"
             },
             {
               "$type": "Document",
@@ -208,7 +204,7 @@
               "RelativeDocumentMoniker": "ECommerceApp\\Views\\Home\\ProductDetails.cshtml",
               "ToolTip": "C:\\Users\\huyh6\\OneDrive\\Desktop\\HaThaoPBE\\ECommerceApp\\Views\\Home\\ProductDetails.cshtml",
               "RelativeToolTip": "ECommerceApp\\Views\\Home\\ProductDetails.cshtml",
-              "ViewState": "AQIAAOUAAAAAAAAAAAAQwA8BAAAAAAAA",
+              "ViewState": "AQIAACAAAAAAAAAAAAAQwC4AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-08-21T12:19:00.63Z",
               "EditorCaption": ""
@@ -223,8 +219,7 @@
               "RelativeToolTip": "ECommerceApp\\Models\\Product.cs",
               "ViewState": "AQIAAA0AAAAAAAAAAAA/wCgAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-22T09:06:45.312Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-22T09:06:45.312Z"
             },
             {
               "$type": "Document",
