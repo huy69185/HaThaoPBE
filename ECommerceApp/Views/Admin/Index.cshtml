@@ -1,53 +1,200 @@
-﻿@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityUser>
-
-@inject Microsoft.AspNetCore.Identity.UserManager<Microsoft.AspNetCore.Identity.IdentityUser> UserManager
+﻿@model ECommerceApp.Models.AdminDashboardViewModel
 
 @{
-    ViewData["Title"] = "Trang Admin";
+    ViewData["Title"] = "Admin Dashboard";
 }
 
 <h2>Admin Dashboard</h2>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Email</th>
-            <th>Roles</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var user in Model)
-        {
+<div class="btn-group mb-3" role="group" aria-label="Admin Controls">
+    <button type="button" class="btn btn-primary" onclick="showSection('ordersSection')">Manage Orders</button>
+    <button type="button" class="btn btn-secondary" onclick="showSection('customerAccountsSection')">Manage Customer Accounts</button>
+    <button type="button" class="btn btn-success" onclick="showSection('employeeAccountsSection')">Manage Employee Accounts</button>
+    <button type="button" class="btn btn-info" onclick="showSection('chartSection')">Revenue and Registration Charts</button>
+    <button type="button" class="btn btn-dark" onclick="showSection('createAccountSection')">Create Account</button>
+</div>
+
+<!-- Section for Managing Orders -->
+<div id="ordersSection" class="admin-section">
+    <h3>Manage Orders</h3>
+    <table class="table">
+        <thead>
             <tr>
-                <td>@user.Email</td>
-                <td>
-                    @foreach (var role in await UserManager.GetRolesAsync(user))
-                    {
-                        <span class="badge badge-secondary">@role</span>
-                    }
-                </td>
-                <td>
-                    <form asp-controller="Admin" asp-action="AssignRole" method="post" class="d-inline">
-                        <input type="hidden" name="userId" value="@user.Id" />
-                        <select name="role" class="form-control d-inline" style="width: auto;">
-                            <option value="Admin">Admin</option>
-                            <option value="Employee">Employee</option>
-                            <option value="Customer">Customer</option>
-                        </select>
-                        <button type="submit" class="btn btn-success">Assign</button>
-                    </form>
-                    <form asp-controller="Admin" asp-action="RemoveRole" method="post" class="d-inline">
-                        <input type="hidden" name="userId" value="@user.Id" />
-                        <select name="role" class="form-control d-inline" style="width: auto;">
-                            <option value="Admin">Admin</option>
-                            <option value="Employee">Employee</option>
-                            <option value="Customer">Customer</option>
-                        </select>
-                        <button type="submit" class="btn btn-danger">Remove</button>
-                    </form>
-                </td>
+                <th>Order ID</th>
+                <th>User Email</th>
+                <th>Order Date</th>
+                <th>Status</th>
+                <th>Total</th>
+                <th>Actions</th>
             </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.OrderTuples)
+            {
+                var totalAmount = item.Item1.OrderItems.Sum(oi => oi.Price * oi.Quantity);
+                <tr>
+                    <td>@item.Item1.Id</td>
+                    <td>@item.Item2</td>
+                    <td>@item.Item1.OrderDate</td>
+                    <td>@item.Item1.Status</td>
+                    <td>@totalAmount.ToString("C", new System.Globalization.CultureInfo("vi-VN"))</td>
+                    <td>
+                        <a href="#" class="btn btn-primary">View</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Section for Managing Customer Accounts -->
+<div id="customerAccountsSection" class="admin-section" style="display: none;">
+    <h3>Manage Customer Accounts</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Full Name</th>
+                <th>Phone Number</th>
+                <th>Image</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var customer in Model.Customers)
+            {
+                <tr>
+                    <td>@customer.Email</td>
+                    <td>@customer.UserFullName</td>
+                    <td>@customer.PhoneNumber</td>
+                    <td>
+                        <img src="@customer.ImgUrl" alt="User Image" style="width:50px; height:50px;" />
+                    </td>
+                    <td>
+                        <!-- Add any actions like Edit, Delete here -->
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Section for Managing Employee Accounts -->
+<div id="employeeAccountsSection" class="admin-section" style="display: none;">
+    <h3>Manage Employee Accounts</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Full Name</th>
+                <th>Phone Number</th>
+                <th>Image</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var employee in Model.Employees)
+            {
+                <tr>
+                    <td>@employee.Email</td>
+                    <td>@employee.UserFullName</td>
+                    <td>@employee.PhoneNumber</td>
+                    <td>
+                        <img src="@employee.ImgUrl" alt="User Image" style="width:50px; height:50px;" />
+                    </td>
+                    <td>
+                        <!-- Add any actions like Edit, Delete here -->
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Section for Revenue and Registration Charts -->
+<div id="chartSection" class="admin-section" style="display: none;">
+    <h3>Revenue and Registration Charts</h3>
+    <canvas id="revenueChart"></canvas>
+    <canvas id="registrationChart"></canvas>
+</div>
+
+<!-- Section for Creating Account -->
+<div id="createAccountSection" class="admin-section" style="display: none;">
+    <h3>Create Employee/Admin Account</h3>
+    <form asp-action="CreateAccount" method="post">
+        <div class="form-group">
+            <label>Email</label>
+            <input type="email" name="email" class="form-control" required />
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" name="password" class="form-control" required />
+        </div>
+        <div class="form-group">
+            <label>Role</label>
+            <select name="role" class="form-control">
+                <option value="Admin">Admin</option>
+                <option value="Employee">Employee</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Create Account</button>
+    </form>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        function showSection(sectionId) {
+            document.querySelectorAll('.admin-section').forEach(section => {
+                section.style.display = 'none';
+            });
+            document.getElementById(sectionId).style.display = 'block';
         }
-    </tbody>
-</table>
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var ctxRevenue = document.getElementById('revenueChart').getContext('2d');
+            var revenueChart = new Chart(ctxRevenue, {
+                type: 'bar',
+                data: {
+                    labels: @Json.Serialize(Model.RevenueData.Select(rd => $"{rd.Month}/{rd.Year}")),
+                    datasets: [{
+                        label: 'Revenue',
+                        data: @Json.Serialize(Model.RevenueData.Select(rd => rd.TotalRevenue)),
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            var ctxRegistration = document.getElementById('registrationChart').getContext('2d');
+            var registrationChart = new Chart(ctxRegistration, {
+                type: 'bar',
+                data: {
+                    labels: @Json.Serialize(Model.RegistrationData.Select(rd => $"{rd.Month}/{rd.Year}")),
+                    datasets: [{
+                        label: 'Customer Registrations',
+                        data: @Json.Serialize(Model.RegistrationData.Select(rd => rd.TotalRegistrations)),
+                        backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                        borderColor: 'rgba(153, 102, 255, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+}

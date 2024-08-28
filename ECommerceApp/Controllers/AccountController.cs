@@ -61,6 +61,9 @@ namespace ECommerceApp.Controllers
 
                     if (result.Succeeded)
                     {
+                        // Thêm người dùng vào vai trò "Customer"
+                        await _userManager.AddToRoleAsync(user, "Customer");
+
                         // Tạo mã xác nhận 6 ký tự
                         var verificationCode = GenerateVerificationCode(6);
                         var timeCreated = DateTime.UtcNow;
@@ -74,6 +77,15 @@ namespace ECommerceApp.Controllers
                             model.Email,
                             "Email Verification Code",
                             $"Your verification code is {verificationCode}. This code is valid for 60 seconds.");
+
+                        // Lưu ngày đăng ký vào bảng UserMetadata
+                        var metadata = new UserMetadata
+                        {
+                            Id = user.Id,
+                            RegisterDate = DateTime.UtcNow // Lưu ngày hiện tại làm ngày đăng ký
+                        };
+                        _context.UserMetadata.Add(metadata);
+                        await _context.SaveChangesAsync();
 
                         return RedirectToAction("VerifyEmail", "Mail", new { email = user.Email });
                     }

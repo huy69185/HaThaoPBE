@@ -179,6 +179,19 @@ namespace ECommerceApp.Migrations
                     b.ToTable("Transactions");
                 });
 
+            modelBuilder.Entity("ECommerceApp.Models.UserMetadata", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("RegisterDate")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserMetadata");
+                });
+
             modelBuilder.Entity("ECommerceApp.Models.Vote", b =>
                 {
                     b.Property<int>("Id")
@@ -190,6 +203,10 @@ namespace ECommerceApp.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CustomerID")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CustomerName")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -437,6 +454,17 @@ namespace ECommerceApp.Migrations
                         .IsRequired();
 
                     b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("ECommerceApp.Models.UserMetadata", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "IdentityUser")
+                        .WithMany()
+                        .HasForeignKey("Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("IdentityUser");
                 });
 
             modelBuilder.Entity("ECommerceApp.Models.Vote", b =>
