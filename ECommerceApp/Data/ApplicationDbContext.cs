@@ -26,5 +26,6 @@ namespace ECommerceApp.Data
                 .WithMany(p => p.Votes)
                 .HasForeignKey(v => v.ProductID);
         }
+        public DbSet<UserMetadata> UserMetadata { get; set; }
     }
 }

@@ -1,73 +1,135 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity;
+﻿using ECommerceApp.Data;
 using ECommerceApp.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace ECommerceApp.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
+        private readonly ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        public AdminController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        public AdminController(ApplicationDbContext context, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
+            _context = context;
             _userManager = userManager;
             _roleManager = roleManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var users = _userManager.Users;
-            return View(users);
+            var orders = await _context.Orders
+                .Include(o => o.OrderItems)
+                .ThenInclude(oi => oi.Product)
+                .Select(o => new
+                {
+                    Order = o,
+                    UserEmail = _context.Users
+                                .Where(u => u.Id == o.UserId)
+                                .Select(u => u.Email)
+                                .FirstOrDefault()
+                })
+                .ToListAsync();
+
+            var customers = await _userManager.Users.ToListAsync();
+            var employees = await _userManager.Users.ToListAsync();
+
+            var customerDetails = await GetUsersWithClaims(customers, "Customer");
+            var employeeDetails = await GetUsersWithClaims(employees, "Employee");
+
+            var revenueData = await _context.Orders
+                .Where(o => o.PaymentStatus == "Đã thanh toán")
+                .GroupBy(o => new { o.OrderDate.Year, o.OrderDate.Month })
+                .Select(g => new
+                {
+                    Year = g.Key.Year,
+                    Month = g.Key.Month,
+                    TotalRevenue = g.Sum(o => o.OrderItems.Sum(oi => (double)oi.Price * oi.Quantity))
+                })
+                .ToListAsync();
+
+            var registrationData = await _context.UserMetadata
+                .GroupBy(um => new { um.RegisterDate.Year, um.RegisterDate.Month })
+                .Select(g => new
+                {
+                    Year = g.Key.Year,
+                    Month = g.Key.Month,
+                    TotalRegistrations = g.Count()
+                })
+                .ToListAsync();
+
+            var orderTuples = orders.Select(o => Tuple.Create(o.Order, o.UserEmail)).ToList();
+
+            var viewModel = new AdminDashboardViewModel
+            {
+                OrderTuples = orderTuples,
+                Customers = customerDetails,
+                Employees = employeeDetails,
+                RevenueData = revenueData,
+                RegistrationData = registrationData
+            };
+
+            return View(viewModel);
+        }
+
+        private async Task<List<IdentityUserWithClaims>> GetUsersWithClaims(IEnumerable<IdentityUser> users, string role)
+        {
+            var result = new List<IdentityUserWithClaims>();
+
+            foreach (var user in users)
+            {
+                if (await _userManager.IsInRoleAsync(user, role))
+                {
+                    var claims = await _userManager.GetClaimsAsync(user);
+                    var userFullName = claims.FirstOrDefault(c => c.Type == "UserFullName")?.Value;
+                    var imgUrl = claims.FirstOrDefault(c => c.Type == "ImgUrl")?.Value;
+
+                    result.Add(new IdentityUserWithClaims
+                    {
+                        Id = user.Id,
+                        UserName = user.UserName,
+                        Email = user.Email,
+                        PhoneNumber = user.PhoneNumber,
+                        UserFullName = userFullName,
+                        ImgUrl = imgUrl
+                    });
+                }
+            }
+
+            return result;
         }
 
         [HttpPost]
-        public async Task<IActionResult> AssignRole(string userId, string role)
+        public async Task<IActionResult> CreateAccount(string email, string password, string role)
         {
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null)
-            {
-                return NotFound();
-            }
+            var user = new IdentityUser { UserName = email, Email = email };
+            var result = await _userManager.CreateAsync(user, password);
 
-            var result = await _userManager.AddToRoleAsync(user, role);
             if (result.Succeeded)
             {
-                return RedirectToAction(nameof(Index));
+                await _userManager.AddToRoleAsync(user, role);
+                return RedirectToAction("Index");
             }
 
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError("", error.Description);
-            }
-
-            return RedirectToAction(nameof(Index));
+            return View("Index");
         }
+    }
 
-        [HttpPost]
-        public async Task<IActionResult> RemoveRole(string userId, string role)
-        {
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            var result = await _userManager.RemoveFromRoleAsync(user, role);
-            if (result.Succeeded)
-            {
-                return RedirectToAction(nameof(Index));
-            }
-
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError("", error.Description);
-            }
-
-            return RedirectToAction(nameof(Index));
-        }
+    public class IdentityUserWithClaims
+    {
+        public string Id { get; set; }
+        public string UserName { get; set; }
+        public string Email { get; set; }
+        public string PhoneNumber { get; set; }
+        public string UserFullName { get; set; }
+        public string ImgUrl { get; set; }
     }
 }
